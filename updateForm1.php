@@ -143,13 +143,12 @@ if ($sql){
                                                 </tr>
                                         </thead> 
                                         <tbody id="table1">
-                                        <?php if ($data["chose_db"] == 0) {?>
+                               
                                             <?php while ($manuverBebas = mysqli_fetch_array($sql_manuver_petugas)) { ?>
                                                     <tr>
                                                         <td>
                                                             <input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]  ?>" style="">
-                                                            <input type="text" name="id_bebas_update[]" value="<?= $manuverBebas["id"]  ?>" style="border:1px solid #fff;width:50px;" >
-                                                            
+                                                            <input type="text" name="id_bebas_update[]" value="<?= $manuverBebas["id"]  ?>" style="border:1px solid #fff;width:50px;" >  
                                                         </td>
                                                         <td><?= $manuverBebas["pengawas_pekerjaan"]  ?></td>
                                                         <td><?= $manuverBebas["pengawas_manuver"]  ?></td>
@@ -157,27 +156,16 @@ if ($sql){
                                                         <td><?= $manuverBebas["spv_gitet"]  ?></td>
                                                         <td><?= $manuverBebas["opr_gitet"]  ?></td>
                                                     </tr>
-                                        <?php }} ?>
-                                        <?php if($data["chose_db"] == 1 || $data["chose_db"] == 2  ) { ?>
-                                            <?php while ($manuverBebas = mysqli_fetch_array($sql_manuver_petugas)) : ?>
-                                            
-                                                    <tr>
-                                                        <td>
-                                                            <input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]  ?>" style="">
-                                                            <input type="text" name="id_bebas_update[]" value="<?= $manuverBebas["id"]  ?>" style="border:1px solid #fff;width:50px;" >
-                                                            
-                                                        </td>
-                                                        <td><?= $manuverBebas["pengawas_pekerjaan"]  ?></td>
-                                                        <td><?= $manuverBebas["pengawas_manuver"]  ?></td>
-                                                        <td><?= $manuverBebas["pengawas_manuver"]  ?></td>
-                                                        <td><?= $manuverBebas["spv_gitet"]  ?></td>
-                                                        <td><?= $manuverBebas["opr_gitet"]  ?></td>
-                                                    </tr>
-                                            <?php endwhile ?>
-                                        <?php }?>
-                                                
-                                      
+                                            <?php } ?>
                                         </tbody>
+                                        <tfoot id="sub_table1">
+                                            <?php while ($ajaxPengawas = mysqli_fetch_array($query)) { ?>
+                                                <tr>
+                                                    <td><input type="text" value="<?= $ajaxPengawas['id']?>"></td>
+
+                                                </tr>
+                                            <?php } ?>
+                                        </tfoot>
                                     </table> 
                                         <button type="button" id="add1" class="btn green" onclick="addRow()" ><i class='fa fa-plus'></i></button>
                                         <button type="button" id="remove1" class="btn red" onclick="removeRow()"><i class="fa fa-minus" aria-hidden="true"></i></button> 
@@ -256,7 +244,7 @@ if ($sql){
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                        <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambah()">Add More</button></th>
+                                        <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambah('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]')">Add More</button></th>
                                     </tr>
                                     <tr>
                                         <th style="width:9rem;">Remote</th>
@@ -275,31 +263,26 @@ if ($sql){
                                         <td><?= $pembebasan["ads"]== "00:00:00" ?"": $pembebasan["ads"] ?></td>
                                         <td><input type="text" name="installManuverBebas[]" value="<?= $pembebasan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                         <td>
-                                            <button type="button" onclick="hapus_baris(this, <?= $i ?>,'id_hapus1[]','id_ajax_hapus1[]')" class="btn btn-danger btn_remove">X</button>  <!--  -->
+                                            <button type="button" onclick="hapus_baris(this, <?= $i ?>,'id_hapus1[]','id_ajax_hapus1[]','row1-')" class="btn btn-danger btn_remove">X</button>  <!--  -->
                                             <input type="text" name="id_bebas_update2[]" value="<?= $pembebasan["id"] ?>">
                                         </td>
-                                        <td ><input type="text" value="<?php //$j; ?>"></td>
                                     </tr>
                                         <?php $i++ ?>
                                        
                                         <?php endwhile; ?>
                                 </tbody >
-                                <tfoot id="sub_dynamic_field1" >
+                                <tfoot id="sub_dynamic_field1" hidden>
                                         <?php $i=1; ?>
                                         <?php while ($ajaxPembebasan = mysqli_fetch_assoc($query2)) : ?>
-                                    <tr id="row-<?= $i?>">
+                                    <tr id="row1-<?= $i?>">
                                         <td><input type="text" value="<?= $ajaxPembebasan['id'] ?>"></td>
                                         
                                     </tr>
-                                    <?php $i++ ?>
+                                        <?php $i++ ?>
                                         <?php endwhile; ?>
 
                                 </tfoot>
-                                
-
-                                
-
-                                </table>
+                            </table>
                         </div>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
                         <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" id="" cols="232" rows="3" disabled></textarea></div>
@@ -319,7 +302,7 @@ if ($sql){
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambah2()">Add More</button></th>
+                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambah('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]')">Add More</button></th>
                                     </tr>
                                     <tr>
                                         <th>Remote</th>
@@ -338,13 +321,23 @@ if ($sql){
                                     <td><?= $penormalan["ads"] == "00:00:00" ?"": $penormalan["ads"] ?></td>
                                     <td><input type="text" name="installManuverNormal[]" value="<?= $penormalan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                     <td>
-                                        <button type="button" onclick="hapus_baris2(this)" class="btn btn-danger btn_remove2">X</button>
+                                        <button type="button" onclick="hapus_baris(this,<?= $i ?>,'id_hapus2[]','id_ajax_hapus2[]','row2-')" class="btn btn-danger btn_remove2">X</button>
                                         <input type="text" name="id_normal_update3[]" value="<?= $penormalan["id"] ?>" hidden>
                                     </td>
                                 </tr>
                                     <?php $i++ ?>
                                     <?php endwhile; ?>
                                 </tbody>
+                                <tfoot id="sub_dynamic_field2" hidden>
+                                        <?php $i=1; ?>
+                                        <?php while ($ajaxPenormalan = mysqli_fetch_assoc($query3)) : ?>
+                                    <tr id="row2-<?= $i?>">
+                                        <td><input type="text" value="<?= $ajaxPenormalan['id'] ?>"></td>
+                                    </tr>
+                                        <?php $i++ ?>
+                                        <?php endwhile; ?>
+
+                                </tfoot>
                             </table>
                         </div>
                         <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
@@ -393,16 +386,20 @@ if ($sql){
     }
 
     jumlahRow = document.getElementById('table1').rows.length-1;
+    jumlahRowAjax = document.getElementById('sub_table1').rows.length-1;
     function removeRow() {
         table = document.getElementById('table1').children[jumlahRow--].children[0].children[1];
         if (table.value != "0"){
-        id_hapus = table.cloneNode(true);
+            id_hapus = table.cloneNode(true);
             id_hapus.setAttribute("name","id_hapus0[]");
             document.getElementById("form_id").appendChild(id_hapus);
         }
+
+        tableAjax = document.getElementById('sub_table1').children[jumlahRowAjax--].children[0].children[0];
         
         table.parentElement.parentElement.remove();
-    }
+        tableAjax.parentElement.parentElement.remove();
+        }
     
 
     table = document.getElementById('dynamic_field1');
@@ -410,8 +407,8 @@ if ($sql){
     table2 = document.getElementById('dynamic_field2');
     jumlah_baris2 = table2.rows.length-1;
     
-    function tambah() {
-        table = document.getElementById('dynamic_field1');
+    function tambah(a,b,c) {
+        table = document.getElementById(a);
         var row = table.insertRow(-1);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
@@ -422,44 +419,23 @@ if ($sql){
         var cell7 = row.insertCell(6);
 
         cell1.innerHTML = jumlah_baris++;
-        cell2.innerHTML = "<input type='text' name='lokasiManuverBebas[]' style='width:8rem;padding:0rem;' required>";
+        cell2.innerHTML = "<input type='text' name='"+b+"' style='width:8rem;padding:0rem;' required>";
         cell3.innerHTML = "";
         cell4.innerHTML = "";
         cell5.innerHTML = "";
-        cell6.innerHTML = "<input type='text' name='installManuverBebas[]' style='width:8rem;padding:0rem;' required>";
-        cell7.innerHTML = "<button type='button' onclick='hapus_baris_new1(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_bebas_update2[]' value='0' hidden>";
+        cell6.innerHTML = "<input type='text' name='"+c+"' style='width:8rem;padding:0rem;' required>";
+        cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_bebas_update2[]' value='0' hidden>";
 
-        footTable = document.getElementById('sub_dynamic_field1');
-        var baris = footTable.insertRow(-1);
-        var cell8 = baris.insertCell(0);
+        // footTable = document.getElementById(d);
+        // var baris = footTable.insertRow(-1);
+        // var cell8 = baris.insertCell(0);
 
-        cell8.innerHTML = "<input type='text' value='0'>"
-
-    }
-
-    function tambah2() {
-        table2 = document.getElementById('dynamic_field2');
-        var row = table2.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-        var cell6 = row.insertCell(5);
-        var cell7 = row.insertCell(6);
-
-        cell1.innerHTML = jumlah_baris2++;
-        cell2.innerHTML = "<input type='text' name='lokasiManuverNormal[]' style='width:8rem;padding:0rem;' required>";
-        cell3.innerHTML = "";
-        cell4.innerHTML = "";
-        cell5.innerHTML = "";
-        cell6.innerHTML = "<input type='text' name='instalManuverNormal[]' style='width:8rem;padding:0rem;' required>";
-        cell7.innerHTML = "<button type='button' onclick='hapus_baris_new2(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_normal_update3[]' value='0' hidden>";
+        // cell8.innerHTML = "<input type='text' value='0'>"
 
     }
 
-    // nextBaris = document.getElementById("sub_dynamic_field1").children[0];
-    function hapus_baris(tombol,a,b,c) {
+     // nextBaris = document.getElementById("sub_dynamic_field1").children[0];
+    function hapus_baris(tombol,a,b,c,d) {
         baris = tombol.parentElement.parentElement
         if (baris.children[6].children[1].value != "0"){
             id_hapus = baris.children[6].children[1].cloneNode(true);
@@ -469,7 +445,7 @@ if ($sql){
 
         // nextnya = baris.children[7].children[0].value;
 
-        barisNext = document.getElementById("row-"+a+"");
+        barisNext = document.getElementById(""+d+""+a+"");
         if (barisNext.children[0].children[0].value != "0"){
             id_hapus = barisNext.children[0].children[0].cloneNode(true);
             id_hapus.setAttribute("name",c);
@@ -482,25 +458,15 @@ if ($sql){
         
     }
     //hapus row kondisi id masih 0
-    function hapus_baris_new1(tombol) {
+    function hapus_baris_new(tombol) {
         baris = tombol.parentElement.parentElement
         baris.remove();
     }
 
-    function hapus_baris2(tombol) {
-        baris = tombol.parentElement.parentElement
-        if (baris.children[6].children[1].value != "0"){
-            id_hapus = baris.children[6].children[1].cloneNode(true);
-            id_hapus.setAttribute("name", "id_hapus2[]");
-            document.getElementById("form_id").appendChild(id_hapus);
-        }
-        baris.remove();
-    }
-
-    function hapus_baris_new2(tombol) {
-        baris = tombol.parentElement.parentElement
-        baris.remove();
-    }
+    // function hapus_baris_new2(tombol) {
+    //     baris = tombol.parentElement.parentElement
+    //     baris.remove();
+    // }
 
      //---image_upload_&_show 1---//
      var loadFile1 = function(event) {
