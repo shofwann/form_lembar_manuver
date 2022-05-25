@@ -11,7 +11,7 @@ if (!isset($_SESSION["username"])) {
 
 require "functions.php";
 
-$pengawas_gitet = mysqli_query($conn,"SELECT * FROM db_ajax_table_pengawas WHERE id_lokasi_detail = '$_GET[idz]'");
+$petugas_gitet_bebas = mysqli_query($conn,"SELECT * FROM db_ajax_table_pengawas WHERE id_lokasi_detail = '$_GET[idz]'");
 $tahapan_manuver_pembebasan = mysqli_query($conn, "SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail='$_GET[idz]' AND tahapan ='pembebasan'");
 $tahapan_manuver_penormalan=mysqli_query($conn,"SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail='$_GET[idz]' AND tahapan ='penormalan' "); //table4
 
@@ -23,6 +23,20 @@ $data1=mysqli_fetch_assoc($sql_data1);
 
 $sql_data2 = mysqli_query($conn, "SELECT * FROM db_ajax_lokasi_detail WHERE id_lokasi_detail= '$_GET[idz]'");
 $data2=mysqli_fetch_assoc($sql_data2);
+
+
+// $dataAjax = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi LEFT JOIN db_ajax_lokasi_detail ON db_ajax_lokasi.id_lokasi = db_ajax_lokasi_detail.id_lokasi WHERE db_ajax_lokasi.id_jenis=$_GET[idx] AND db_ajax_lokasi.id_lokasi= $_GET[idy] AND db_ajax_lokasi_detail.id_lokasi_detail=$_GET[idz]");
+// $cekData = mysqli_num_rows($dataAjax);
+
+// if ($cekData == 1 ) {
+//     $isiajax = mysqli_fetch_assoc($dataAjax);
+//     $query = mysqli_query($conn,"SELECT * FROM db_ajax_table_pengawas WHERE id_lokasi_detail=35");
+//     $query2 = mysqli_query($conn,"SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail=$_GET[idz] AND tahapan='pembebasan'");
+//     $query3 = mysqli_query($conn,"SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail=$_GET[idz] AND tahapan='penormalan'");
+// }
+
+
+
 
 
 if( isset($_POST["submit"]) ){
@@ -126,17 +140,27 @@ if( isset($_POST["submit"]) ){
                                                     </tr>
                                             </thead> 
                                             <tbody id="table1">
-                                            <?php while ($manuverBebas = mysqli_fetch_assoc($pengawas_gitet)) {?>
-                                                <tr>
-                                                    <td><input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]; ?>"><input type="text" name="id_pengawas_update[]" value="<?= $manuverBebas["id"]  ?>" hidden></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
-                                            <?php }?>
+                                                <?php while ($manuverBebas = mysqli_fetch_assoc($petugas_gitet_bebas)) {?>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]; ?>">
+                                                            <input type="text" name="id_update_petugas[]" value="<?= $manuverBebas["id"]  ?>" hidden></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    </tr>
+                                                <?php }?>
                                             </tbody>
+                                            <tfoot>
+                                                <?php while ($ajaxPengawas = mysqli_fetch_array($query)) { ?>
+                                                    <tr>
+                                                        <td><input type="text" name="id_ajax_update_petugas[]" value="<?= $ajaxPengawas['id']?>"></td>
+
+                                                    </tr>
+                                                <?php } ?>
+                                            </tfoot>
                                         </table> 
                                             <button type="button" id="add1" class="btn green" onclick="tambah()" ><i class='fa fa-plus'></i></button>
                                             <button type="button" id="remove1" class="btn red" onclick="kurang()"><i class="fa fa-minus" aria-hidden="true"></i></button> 
@@ -157,7 +181,7 @@ if( isset($_POST["submit"]) ){
                                                 </tr>
                                             </thead>
                                             <tbody id="table2">
-                                            <?php while ($manuverNormal = mysqli_fetch_array($pengawas_gitet)) { ?>
+                                            <?php while ($manuverNormal = mysqli_fetch_array($petugas_gitet_bebas)) { ?>
                                                 <tr>
                                                     <td><?= $manuverNormal["spv_gitet_normal"]  ?></td>
                                                     <td><?= $manuverNormal["opr_gitet_normal"]  ?></td>
@@ -236,8 +260,8 @@ if( isset($_POST["submit"]) ){
                                             <td><?= $pembebasan["ads"]== "00:00:00" ?"": $pembebasan["ads"] ?></td>
                                             <td><input type="text" name="installManuverBebas[]" value="<?= $pembebasan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                             <td>
-                                                <button type="button" onclick="hapus_baris(this,'id_hapus1[]')" class="btn btn-danger btn_remove">X</button>  <!--  -->
-                                                <input type="text" name="id_bebas_update2[]" value="<?= $pembebasan["id"] ?>" hidden>
+                                                <button type="button" onclick="hapus_baris(this,'id_hapus_bebas[]')" class="btn btn-danger btn_remove">X</button>  <!--  -->
+                                                <input type="text" name="id_update_bebas[]" value="<?= $pembebasan["id"] ?>" hidden>
                                             </td>
                                         </tr>
                                             <?php $i++ ?>
@@ -282,7 +306,7 @@ if( isset($_POST["submit"]) ){
                                         <td><input type="text" name="installManuverNormal[]" value="<?= $penormalan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                         <td>
                                             <button type="button" onclick="hapus_baris(this,'id_hapus2[]')" class="btn btn-danger btn_remove2">X</button>
-                                            <input type="text" name="id_normal_update3[]" value="<?= $penormalan["id"] ?>" hidden>
+                                            <input type="text" name="id_update_normal[]" value="<?= $penormalan["id"] ?>" hidden>
                                         </td>
                                     </tr>
                                         <?php $i++ ?>

@@ -211,9 +211,9 @@ function tambah($post){
             $jumlah_baris1 = count($_POST["lokasiPembebasan"]);
             for ($i=0; $i<$jumlah_baris1; $i++) {
                 $lokasiManuverBebas = $_POST["lokasiPembebasan"][$i];
-                $idUpdate = $_POST["id_pengawas_update"][$i];
+                $idUpdate = $_POST["id_ajax_update_petugas"][$i];
                 if ($idUpdate == '0'){
-                    $query = "INSERT INTO db_ajax_table_pengawas (id_lokasi_detail,lokasi) VALUES ('$isiJoin[id_lokasi_detail]','$lokasiManuverBebas')";
+                    $query = "INSERT INTO db_ajax_table_pengawas (id_lokasi_detail,lokasi) VALUES ($isiJoin[id_lokasi_detail],'$lokasiManuverBebas')";
                 } else {
                     $query = "UPDATE db_ajax_table_pengawas SET lokasi = '$lokasiManuverBebas' WHERE id=$idUpdate"; //id_form = '$idTask',
                 }
@@ -221,10 +221,10 @@ function tambah($post){
     
             }
     
-            if(isset($post["id_hapus0"])){
-                $jumlah_hapus = count($post["id_hapus0"]);
+            if(isset($post["id_ajax_hapus_petugas"])){
+                $jumlah_hapus = count($post["id_ajax_hapus_petugas"]);
                 for ($i=0; $i<$jumlah_hapus; $i++){
-                    $id_hapus = $post["id_hapus0"][$i];
+                    $id_hapus = $post["id_ajax_hapus_petugas"][$i];
                     $query = "DELETE FROM db_ajax_table_pengawas WHERE id=$id_hapus";
                     
                 }
@@ -235,19 +235,19 @@ function tambah($post){
             for ($i=0; $i<$jumlah_baris2; $i++){
                 $lokasi = $post["lokasiManuverBebas"][$i];
                 $installasi = $post["installManuverBebas"][$i];
-                $idUpdate = $post["id_bebas_update"][$i];
+                $idUpdate = $post["id_ajax_update_bebas"][$i];
                 if ($idUpdate == "0"){
-                    $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUES ($idDetailLokasi,'$lokasi','$installasi','pembebasan')";
+                    $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUES ($isiJoin[id_lokasi_detail],'$lokasi','$installasi','pembebasan')";
                 } else{
-                    $query = "UPDATE db_ajax_table_tahapan SET id_lokasi_detail=$idDetailLokasi, lokasi='$lokasi', installasi='$installasi' WHERE id=$idUpdate";
+                    $query = "UPDATE db_ajax_table_tahapan SET lokasi='$lokasi', installasi='$installasi' WHERE id=$idUpdate";
                 }
                 mysqli_query($conn,$query);
             }
         
-            if(isset($post["id_hapus1"])){
-                $jumlah_hapus = count($post["id_hapus1"]);
+            if(isset($post["id_ajax_hapus_bebas"])){
+                $jumlah_hapus = count($post["id_ajax_hapus_bebas"]);
                 for ($i=0; $i<$jumlah_hapus; $i++){
-                    $id_hapus = $post["id_hapus1"][$i];
+                    $id_hapus = $post["id_ajax_hapus_bebas"][$i];
                     $query = "DELETE FROM db_ajax_table_tahapan WHERE id=$id_hapus";
                     
                 }
@@ -258,19 +258,19 @@ function tambah($post){
             for ($i=0; $i<$jumlah_baris3; $i++){
                 $lokasi = $post["lokasiManuverNormal"][$i];
                 $installasi = $post["installManuverNormal"][$i];
-                $idUpdate = $post["id_normal_update"][$i];
+                $idUpdate = $post["id_ajax_update_normal"][$i];
                 if ($idUpdate == "0"){
-                    $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUES ($idDetailLokasi,'$lokasi','$installasi','penormalan')";
+                    $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUES ($isiJoin[id_lokasi_detail],'$lokasi','$installasi','penormalan')";
                 } else{
-                    $query = "UPDATE db_ajax_table_tahapan SET id_lokasi_detail=$idDetailLokasi, lokasi='$lokasi', installasi='$installasi' WHERE id=$idUpdate";
+                    $query = "UPDATE db_ajax_table_tahapan SET lokasi='$lokasi', installasi='$installasi' WHERE id=$idUpdate";
                 }
                 mysqli_query($conn,$query);
             }
         
-            if(isset($post["id_hapus2"])){
-                $jumlah_hapus = count($post["id_hapus2"]);
+            if(isset($post["id_ajax_hapus_normal"])){
+                $jumlah_hapus = count($post["id_ajax_hapus_normal"]);
                 for ($i=0; $i<$jumlah_hapus; $i++){
-                    $id_hapus = $post["id_hapus2"][$i];
+                    $id_hapus = $post["id_ajax_hapus_normal"][$i];
                     $query = "DELETE FROM db_ajax_table_tahapan WHERE id=$id_hapus";
                     
                 }
@@ -375,7 +375,7 @@ function ubah($post){
     $jumlah_baris_pelaksana = count($_POST["lokasiPembebasan"]);
     for($i=0; $i<$jumlah_baris_pelaksana; $i++) {
         $lokasiManuverBebas = $_POST["lokasiPembebasan"][$i];
-        $idUpdate = $_POST["id_bebas_update"][$i];
+        $idUpdate = $_POST["id_update_petugas"][$i];
         if ($idUpdate == '0'){
             $query = "INSERT INTO db_table_pengawas (id_form,lokasi) VALUES ('$idTask','$lokasiManuverBebas')";
         } else {
@@ -387,10 +387,10 @@ function ubah($post){
 
     }
 
-    if (isset($_POST["id_hapus0"])){
-        $jumlah_hapus = count($_POST["id_hapus0"]);
+    if (isset($_POST["id_hapus_petugas"])){
+        $jumlah_hapus = count($_POST["id_hapus_petugas"]);
         for ($i=0; $i<$jumlah_hapus; $i++) {
-            $id_hapus = $_POST["id_hapus0"][$i];
+            $id_hapus = $_POST["id_hapus_petugas"][$i];
             $query = "DELETE FROM db_table_pengawas WHERE id='$id_hapus'";
             mysqli_query($conn,$query);
         }
@@ -401,7 +401,7 @@ function ubah($post){
     for($i=0; $i<$jumlah_baris_bebas; $i++){
         $lokasiPembebasanManuver = $_POST["lokasiManuverBebas"][$i];
         $intallasiPembebasan = $_POST["installManuverBebas"][$i];
-        $idUpdateBebas = $_POST["id_bebas_update2"][$i];
+        $idUpdateBebas = $_POST["id_update_bebas"][$i];
         if ($idUpdateBebas == '0') {
             $query = "INSERT INTO db_table_tahapan (id_form,lokasi,installasi,tahapan) VALUES ('$idTask','$lokasiPembebasanManuver','$intallasiPembebasan','pembebasan')";
         } else {
@@ -411,10 +411,10 @@ function ubah($post){
         mysqli_affected_rows($conn);
     }
 
-    if (isset($_POST["id_hapus1"])){
-        $jumlah_hapus = count($_POST["id_hapus1"]);
+    if (isset($_POST["id_hapus_bebas"])){
+        $jumlah_hapus = count($_POST["id_hapus_bebas"]);
         for ($i=0; $i<$jumlah_hapus; $i++) {
-            $id_hapus = $_POST["id_hapus1"][$i];
+            $id_hapus = $_POST["id_hapus_bebas"][$i];
             $query = "DELETE FROM db_table_tahapan WHERE id='$id_hapus'";
             mysqli_query($conn,$query);
         }
@@ -425,7 +425,7 @@ function ubah($post){
     for($i=0; $i<$jumlah_baris_normal; $i++){
         $lokasiPenormalanManuver = $_POST["lokasiManuverNormal"][$i];
         $installasiPenormalan = $_POST["installManuverNormal"][$i];
-        $idUpdateNormal = $_POST["id_normal_update3"][$i];
+        $idUpdateNormal = $_POST["id_update_normal"][$i];
         if ($idUpdateNormal == '0') {
             $query = "INSERT INTO db_table_tahapan (id_form,lokasi,installasi,tahapan) VALUE ('$idTask','$lokasiPenormalanManuver','$installasiPenormalan','penormalan')";
         } else {
@@ -435,10 +435,10 @@ function ubah($post){
         mysqli_affected_rows($conn);
     }
 
-    if (isset($_POST["id_hapus2"])){
-        $jumlah_hapus = count($_POST["id_hapus2"]);
+    if (isset($_POST["id_hapus_normal"])){
+        $jumlah_hapus = count($_POST["id_hapus_normal"]);
         for ($i=0; $i<$jumlah_hapus; $i++) {
-            $id_hapus = $_POST["id_hapus2"][$i];
+            $id_hapus = $_POST["id_hapus_normal"][$i];
             $query = "DELETE FROM db_table_tahapan WHERE id='$id_hapus'";
             mysqli_query($conn,$query);
         }
@@ -462,7 +462,7 @@ function ubah($post){
     mysqli_query($conn,$query);
 
     $dataAjax = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi LEFT JOIN db_ajax_lokasi_detail ON db_ajax_lokasi.id_lokasi = db_ajax_lokasi_detail.id_lokasi WHERE db_ajax_lokasi.id_jenis=$jenis AND db_ajax_lokasi.nama= '$lokasi' AND db_ajax_lokasi_detail.nama='$instal'");
-    $isiDataAjax = "";
+    $isiDataAjax = mysqli_fetch_assoc($dataAjax);
 
     if ($pilihanDB == 1 || $pilihanDB == 2 ) {
         
@@ -471,9 +471,9 @@ function ubah($post){
             $jumlah_baris1 = count($_POST["lokasiPembebasan"]);
             for ($i=0; $i<$jumlah_baris1; $i++) {
                 $lokasiManuverBebas = $_POST["lokasiPembebasan"][$i];
-                $idUpdate = $_POST["id_pengawas_update"][$i];
+                $idUpdate = $_POST["id_ajax_update_petugas"][$i];
                 if ($idUpdate == '0'){
-                    $query = "INSERT INTO db_ajax_table_pengawas (id_lokasi_detail,lokasi) VALUES ('$isiJoin[id_lokasi_detail]','$lokasiManuverBebas')";
+                    $query = "INSERT INTO db_ajax_table_pengawas (id_lokasi_detail,lokasi) VALUES ('$isiDataAjax[id_lokasi_detail]','$lokasiManuverBebas')";
                 } else {
                     $query = "UPDATE db_ajax_table_pengawas SET lokasi = '$lokasiManuverBebas' WHERE id=$idUpdate"; //id_form = '$idTask',
                 }
@@ -481,10 +481,10 @@ function ubah($post){
     
             }
     
-            if(isset($post["id_hapus0"])){
-                $jumlah_hapus = count($post["id_hapus0"]);
+            if(isset($post["id_hapus_petugas"])){
+                $jumlah_hapus = count($post["id_hapus_petugas"]);
                 for ($i=0; $i<$jumlah_hapus; $i++){
-                    $id_hapus = $post["id_hapus0"][$i];
+                    $id_hapus = $post["id_hapus_petugas"][$i];
                     $query = "DELETE FROM db_ajax_table_pengawas WHERE id=$id_hapus";
                     
                 }
@@ -495,7 +495,7 @@ function ubah($post){
             for ($i=0; $i<$jumlah_baris2; $i++){
                 $lokasi = $post["lokasiManuverBebas"][$i];
                 $installasi = $post["installManuverBebas"][$i];
-                $idUpdate = $post["id_bebas_update"][$i];
+                $idUpdate = $post["id_update_petugas"][$i];
                 if ($idUpdate == "0"){
                     $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUES ($idDetailLokasi,'$lokasi','$installasi','pembebasan')";
                 } else{
@@ -504,10 +504,10 @@ function ubah($post){
                 mysqli_query($conn,$query);
             }
         
-            if(isset($post["id_hapus1"])){
-                $jumlah_hapus = count($post["id_hapus1"]);
+            if(isset($post["id_hapus_bebas"])){
+                $jumlah_hapus = count($post["id_hapus_bebas"]);
                 for ($i=0; $i<$jumlah_hapus; $i++){
-                    $id_hapus = $post["id_hapus1"][$i];
+                    $id_hapus = $post["id_hapus_bebas"][$i];
                     $query = "DELETE FROM db_ajax_table_tahapan WHERE id=$id_hapus";
                     
                 }
@@ -527,10 +527,10 @@ function ubah($post){
                 mysqli_query($conn,$query);
             }
         
-            if(isset($post["id_hapus2"])){
-                $jumlah_hapus = count($post["id_hapus2"]);
+            if(isset($post["id_hapus_normal"])){
+                $jumlah_hapus = count($post["id_hapus_normal"]);
                 for ($i=0; $i<$jumlah_hapus; $i++){
-                    $id_hapus = $post["id_hapus2"][$i];
+                    $id_hapus = $post["id_hapus_normal"][$i];
                     $query = "DELETE FROM db_ajax_table_tahapan WHERE id=$id_hapus";
                     
                 }
@@ -623,10 +623,10 @@ function ubah($post){
                 //     }
                 // }
 
-                // if (isset($_POST["id_hapus0"])){
-                //     $jumlah_hapus = count($_POST["id_hapus0"]);
+                // if (isset($_POST["id_hapus_petugas"])){
+                //     $jumlah_hapus = count($_POST["id_hapus_petugas"]);
                 //     for ($i=0; $i<$jumlah_hapus; $i++) {
-                //         $id_hapus = $_POST["id_hapus0"][$i];
+                //         $id_hapus = $_POST["id_hapus_petugas"][$i];
                 //         $query = "DELETE FROM db_ajax_table_pengawas WHERE id='$id_hapus'";
                 //         mysqli_query($conn,$query);
                 //     }
@@ -636,7 +636,7 @@ function ubah($post){
                 // for($i=0; $i<$jumlah_baris_bebas; $i++){
                 //     $lokasiPembebasanManuver = $_POST["lokasiManuverBebas"][$i];
                 //     $intallasiPembebasan = $_POST["installManuverBebas"][$i];
-                //     $idUpdateBebas = $_POST["id_bebas_update2"][$i];
+                //     $idUpdateBebas = $_POST["id_update_bebas"][$i];
                 //     if ($idUpdateBebas == '0') {
                 //         $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUES ('$data3[id_lokasi_detail]','$lokasiPembebasanManuver','$intallasiPembebasan','pembebasan')";
                 //     } else {
@@ -645,10 +645,10 @@ function ubah($post){
                 //     mysqli_query($conn,$query);
                 // }
             
-                // if (isset($_POST["id_hapus1"])){
-                //     $jumlah_hapus = count($_POST["id_hapus1"]);
+                // if (isset($_POST["id_hapus_bebas"])){
+                //     $jumlah_hapus = count($_POST["id_hapus_bebas"]);
                 //     for ($i=0; $i<$jumlah_hapus; $i++) {
-                //         $id_hapus = $_POST["id_hapus1"][$i];
+                //         $id_hapus = $_POST["id_hapus_bebas"][$i];
                 //         $query = "DELETE FROM db_ajax_table_tahapan WHERE id='$id_hapus'";
                 //         mysqli_query($conn,$query);
                 //     }
@@ -658,7 +658,7 @@ function ubah($post){
                 // for($i=0; $i<$jumlah_baris_normal; $i++){
                 //     $lokasiPenormalanManuver = $_POST["lokasiManuverNormal"][$i];
                 //     $installasiPenormalan = $_POST["installManuverNormal"][$i];
-                //     $idUpdateNormal = $_POST["id_normal_update3"][$i];
+                //     $idUpdateNormal = $_POST["id_update_normal"][$i];
                 //     if ($idUpdateNormal == '0') {
                 //         $query = "INSERT INTO db_ajax_table_tahapan (id_lokasi_detail,lokasi,installasi,tahapan) VALUE ('$data3[id_lokasi_detail]','$lokasiPenormalanManuver','$installasiPenormalan','penormalan')";
                 //     } else {
@@ -667,10 +667,10 @@ function ubah($post){
                 //     mysqli_query($conn,$query);
                 // }
             
-                // if (isset($_POST["id_hapus2"])){
-                //     $jumlah_hapus = count($_POST["id_hapus2"]);
+                // if (isset($_POST["id_hapus_normal"])){
+                //     $jumlah_hapus = count($_POST["id_hapus_normal"]);
                 //     for ($i=0; $i<$jumlah_hapus; $i++) {
-                //         $id_hapus = $_POST["id_hapus2"][$i];
+                //         $id_hapus = $_POST["id_hapus_normal"][$i];
                 //         $query = "DELETE FROM db_ajax_table_tahapan WHERE id='$id_hapus'";
                 //         mysqli_query($conn,$query);
                 //     }

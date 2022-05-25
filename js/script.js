@@ -96,7 +96,7 @@ function kurang() {
     table = document.getElementById('table1').children[jumlahRow--].children[0].children[1];
     if (table.value != "0" ){
     id_hapus = table.cloneNode(true);
-        id_hapus.setAttribute("name","id_hapus0[]");
+        id_hapus.setAttribute("name","id_hapus_petugas[]");
         document.getElementById("form_id").appendChild(id_hapus);
     }
     
@@ -147,7 +147,7 @@ function tambahManuver(a,b,c) {
     cell4.innerHTML = "";
     cell5.innerHTML = "";
     cell6.innerHTML = "<input type='text' name='"+c+"' style='width:8rem;padding:0rem;'>";
-    cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_bebas_update2[]' value='0' hidden>";
+    cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_update_bebas[]' value='0' hidden>";
     
 }
 
