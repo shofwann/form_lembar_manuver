@@ -219,14 +219,15 @@ else
                 <div class="container" style="height: 990px;">
                     User Level <?= $_SESSION['level']; ?> <br> Nama User: <?= $_SESSION['username']; ?> 
                     <div class="pekerjaan" style="margin-top:15px;">
-                    <h4>List Pekerjaan sedang berjalan</h4>
-                    <?php while ($listPekerjaanBerlangsung = mysqli_fetch_assoc($sql)) : ?>
-                        <ul style="margin-left:19px;">
-                            <li><?= $listPekerjaanBerlangsung['pekerjaan']?></li>
-                        </ul>
-
-                    <?php endwhile; ?>
+                        <h4>List Pekerjaan sedang berjalan</h4>
+                        <?php while ($listPekerjaanBerlangsung = mysqli_fetch_assoc($sql)) : ?>
+                            <ul style="margin-left:19px;">
+                                <li><?= $listPekerjaanBerlangsung['pekerjaan']?></li>
+                            </ul>
+                        <?php endwhile; ?>
                     </div>
+                   
+
                     
                     
                  <?php

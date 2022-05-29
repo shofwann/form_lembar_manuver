@@ -57,7 +57,7 @@ if( isset($_POST["submit"]) ){
                         <div class="grid__item grid__item_item001">Pilih Form</div>
                         <div class="grid__item grid__item_item002">Pilih Jenis Pekerjaan</div>
                         <div class="grid__item grid__item_item003">Pilih Lokasi</div>
-                        <div class="grid__item grid__item_item004">Pilih detail Lokasi</div>
+                        <div class="grid__item grid__item_item004 border_right">Pilih detail Lokasi</div>
                         <div class="grid__item grid__item_item005">
                             <select name="form" id="form">
                                 <option value="">-SELECT-</option>
@@ -75,7 +75,7 @@ if( isset($_POST["submit"]) ){
                                 <option style="white-space: nowrap;" value="">-SELECT-</option>
                             </select>
                         </div>
-                        <div class="grid__item grid__item_item008">
+                        <div class="grid__item grid__item_item008 border_right">
                             <select name="idz" id="detail_lokasi" onChange="pilihanDetailLokasi()">
                                 <option value="">-SELECT-</option>
                             </select>
@@ -83,8 +83,8 @@ if( isset($_POST["submit"]) ){
                         
                         <div class="grid__item grid__item_item009 titel">Lokasi Pekerjaan</div>
                         <div class="grid__item grid__item_item0010 titel">Manuver Pembebasan</div>
-                        <div class="grid__item grid__item_item0011 titel">Manuver Penormalan</div>
-                        <div class="grid__item grid__item_item0012 grid" id="table" ">
+                        <div class="grid__item grid__item_item0011 titel border_right">Manuver Penormalan</div>
+                        <div class="grid__item grid__item_item0012 grid border_right border_bottom" id="table" ">
                             <div  >
 
                             </div>

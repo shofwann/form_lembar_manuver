@@ -48,7 +48,6 @@ if( isset($_POST["submit"]) ){
 
 
 
-
 if ($sql){
 
     $tanggal = $data["date"];
@@ -61,13 +60,11 @@ if ($sql){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LMO - Change</title>
     <style>
         span {
             color: red;
         }
 
-       
     </style>
 </head>
 <body>
@@ -78,9 +75,9 @@ if ($sql){
         <div class="container-wrap">
             <div class="container">
                 <form action="" method="post" id="form_id" enctype="multipart/form-data">
-                    <div class="hiden">
+                    <div class="hiden" >
                         <div class="additional">
-                            <div class="default">
+                            <div class="default" hidden>
                                 <label for="">Create Date:</label>
                                 <input type="text" name="create_date" value="<?= $data["create_date"];?>">
                                 <label for="">User :</label>
@@ -97,6 +94,10 @@ if ($sql){
                                 <input type="text" name="jenis_pekerjaan" value="<?= $data["jenis_pekerjaan"] ?>"> -->
                                 <label for="">Penyimpanan ke DB :</label>
                                 <input type="text" name="chose_db" value="<?= $data["chose_db"] ?>">
+                                <label for="">lokasi</label>
+                                <input type="text" name="lokasi_lama" value="<?= $data["lokasi"]; ?>" width="10">
+                                <label for="">lokasi detail</label>
+                                <input type="text" name="instal_lama" value="<?= $data["installasi"]; ?>">
                             </div>
                             <div class="chose">
                                 <label for="" style="">Pilih jenis pekerjaan :</label>
@@ -115,20 +116,20 @@ if ($sql){
                         <div class="grid__item grid__item_item1 titel">pekerjaan<span>*</span></div>
                         <div class="grid__item grid__item_item2 titel">tanggal pelaksanaan<span>*</span></div>
                         <div class="grid__item grid__item_item3 titel">mulai<span>*</span></div>
-                        <div class="grid__item grid__item_item4 titel" >selesai<span>*</span></div>
+                        <div class="grid__item grid__item_item4 titel border_right">selesai<span>*</span></div>
                         <div class="grid__item grid__item_item5 inputan"><input type="text" name="pekerjaan" id="pekerjaan" value="<?= $data["pekerjaan"]; ?>"></div>
                         <div class="grid__item grid__item_item6 inputan"><input type="date" name="date" id="start_date"  value="<?= $data["date"]; ?>"></div>
                         <div class="grid__item grid__item_item7 inputan"><input type="datetime-local" name="start" id="end_date" class="" value="<?= date('Y-m-d\TH:i:s', strtotime($data['start'])); ?>">   WIB</div>
-                        <div class="grid__item grid__item_item8 inputan"><input type="datetime-local" name="end" id="report_date" class="" value="<?= date('Y-m-d\TH:i:s', strtotime($data['end'])); ?>"> WIB</div>
+                        <div class="grid__item grid__item_item8 inputan border_right"><input type="datetime-local" name="end" id="report_date" class="" value="<?= date('Y-m-d\TH:i:s', strtotime($data['end'])); ?>"> WIB</div>
                         <div class="grid__item grid__item_item9 titel">lokasi<span>*</span></div>
                         <div class="grid__item grid__item_item10 titel">installasi<span>*</span></div>
-                        <div class="grid__item grid__item_item11 titel">permintaan pembebanan diterima</div>
+                        <div class="grid__item grid__item_item11 titel border_right">permintaan pembebanan diterima</div>
                         <div class="grid__item grid__item_item12 inputan"><input type="text" name="lokasi" value="<?= $data["lokasi"]; ?>" id="lokasi" ></div>
                         <div class="grid__item grid__item_item13 inputan"><input type="text" name="instal" value="<?= $data["installasi"]; ?>"id="instal" ></div>
-                        <div class="grid__item grid__item_item14 inputan"><input type="datetime-local" name="report_date" id="report_date"  disabled></div>
+                        <div class="grid__item grid__item_item14 inputan border_right"><input type="datetime-local" name="report_date" id="report_date"  disabled></div>
                         <div class="grid__item grid__item_item15 titel">MANUVER PEMBEBASAN INSTALLASI<span>*</span></div>
                         <div class="grid__item grid__item_item16 titel">MANUVER PENORMALAN INSTALLASI<span>*</span></div>
-                        <div class="grid__item grid__item_item17 titel">kelengkapan dokumen</div>
+                        <div class="grid__item grid__item_item17 titel border_right">kelengkapan dokumen</div>
                         <div class="grid__item grid__item_item18 inputan">
                             <div class="col-7" style="">
                                 <br>
@@ -150,7 +151,7 @@ if ($sql){
                                                     <tr class="rows">
                                                         <td>
                                                             <input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]  ?>" style="">
-                                                            <input type="text" name="id_update_petugas[]" value="<?= $manuverBebas["id"]  ?>" style="border:1px solid #fff;width:50px;" >  
+                                                            <input type="text" name="id_update_petugas[]" value="<?= $manuverBebas["id"]  ?>" style="border:1px solid #fff;width:50px;" hidden>  
                                                         </td>
                                                         <td><?= $manuverBebas["pengawas_pekerjaan"]  ?></td>
                                                         <td><?= $manuverBebas["pengawas_manuver"]  ?></td>
@@ -160,10 +161,10 @@ if ($sql){
                                                     </tr>
                                             <?php } ?>
                                         </tbody>
-                                        <tfoot id="sub_table1">
+                                        <tfoot id="sub_table1" hidden>
                                             <?php while ($ajaxPengawas = mysqli_fetch_array($query)) { ?>
                                                 <tr>
-                                                    <td><input type="text" name="id_ajax_update_petugas[]" value="<?= $ajaxPengawas['id']?>"></td>
+                                                    <td><input type="text" name="id_ajax_update_petugas[]" value="<?= $ajaxPengawas['id']?>" hidden></td>
 
                                                 </tr>
                                             <?php } ?>
@@ -201,7 +202,7 @@ if ($sql){
                                 </div>
                             </div>
                         </div>
-                        <div class="grid__item grid__item_item20 inputan">
+                        <div class="grid__item grid__item_item20 inputan border_right">
                         <div class="col">
                             <br>
                                     <div action="">
@@ -215,30 +216,30 @@ if ($sql){
                             </div>
                         </div>
                         <div class="grid__item grid__item_item21 titel">ALIRAN DAYA PADA INSTALLASI MENJELANG DIBEBASKAN</div>
-                        <div class="grid__item grid__item_item22 titel">ALIRAN DAYA PADA INSTALLASI MENJELANG DINORMALKAN</div>
+                        <div class="grid__item grid__item_item22 titel border_right">ALIRAN DAYA PADA INSTALLASI MENJELANG DINORMALKAN</div>
                         <div class="grid__item grid__item_item23 titel">Pembacaan SCADA</div>
                         <div class="grid__item grid__item_item24 titel">Hasil Studi DPF</div>
                         <div class="grid__item grid__item_item25 titel">Pembacaan SCADA</div>
-                        <div class="grid__item grid__item_item26 titel">Hasil Studi DPF</div>
+                        <div class="grid__item grid__item_item26 titel border_right">Hasil Studi DPF</div>
                         <div class="grid__item grid__item_item27 inputan"><input type="text" disabled></div>
                         <div class="grid__item grid__item_item28 inputan"><input type="text" disabled></div>
                         <div class="grid__item grid__item_item29 inputan"><input type="text" disabled></div>
-                        <div class="grid__item grid__item_item30 inputan"><input type="text" disabled></div>
+                        <div class="grid__item grid__item_item30 inputan border_right"><input type="text" disabled></div>
                         <div class="grid__item grid__item_item31 titel">ALIRAN DAYA SETELAH DIBEBASKAN</div>
-                        <div class="grid__item grid__item_item32 titel">ALIRAN DAYA SETELAH DINORMALKAN</div>
+                        <div class="grid__item grid__item_item32 titel border_right">ALIRAN DAYA SETELAH DINORMALKAN</div>
                         <div class="grid__item grid__item_item33 titel">Pembacaan SCADA</div>
-                        <div class="grid__item grid__item_item34 titel">Pembacaan SCADA</div>
+                        <div class="grid__item grid__item_item34 titel border_right">Pembacaan SCADA</div>
                         <div class="grid__item grid__item_item35 inputan"><input type="text" disabled></div>
-                        <div class="grid__item grid__item_item36 inputan"><input type="text" disabled></div>
-                        <div class="grid__item grid__item_item37 titel">MANUVER PEMBEBASAN INSTALLASI</div>
-                        <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan<span>*</span></div>
-                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" id="" cols="232" rows="3" ><?= $data["catatan_pra_pembebasan"]; ?></textarea></div>
-                        <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan<span>*</span></div>
+                        <div class="grid__item grid__item_item36 inputan border_right"><input type="text" disabled></div>
+                        <div class="grid__item grid__item_item37 titel border_right">MANUVER PEMBEBASAN INSTALLASI</div>
+                        <div class="grid__item grid__item_item38 titel border_right">Catatan Pra Pembebasan<span>*</span></div>
+                        <div class="grid__item grid__item_item39 inputan border_right"><textarea name="catatan_pra_bebas" id="" cols="232" rows="3" ><?= $data["catatan_pra_pembebasan"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item40 titel border_right">Tahapan Manuver Pembebasan<span>*</span></div>
                         <div class="grid__item grid__item_item41 inputan">
                             <img src="img/<?= $data["foto"];?>" id="output1" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
                             <input type="file" name="foto" accept="image/*" onchange="loadFile1(event)">
                         </div>
-                        <div class="grid__item grid__item_item42 inputan">
+                        <div class="grid__item grid__item_item42 inputan border_right">
                             <table class="table table-bordered mt-2" style="">
                                 <thead>
                                     <tr>
@@ -246,7 +247,7 @@ if ($sql){
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                        <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambah('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]','sub_dynamic_field1')">Add More</button></th>
+                                        <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambah('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]','sub_dynamic_field1','id_update_bebas[]','id_ajax_update_bebas[]')">Add More</button></th>
                                     </tr>
                                     <tr>
                                         <th style="width:9rem;">Remote</th>
@@ -265,18 +266,18 @@ if ($sql){
                                         <td><?= $pembebasan["ads"]== "00:00:00" ?"": $pembebasan["ads"] ?></td>
                                         <td><input type="text" name="installManuverBebas[]" value="<?= $pembebasan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                         <td>
-                                            <button type="button" onclick="hapus_baris(this, <?= $i ?>,'id_hapus_bebas[]','id_ajax_hapus_bebas[]','row1-')" class="btn btn-danger btn_remove">X</button>  <!--  -->
-                                            <input type="text" name="id_update_bebas[]" value="<?= $pembebasan["id"] ?>">
+                                            <button type="button" onclick="hapus_baris(this, <?= $i ?>,'id_hapus_bebas[]','id_ajax_hapus_bebas[]','row1-',)" class="btn btn-danger btn_remove">X</button>  <!--  -->
+                                            <input type="text" name="id_update_bebas[]" value="<?= $pembebasan["id"] ?>" hidden>
                                         </td>
                                     </tr>
                                         <?php $i++; ?>
                                         <?php endwhile; ?>
                                 </tbody >
-                                <tfoot id="sub_dynamic_field1" >
+                                <tfoot id="sub_dynamic_field1" hidden>
                                         <?php $i=1; ?>
                                         <?php while ($ajaxPembebasan = mysqli_fetch_assoc($query2)) : ?>
                                     <tr id="row1-<?= $i?>">
-                                        <td><input type="text" name="id_ajax_update_bebas[]" value="<?= $ajaxPembebasan['id'] ?>"></td>
+                                        <td><input type="text" name="id_ajax_update_bebas[]" value="<?= $ajaxPembebasan['id'] ?>" hidden></td>
                                         
                                     </tr>
                                         <?php $i++ ?>
@@ -285,17 +286,17 @@ if ($sql){
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
-                        <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" id="" cols="232" rows="3" disabled></textarea></div>
-                        <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>
-                        <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
-                        <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" id="" cols="232" rows="3" ><?= $data["catatan_pra_penormalan"]; ?></textarea></div>
-                        <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
+                        <div class="grid__item grid__item_item43 titel border_right">Catatan Pasca Pembebasan :</div>
+                        <div class="grid__item grid__item_item44 inputan border_right"><textarea name="catatan_pasca_bebas" id="" cols="232" rows="3" disabled></textarea></div>
+                        <div class="grid__item grid__item_item45 titel border_right">MANUVER PENORMALAN INSTALLASI</div>
+                        <div class="grid__item grid__item_item46 titel border_right">Catatan Pra Penormalan :</div>
+                        <div class="grid__item grid__item_item47 inputan border_right"><textarea name="catatan_pra_normal" id="" cols="232" rows="3" ><?= $data["catatan_pra_penormalan"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item48 titel border_right">Tahapan Manuver Penormalan :</div>
                         <div class="grid__item grid__item_item49 inputan">             
                                 <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
                                 <input type="file" accept="image/*" onchange="loadFile2(event)" name="foto2">
                         </div>
-                        <div class="grid__item grid__item_item50 inputan">
+                        <div class="grid__item grid__item_item50 inputan border_right">
                             <table class="table table-bordered mt-2"  style="">
                                 <thead>
                                     <tr>
@@ -303,7 +304,7 @@ if ($sql){
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambah('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]','sub_dynamic_field2')">Add More</button></th>
+                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambah('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]','sub_dynamic_field2','id_update_normal[]','id_ajax_update_normal[]')">Add More</button></th>
                                     </tr>
                                     <tr>
                                         <th>Remote</th>
@@ -322,18 +323,18 @@ if ($sql){
                                     <td><?= $penormalan["ads"] == "00:00:00" ?"": $penormalan["ads"] ?></td>
                                     <td><input type="text" name="installManuverNormal[]" value="<?= $penormalan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                     <td>
-                                        <button type="button" onclick="hapus_baris(this,<?= $i ?>,'id_hapus2[]','id_ajax_hapus_normal[]','row2-')" class="btn btn-danger btn_remove2">X</button>
-                                        <input type="text" name="id_update_normal[]" value="<?= $penormalan["id"] ?>" >
+                                        <button type="button" onclick="hapus_baris(this,<?= $i ?>,'id_hapus_normal[]','id_ajax_hapus_normal[]','row2-')" class="btn btn-danger btn_remove2">X</button>
+                                        <input type="text" name="id_update_normal[]" value="<?= $penormalan["id"] ?>" hidden>
                                     </td>
                                 </tr>
                                     <?php $i++ ?>
                                     <?php endwhile; ?>
                                 </tbody>
-                                <tfoot id="sub_dynamic_field2" >
+                                <tfoot id="sub_dynamic_field2" hidden>
                                         <?php $i=1; ?>
                                         <?php while ($ajaxPenormalan = mysqli_fetch_assoc($query3)) : ?>
                                     <tr id="row2-<?= $i?>">
-                                        <td><input type="text" name="id_ajax_update_normal[]" value="<?= $ajaxPenormalan['id'] ?>"></td>
+                                        <td><input type="text" name="id_ajax_update_normal[]" value="<?= $ajaxPenormalan['id'] ?>" hidden></td>
                                     </tr>
                                         <?php $i++ ?>
                                         <?php endwhile; ?>
@@ -341,12 +342,12 @@ if ($sql){
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
-                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" id="" cols="232" rows="3" disabled></textarea></div>
-                        <div class="grid__item grid__item_item53 titel">Masukan AMN jika ada kekeliruan</div>
-                        <div class="grid__item grid__item_item54 titel">Masukan MSB Jika ada kekeliruan</div>
-                        <div class="grid__item grid__item_item55 inputan"><textarea name="catatan_amn" id="" cols="113" rows="5" style="" disabled><?= $data["catatan_amn"];?></textarea></div>
-                        <div class="grid__item grid__item_item56 inputan"><textarea name="catatan_msb" id="" cols="113" rows="5" style="" disabled><?= $data["catatan_msb"];?></textarea></textarea></div>
+                        <div class="grid__item grid__item_item51 titel border_right">Catatan Pasca Penormalan :</div>
+                        <div class="grid__item grid__item_item52 inputan border_right"><textarea name="catatan_pasca_normal" id="" cols="232" rows="3" disabled></textarea></div>
+                        <div class="grid__item grid__item_item53 titel ">Masukan AMN jika ada kekeliruan</div>
+                        <div class="grid__item grid__item_item54 titel border_right">Masukan MSB Jika ada kekeliruan</div>
+                        <div class="grid__item grid__item_item55 inputan border_bottom"><textarea name="catatan_amn" id="" cols="113" rows="5" style="" disabled><?= $data["catatan_amn"];?></textarea></div>
+                        <div class="grid__item grid__item_item56 inputan border_right border_bottom"><textarea name="catatan_msb" id="" cols="113" rows="5" style="" disabled><?= $data["catatan_msb"];?></textarea></textarea></div>
                     </div><br>
                         <button type="submit" name="submit" >Simpan Form</button>
                     </div>
@@ -410,21 +411,22 @@ if ($sql){
         var row2 = tableAjax.insertRow(-1);
         var cell9 = row2.insertCell(0);
 
-        cell9.innerHTML = "<input type='text' name='id_ajax_pengawas[]' style='width:8rem;padding:0rem;' value='0'>";
+        cell9.innerHTML = "<input type='text' name='id_ajax_update_petugas[]' style='width:8rem;padding:0rem;' value='0'>";
     }
 
   
 
-    table = document.getElementById('dynamic_field1');
-    jumlah_baris = table.rows.length+1;
-    table2 = document.getElementById('dynamic_field2');
-    jumlah_baris2 = table2.rows.length-1;
+    // table = document.getElementById('dynamic_field1');
+    // jumlah_baris = table.rows.length+1;
+    // table2 = document.getElementById('dynamic_field2');
+    // jumlah_baris2 = table2.rows.length-1;
     
     let h = 1;
     let g = 1;
     let f = 1;
-    function tambah(a,b,c,d) {
+    function tambah(a,b,c,d,e,j) {
         table = document.getElementById(a);
+        let jumlah_baris = table.rows.length+1;
         var row = table.insertRow(-1);
         row.setAttribute("id","newRow"+h+++"");
         var cell1 = row.insertCell(0);
@@ -441,13 +443,13 @@ if ($sql){
         cell4.innerHTML = "";
         cell5.innerHTML = "";
         cell6.innerHTML = "<input type='text' name='"+c+"' style='width:8rem;padding:0rem;' required>";
-        cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this,"+f+++")' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_update_bebas[]' value='0' >";
+        cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this,"+f+++")' class='btn btn-danger btn_remove'>X</button><input type='text' name='"+e+"' value='0' >";
 
         footTable = document.getElementById(d);
         var baris = footTable.insertRow(-1);
         baris.setAttribute("id","newRows"+g+++"");
         var cell8 = baris.insertCell(0);
-        cell8.innerHTML = "<input type='text' value='0'>"
+        cell8.innerHTML = "<input type='text' name='"+j+"' value='0'>"
 
     }
 

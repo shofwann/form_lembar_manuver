@@ -65,53 +65,7 @@
             color: red;
         }
 
-        ul.auto {
-            float: left;
-            list-style: none;
-            padding: 0px;
-            border: 1px solid #fff;
-            margin-top: 0px;
-        }
-
-        .inputi, ul.auto {
-            width: 250px;
-        }
-
-        #response li:hover, #responseDetail li:hover {
-            color: silver;
-            background: #0088cc;
-            cursor: pointer;
-            position: absolute;
-        }
-
-        input[type=text] + span {
-            display: none;
-        }
-        input[type=text]:focus + span {
-            display: inline;
-            color: blue;
-            position: relative;
-            
-        }
-
-        ul.info-list {
-            list-style-type: none;
-            
-        }
-        ul.info-list li b {
-            position: relative;
-            display: inline-block;
-            min-width: 100px;
-            margin-right: 4px;
-            
-        }
-        ul.info-list li b:after {
-            content: ":";
-            position: absolute;
-            right: 0;
-            
-            
-        }
+       
 
        
     </style>
@@ -172,7 +126,7 @@
                         <div class="grid__item grid__item_item12 inputan" id="lokasinya">
                             <div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
                                 <input type="text" name="lokasi" id="lokasi" class="inputi" autocomplete="off" placeholder="Sebelum input lokasi pilih jenis pekerjaan dahulu...!" style="width: 400px;">
-                                <div class="tool-tip  slideIn">
+                                <div class="tool-tip slideIn">
                                     Perhatikan untuk Format penulisan...!!!
                                     <ul class="info-list" >
                                         <li><b>SUTET</b>Cawang-Depok</li>
@@ -282,7 +236,7 @@
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
                                 <img id="output1" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
-                                <input type="file" accept="image/*" onchange="loadFile1(event)" name="foto" required="required">
+                                <input type="file" accept="image/*" onchange="" name="foto" required="required">
                             </div>
                         </div>
                         <div class="grid__item grid__item_item42 inputan">
@@ -292,13 +246,16 @@
                                     <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                     <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                     <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                    <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green">Add More</button></th>
+                                    <th rowspan="2"><button type="button" name="add3" id="add3" onclick="tambahBaris('dynamic1','lokasiManuverBebas[]','installManuverBebas[]')" class="btn green">Add More</button></th>
                                 </tr>
                                 <tr>
                                     <th style="width:9rem;">Remote</th>
                                     <th style="width:9rem;">Real (R/L)</th>
                                     <th style="width:9rem;">ADS</th>
                                 </tr>
+                                <tfoot id="dynamic1" >
+
+                                </tfoot>
                                 </table>
                         </div>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
@@ -310,7 +267,7 @@
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
                                 <img id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
-                                <input type="file" accept="image/*" onchange="loadFile2(event)" name="foto2" required="required">
+                                <input type="file" accept="image/*" onchange="" name="foto2" required="required">
                             </div>
                         </div>
                         <div class="grid__item grid__item_item50 inputan">
@@ -320,13 +277,16 @@
                                     <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                     <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
                                     <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                    <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green">Add More</button></th>
+                                    <th rowspan="2"><button type="button" name="add4" id="add4" onclick="tambahBaris('dynamic2','lokasiManuverNormal[]','installManuverNormal[]')" class="btn btn-success green">Add More</button></th>
                                 </tr>
                                 <tr>
                                     <th>Remote</th>
                                     <th>Real (R/L)</th>
                                     <th>ADS</th>
                                 </tr>
+                                <tfoot id="dynamic2">
+
+                                </tfoot>
                             </table>
                         </div>
                         <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
@@ -340,115 +300,15 @@
        
     </div>
 
+    
+
     <script type="text/javascript">
     
-    
-
-
-
-    function tambah(){
-        table = document.getElementById("table1");
-        var row = table.insertRow(-1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-        var cell6 = row.insertCell(5);
-
-       cell1.innerHTML = "<input type='text' name='lokasiPembebasan[]' id=''>";
-       cell2.innerHTML = "<input type='text' name='pKerjaPembebasan[]' id='' disabled>";
-       cell3.innerHTML = "<input type='text' name='pManuverPembebasan[]' id='' disabled>";
-       cell4.innerHTML = "<input type='text' name='pK3Pembebasan[]' id='' disabled>";
-       cell5.innerHTML = "<input type='text' name='spvPembebasan[]' id='' disabled>";
-       cell6.innerHTML = "<input type='text' name='oprPembebasan[]' id='' disabled>";
-
-       table1 = document.getElementById("table2");
-       var row1 = table1.insertRow(-1);
-       var cell7 = row1.insertCell(0);
-       var cell8 = row1.insertCell(1);
-
-       cell7.innerHTML = "<input type='text' name=spvPenormalan[] id='' disabled>";
-       cell8.innerHTML = "<input type='text' name=oprPenormalan[] id='' disabled>";
-    }
-
-    function kurang(){
-        table = document.getElementById("table1");
-        row = table.getElementsByTagName('tr');
-        if (row.length!='0'){
-            row[row.length - 1].outerHTML='';
-        }
-        table = document.getElementById("table2");
-        row = table.getElementsByTagName('tr');
-        if (row.length!='0'){
-            row[row.length - 1].outerHTML='';
-        }
-
-    }
-
-    //---image_upload_&_show 1---//
-        var loadFile1 = function(event) {
-        var output1 = document.getElementById('output1');
-        output1.src = URL.createObjectURL(event.target.files[0]);
-        };
-    //---image_upload_&_show 2---//
-        var loadFile2 = function(event) {
-        var output2 = document.getElementById('output2');
-        output2.src = URL.createObjectURL(event.target.files[0]);
-        };
-    
+       
     
      //--table-jquery--//
         $(document).ready(function(){
             //--table_add/remove w/ number1--/
-                var k=0;
-                lenghtRows = $('#dynamic_field1 tr').length-1;
-                generateIndex = () => {
-                    lenghtRows = $('#dynamic_field1 tr').length-1;
-                    return lenghtRows;
-                }
-                UpdateIndex = () => {
-                    lengthRows = $('#dynamic_field1 tr').length-1;
-                    for (k=0; k<lenghtRows; k++){
-                        $('#dynamic_field1 tr td.cont-item')[k].textContent = k+1;
-                    }
-                } 
-                $('#add3').click(function(){
-                    k=generateIndex();
-                    $('#dynamic_field1').append('<tr id="row'+k+'"><td class="cont-item" >'+k+'</td><td><input type="text" name="lokasiManuverBebas[]" ></td><td><input type="time" name="jamRemoteBebas[]" disabled></td><td><input type="time" name="jamRealBebas[]" disabled></td><td><input type="time" name="jamAdsBebas[]" disabled></td><td><input type="text" name="installManuverBebas[]" ></td><td class="manuver"style=""><button type="button" name="remove" id="'+k+'" class="btn btn-danger btn_remove"><i class="fa fa-times" aria-hidden="true"></i></button></td></tr>');
-                });
-
-                $(document).on('click', '.btn_remove', function(){ 
-                    k-=1; 
-                    var button_id = $(this).attr("id");   
-                    $('#row'+button_id+'').remove();  
-                    UpdateIndex();
-                }); 
-
-            //--table_add/remove w/ number2--/
-                var l=0;
-                generateIndex1 = () => {
-                    lenghtRows1 = $('#dynamic_field2 tr').length-1;
-                    return lenghtRows1;
-                }
-                UpdateIndex1 = () => {
-                    lengthRows = $('#dynamic_field2 tr').length-1;
-                    for (l=0; l<lenghtRows1; l++){
-                        $('#dynamic_field2 tr td.cont-item')[l].textContent = l+1;
-                    }
-                }
-                $('#add4').click(function(){
-                    l=generateIndex1();
-                    $('#dynamic_field2').append('<tr id="row1'+l+'"><td class="cont-item">'+l+'</td><td><input type="text" name="lokasiManuverNormal[]" ></td><td><input type="time" name="jamRemoteNormal[]" disabled></td><td><input type="time" name="jamRealNormal[]" disabled></td><td><input type="time" name="jamAdsNormal[]" disabled></td><td><input type="text" name="installManuverNormal[]"></td><td class="manuver"><button type="button" name="remove" id="'+l+'" class="btn btn-danger btn_remove2"><i class="fa fa-times" aria-hidden="true"></i></button></td></tr>');
-                });
-
-                $(document).on('click', '.btn_remove2', function(){ 
-                    l-=1; 
-                    var button_id1 = $(this).attr("id");   
-                    $('#row1'+button_id1+'').remove();  
-                    UpdateIndex1();
-                }); 
-
 
                 // ======================================autocomplete lokasi==========================================
                 $("#lokasi").keyup(function(){               
@@ -517,7 +377,7 @@
     </script>
 
 
-
+<script src="js/script.js"></script>
 </body>
 
 </html>

@@ -1,29 +1,30 @@
-// let table = document.getElementById('dynamic_field1').getElementsByTagName('td');
-// let table2 = document.getElementById('dynamic_field2').getElementsByTagName('td');
 
 
-// if (table != null) {
-//     for (let i = 0; i<table.length; i++) {
-//         if (table[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
-//             table[i].parentElement.children[1].style.color = "red";
-//             table[i].parentElement.children[5].style.color = "red";
+
+
+
+let table = document.querySelectorAll('#dynamic_field1 td');
+let table2 = document.querySelectorAll('#dynamic_field2 td');
+
+if (table != null) {
+    for (let i = 0; i<table.length; i++) {
+        if (table[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
+            table[i].parentElement.children[1].style.color = "red";
+            table[i].parentElement.children[5].style.color = "red"; 
+        } 
+    }
+}
+
+if (table2 != null) {
+    for (let i = 0; i<table2.length; i++) {
+        if (table2[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
+            table2[i].parentElement.children[1].style.color = "red";
+            table2[i].parentElement.children[5].style.color = "red";
             
-            
-//         } 
-//     }
+        } 
+    }
 
-// }
-
-// if (table2 != null) {
-//     for (let i = 0; i<table2.length; i++) {
-//         if (table2[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
-//             table2[i].parentElement.children[1].style.color = "red";
-//             table2[i].parentElement.children[5].style.color = "red";
-            
-//         } 
-//     }
-
-// }
+}
 
 //=================pop up modal=================================
 
@@ -51,19 +52,38 @@ window.onclick = function(e) {
 };
 
 //==========================tabel manipulasi====================================
-let row1 = document.querySelector("#table1").getElementsByTagName("tr");
-const jumRow = row1.length;
+// let row1 = document.querySelector("#table1").getElementsByTagName("tr");
+// const jumRow = row1.length;
 
-let row2 = document.querySelector("#table2");
+// let row2 = document.querySelector("#table2");
 
-for (let i = 0; i < jumRow; i++) {
-    // di sini code buat nambah row di table 2
-    tableRow = row2.insertRow(0);
-    cell1 = tableRow.insertCell(0);
-    cell2 = tableRow.insertCell(1);
-    cell1.innerHTML = "";
-    cell2.innerHTML = "";
- }
+// for (let i = 0; i < jumRow; i++) {
+//     // di sini code buat nambah row di table 2
+//     tableRow = row2.insertRow(0);
+//     cell1 = tableRow.insertCell(0);
+//     cell2 = tableRow.insertCell(1);
+//     cell1.innerHTML = "";
+//     cell2.innerHTML = "";
+//  }
+
+
+
+
+ function kurang() {
+    let jumlahRow = document.getElementById('table1').rows.length-1;
+    // let jumlahRow2 = document.getElementById('table2').rows.length-1;
+    table = document.getElementById('table1').children[jumlahRow--].children[0].children[1];
+    if (table.value != "0" ){
+    id_hapus = table.cloneNode(true);
+        id_hapus.setAttribute("name","id_ajax_hapus_petugas[]");
+        document.getElementById("form_id").appendChild(id_hapus);
+    }
+    
+    // table2 = document.getElementById('table2').children[jumlahRow2--].children[0];
+
+    table.parentElement.parentElement.remove();
+    // table2.parentElement.parentElement.remove();
+}
 
  function tambah() {
     let table = document.getElementById('table1');
@@ -75,32 +95,20 @@ for (let i = 0; i < jumRow; i++) {
     var cell5 = row.insertCell(4);
     var cell6 = row.insertCell(5);
 
-    cell1.innerHTML = "<input type='text' name='lokasiPembebasan[]'><input type='text' name='id_bebas_update[]' style='' value='0' hidden>";
+    cell1.innerHTML = "<input type='text' name='lokasiPembebasan[]'><input type='text' name='id_update_petugas[]' style='' value='0' >";
     cell2.innerHTML = "";
     cell3.innerHTML = "";
     cell4.innerHTML = "";
     cell5.innerHTML = "";
     cell6.innerHTML = "";
 
-    let table1 = document.getElementById('table2');
-    var row1 = table1.insertRow(-1);
-    var cell7 = row1.insertCell(0);
-    var cell8 = row1.insertCell(1);
+    // let table1 = document.getElementById('table2');
+    // var row1 = table1.insertRow(-1);
+    // var cell7 = row1.insertCell(0);
+    // var cell8 = row1.insertCell(1);
 
-    cell7.innerHTML = "<input type='text' name=spvPenormalan[] id='' style='width:140px;border:1px solid #fff;'>";
-    cell8.innerHTML = "<input type='text' name=oprPenormalan[] id='' style='width:140px;border:1px solid #fff;'>";
-}
-
-let jumlahRow = document.getElementById('table1').rows.length-1;
-function kurang() {
-    table = document.getElementById('table1').children[jumlahRow--].children[0].children[1];
-    if (table.value != "0" ){
-    id_hapus = table.cloneNode(true);
-        id_hapus.setAttribute("name","id_hapus_petugas[]");
-        document.getElementById("form_id").appendChild(id_hapus);
-    }
-    
-    table.parentElement.parentElement.remove();
+    // cell7.innerHTML = "<input type='text' name=spvPenormalan[] id='' style='width:140px;border:1px solid #fff;'>";
+    // cell8.innerHTML = "<input type='text' name=oprPenormalan[] id='' style='width:140px;border:1px solid #fff;'>";
 }
 
 
@@ -108,11 +116,13 @@ function kurang() {
 
 
 
-// tableManuver1 = document.getElementById('dynamic_field1');
-// jumlah_baris = tableManuver1.rows.length-1;
 
-// tableManuver2 = document.getElementById('dynamic_field2');
-// jumlah_baris2 = tableManuver2.rows.length-1;
+
+tableManuver1 = document.getElementById('dynamic_field1');
+jumlah_baris = tableManuver1.rows.length-1;
+
+tableManuver2 = document.getElementById('dynamic_field2');
+jumlah_baris2 = tableManuver2.rows.length-1;
 
 
 // jumlah_sub_row = document.getElementById('sub_dynamic_field1').getElementsByTagName('tr').length;
@@ -128,7 +138,7 @@ function kurang() {
 //     return lengthRows;
 // }
 
-function tambahManuver(a,b,c) {
+function tambahManuver(a,b,c,d,e) {
    
     table = document.getElementById(a);
     var row = table.insertRow(-1);
@@ -141,13 +151,13 @@ function tambahManuver(a,b,c) {
     var cell6 = row.insertCell(5);
     var cell7 = row.insertCell(6);
 
-    cell1.innerHTML = jumlah_baris++;
+    cell1.innerHTML = e++;
     cell2.innerHTML = "<input type='text' name='"+b+"' style='width:8rem;padding:0rem;'>";
     cell3.innerHTML = "";
     cell4.innerHTML = "";
     cell5.innerHTML = "";
     cell6.innerHTML = "<input type='text' name='"+c+"' style='width:8rem;padding:0rem;'>";
-    cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id_update_bebas[]' value='0' hidden>";
+    cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='"+d+"' value='0' >";
     
 }
 
@@ -186,6 +196,7 @@ fileInput.forEach(input => {
         imageElement.src = imageURL; 
     }); 
 });
+
 var k=0;
 // let i=1;
 // let j=0;
@@ -251,4 +262,111 @@ function kurangRowNormal(ini){
 }
 
 
+// ======================================autocomplete nama GITET
+
+let namaGitet = [
+    "Srlya",
+    "Srlyu",
+    "Bnten",
+    "Cwang",
+    "Bkasi",
+    "Priok",
+    "Clgon",
+    "Bjnra",
+    "Lgkng",
+    "Gndul",
+    "Kmban",
+    "Drkbi",
+    "Blrja",
+    "Depok",
+    "Tmbun",
+    "Cbing",
+    "Mtwar",
+    "Crata",
+    "Bdsln",
+    "Sglng",
+    "Clmya",
+    "Sktni",
+    "Tasik",
+    "Idmyu",
+    "Dtmas",
+    "Ksghn",
+    "Mdcan",
+    "Ujbrg",
+    "Adpla",
+    "Clcap",
+    "Ungrn",
+    "Pmlng",
+    "Btang",
+    "Ngbng",
+    "Pedan",
+    "Tjati",
+    "Sbbrt",
+    "Kdiri",
+    "Tjbru",
+    "Grati",
+    "Grsik",
+    "Piton",
+];
+
+let sortNames = namaGitet.sort();
+
+function tambah(){
+    table = document.getElementById("table1");
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+   cell1.innerHTML = "<input type='text' name='lokasiPembebasan[]' id=''>";
+   cell2.innerHTML = "";
+   cell3.innerHTML = "";
+   cell4.innerHTML = "";
+   cell5.innerHTML = "";
+   cell6.innerHTML = "";
+
+   table1 = document.getElementById("table2");
+   var row1 = table1.insertRow(-1);
+   var cell7 = row1.insertCell(0);
+   var cell8 = row1.insertCell(1);
+
+   cell7.innerHTML = "<input type='text' name=spvPenormalan[] id='' disabled>";
+   cell8.innerHTML = "<input type='text' name=oprPenormalan[] id='' disabled>";
+}
+
+function kurang(){
+    table = document.getElementById("table1");
+    row = table.getElementsByTagName('tr');
+    if (row.length!='0'){
+        row[row.length - 1].outerHTML='';
+    }
+    table = document.getElementById("table2");
+    row = table.getElementsByTagName('tr');
+    if (row.length!='0'){
+        row[row.length - 1].outerHTML='';
+    }
+
+}
+
+function tambahBaris(a,b,c) {
+    let table = document.getElementById(a);
+    const newRow = document.createElement('tr');
+    const existingRows = table.querySelectorAll('tr');
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type="text" name="`+b+`" id="" autocomplete="off"></td><td></td><td></td><td></td><td><input type="text" name="`+c+`" id=""></td><td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>`;
+    table.appendChild(newRow);
+}
+
+function kurangBaris(ini) {
+    const row = ini.parentElement.parentElement;
+    const table = ini.parentElement.parentElement.parentElement;
+    row.remove();
+    const existingRows = table.querySelectorAll('tr');
+    existingRows.forEach((row, idx) => {
+        row.childNodes[0].innerText = idx + 1;
+    });
+
+}
 

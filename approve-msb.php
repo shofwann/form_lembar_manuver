@@ -78,10 +78,10 @@ if ($sql){
                             </div>
                         </div>
                         <div class="grid__item grid__item_item02 titel">Creater</div>
-                        <div class="grid__item grid__item_item03 titel">Create Form</div>
+                        <div class="grid__item grid__item_item03 titel border_right">Create Form</div>
                         <div class=" grid__item_item04 "></div>
                         <div class="grid__item grid__item_item05 inputan"><p><?= $data['user']; ?></p></div>
-                        <div class="grid__item grid__item_item06 inputan"><p><?= $data['create_date']; ?></p></div>
+                        <div class="grid__item grid__item_item06 inputan border_right"><p><?= $data['create_date']; ?></p></div>
                     </div>
                     <div class="grid">
                         <div class="grid__item grid__item_item1 titel">pekerjaan</div>

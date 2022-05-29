@@ -45,7 +45,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                document.location.href = 'home.php';
+                //document.location.href = 'home.php';
                 </script>
                 ";  
                 
@@ -53,7 +53,7 @@ if( isset($_POST["submit"]) ){
        // var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                document.location.href = 'home.php';
+                //document.location.href = 'home.php';
                 </script>
                 "; die;
                 
@@ -99,9 +99,9 @@ if( isset($_POST["submit"]) ){
                                     <option value="5" <?php if ($_GET["idx"]== 5 ) echo 'selected="selected"'; ?>>REACTOR</option>
                                 </select>
                                 <label for="">Apakah anda mau MERUBAH form ke DB?</label>
-                                <input id="toggle-on" class="toggle toggle-left" name="chose_db" value="0" type="radio" checked>
+                                <input id="toggle-on" class="toggle toggle-left" name="chose_db" value="0" type="radio" >
                                 <label for="toggle-on" class="btnn">No</label>
-                                <input id="toggle-off" class="toggle toggle-right" name="chose_db" value="2" type="radio">
+                                <input id="toggle-off" class="toggle toggle-right" name="chose_db" value="2" type="radio" checked>
                                 <label for="toggle-off" class="btnn">Yes</label>
                             </div>
                             
@@ -144,7 +144,7 @@ if( isset($_POST["submit"]) ){
                                                     <tr>
                                                         <td>
                                                             <input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]; ?>">
-                                                            <input type="text" name="id_update_petugas[]" value="<?= $manuverBebas["id"]  ?>" hidden></td>
+                                                            <input type="text" name="id_update_petugas[]" value="<?= $manuverBebas["id"]  ?>"></td>
                                                         <td></td>
                                                         <td></td>
                                                         <td></td>
@@ -154,12 +154,12 @@ if( isset($_POST["submit"]) ){
                                                 <?php }?>
                                             </tbody>
                                             <tfoot>
-                                                <?php while ($ajaxPengawas = mysqli_fetch_array($query)) { ?>
+                                                <!-- <?php //while ($ajaxPengawas = mysqli_fetch_array($petugas_gitet_bebas)) { ?>
                                                     <tr>
-                                                        <td><input type="text" name="id_ajax_update_petugas[]" value="<?= $ajaxPengawas['id']?>"></td>
+                                                        <td><input type="text" name="id_ajax_update_petugas[]" value="<?php //$ajaxPengawas['id']?>"></td>
 
                                                     </tr>
-                                                <?php } ?>
+                                                <?php //} ?> -->
                                             </tfoot>
                                         </table> 
                                             <button type="button" id="add1" class="btn green" onclick="tambah()" ><i class='fa fa-plus'></i></button>
@@ -230,7 +230,7 @@ if( isset($_POST["submit"]) ){
                             <div class="grid__item grid__item_item41 inputan">
                                 <div class="form-group ml-2">
                                     <img id="output1" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
-                                    <input type="file" accept="image/*" onchange="loadFile1(event)" name="foto" required="required">
+                                    <input type="file" accept="image/*" onchange="" name="foto" required="required">
                                 </div>
                             </div>
                             <div class="grid__item grid__item_item42 inputan">
@@ -241,7 +241,7 @@ if( isset($_POST["submit"]) ){
                                             <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                             <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                             <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                            <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahManuver('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]')">Add More</button></th>
+                                            <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahManuver('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]','id_update_bebas[]',jumlah_baris)">Add More</button></th>
                                         </tr>
                                         <tr>
                                             <th style="width:9rem;">Remote</th>
@@ -260,8 +260,8 @@ if( isset($_POST["submit"]) ){
                                             <td><?= $pembebasan["ads"]== "00:00:00" ?"": $pembebasan["ads"] ?></td>
                                             <td><input type="text" name="installManuverBebas[]" value="<?= $pembebasan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                             <td>
-                                                <button type="button" onclick="hapus_baris(this,'id_hapus_bebas[]')" class="btn btn-danger btn_remove">X</button>  <!--  -->
-                                                <input type="text" name="id_update_bebas[]" value="<?= $pembebasan["id"] ?>" hidden>
+                                                <button type="button" onclick="hapus_baris(this,'id_ajax_hapus_bebas[]')" class="btn btn-danger btn_remove">X</button>  <!--  -->
+                                                <input type="text" name="id_update_bebas[]" value="<?= $pembebasan["id"] ?>" >
                                             </td>
                                         </tr>
                                             <?php $i++ ?>
@@ -278,7 +278,7 @@ if( isset($_POST["submit"]) ){
                             <div class="grid__item grid__item_item49 inputan">
                                 <div class="form-group ml-2">
                                     <img id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
-                                    <input type="file" accept="image/*" onchange="loadFile2(event)" name="foto2" required="required">
+                                    <input type="file" accept="image/*" onchange="" name="foto2" required="required">
                                 </div>
                             </div>
                             <div class="grid__item grid__item_item50 inputan">
@@ -288,7 +288,7 @@ if( isset($_POST["submit"]) ){
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambahManuver('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]')">Add More</button></th>
+                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambahManuver('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]','id_update_normal[]',jumlah_baris2)">Add More</button></th>
                                     </tr>
                                     <tr>
                                         <th>Remote</th>
@@ -305,8 +305,8 @@ if( isset($_POST["submit"]) ){
                                         <td><?= $penormalan["ads"] == "00:00:00" ?"": $penormalan["ads"] ?></td>
                                         <td><input type="text" name="installManuverNormal[]" value="<?= $penormalan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
                                         <td>
-                                            <button type="button" onclick="hapus_baris(this,'id_hapus2[]')" class="btn btn-danger btn_remove2">X</button>
-                                            <input type="text" name="id_update_normal[]" value="<?= $penormalan["id"] ?>" hidden>
+                                            <button type="button" onclick="hapus_baris(this,'id_ajax_hapus_normal[]')" class="btn btn-danger btn_remove2">X</button>
+                                            <input type="text" name="id_update_normal[]" value="<?= $penormalan["id"] ?>" >
                                         </td>
                                     </tr>
                                         <?php $i++ ?>

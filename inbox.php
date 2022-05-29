@@ -84,7 +84,7 @@ require "functions.php";
                         <?php endforeach; ?>
 
                         <?php
-                            $datas=query("SELECT * FROM db_form WHERE status = 'amnUpdate' AND user_amn = '$_SESSION[username]'");
+                            $datas=query("SELECT * FROM db_form WHERE status = 'amnUbah' AND user_amn = '$_SESSION[username]'");
                         ?>
                         <?php foreach($datas as $row):?>
                         <tr>

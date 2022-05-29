@@ -62,7 +62,7 @@ if( isset($_POST["submit"]) ){
                         <div class="grid__item grid__item_item001">Pilih Form</div>
                         <div class="grid__item grid__item_item002">Pilih Jenis Pekerjaan</div>
                         <div class="grid__item grid__item_item003">Pilih Lokasi</div>
-                        <div class="grid__item grid__item_item004">Pilih detail Lokasi</div>
+                        <div class="grid__item grid__item_item004 border_right">Pilih detail Lokasi</div>
                         <div class="grid__item grid__item_item005">
                             <select name="form" id="form">
                                 <option value="">-SELECT-</option>
@@ -78,14 +78,14 @@ if( isset($_POST["submit"]) ){
                         <div class="grid__item grid__item_item007">
                             <input name="lokasi" type="text" id="lokasi">   
                         </div>
-                        <div class="grid__item grid__item_item008">
+                        <div class="grid__item grid__item_item008 border_right">
                            <input name="detailLokasi" type="text">
                         </div>
                         
                         <div class="grid__item grid__item_item009 titel">Lokasi Pekerjaan</div>
                         <div class="grid__item grid__item_item0010 titel">Manuver Pembebasan</div>
-                        <div class="grid__item grid__item_item0011 titel">Manuver Penormalan</div>
-                        <div class="grid__item grid__item_item0013" >
+                        <div class="grid__item grid__item_item0011 titel border_right">Manuver Penormalan</div>
+                        <div class="grid__item grid__item_item0013  border_bottom" >
                             <table class="table table-bordered">
                                 <thead>
                                     <tr id="tableHead">
@@ -99,7 +99,7 @@ if( isset($_POST["submit"]) ){
                                 <button type="button" id="add1" class="btn btn-success" onclick="tambah1()">+</button>
                                 <button type="button" id="remove1" class="btn btn-danger" onclick="kurang1()">-</button> 
                         </div>
-                        <div class="grid__item grid__item_item0014" >
+                        <div class="grid__item grid__item_item0014 border_bottom" >
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -115,7 +115,7 @@ if( isset($_POST["submit"]) ){
                                 <button type="button" id="add2" class="btn btn-success" onclick="tambah2()">+</button>
                                 <button type="button" id="remove2" class="btn btn-danger" onclick="kurang2()">-</button> 
                         </div>
-                        <div class="grid__item grid__item_item0015" >
+                        <div class="grid__item grid__item_item0015 border_right border_bottom" >
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>

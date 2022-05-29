@@ -49,14 +49,14 @@ if ($sql){
                         <div class="grid__item grid__item_item3 titel">mulai</div>
                         <div class="grid__item grid__item_item4 titel" >selesai</div>
                         <div class="grid__item grid__item_item5 inputan"><p><?= $data["pekerjaan"]; ?></p></div>
-                        <div class="grid__item grid__item_item6 inputan"><p><?= date("d F Y", strtotime($tanggal)); ?></p></div>
-                        <div class="grid__item grid__item_item7 inputan"><p><?= $data["start"]; ?> WIB</p></div>
-                        <div class="grid__item grid__item_item8 inputan"><p><?= $data["end"]; ?> WIB</p></div>
+                        <div class="grid__item grid__item_item6 inputan"><p><?= $dayList[date("D", strtotime($data["date"]))] ?>, <?= date(" d F Y", strtotime($data["date"])); ?></p></div>
+                        <div class="grid__item grid__item_item7 inputan"><p><?= $dayList[date("D", strtotime($data["start"]))] ?>, <?= date("d F Y G:i",strtotime($data["start"])); ?> WIB</p></div>
+                        <div class="grid__item grid__item_item8 inputan"><p><?= $dayList[date("D", strtotime($data["end"]))] ?>, <?= date("d F Y G:i",strtotime($data["end"])); ?> WIB</p></div>
                         <div class="grid__item grid__item_item9 titel">lokasi</div>
                         <div class="grid__item grid__item_item10 titel">installasi</div>
                         <div class="grid__item grid__item_item11 titel">permintaan pembebanan diterima</div>
-                        <div class="grid__item grid__item_item12 inputan"><p><?= $data["lokasi"]; ?></p></div>
-                        <div class="grid__item grid__item_item13 inputan"><p><?= $data["installasi"]; ?></p></div>
+                        <div class="grid__item grid__item_item12 inputan"><p><?= strtoupper($data["lokasi"]); ?></p></div>
+                        <div class="grid__item grid__item_item13 inputan"><p><?= strtoupper($data["installasi"]); ?></p></div>
                         <div class="grid__item grid__item_item14 inputan"><p><?= $data["report_date"]; ?></p></div>
                         <div class="grid__item grid__item_item15 titel">MANUVER PEMBEBASAN INSTALLASI</div>
                         <div class="grid__item grid__item_item16 titel">MANUVER PENORMALAN INSTALLASI</div>

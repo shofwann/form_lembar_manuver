@@ -13,7 +13,7 @@ $idnya = trim($idnya);
 ?>
 <!-- <link rel="stylesheet" href="css/style.css"> -->
  
-    <div class="grid__item grid__item_item0013" style="margin-right:20px;">
+    <div class="grid__item grid__item_item0013 border_right border_bottom" style="margin-right:20px;">
         <table class="table table-bordered" >
             <thead>
                 <tr id="tableHead">
@@ -39,7 +39,7 @@ $idnya = trim($idnya);
         </table>
             <button type="button" id="add1" class="btn btn-success" onclick="tambah1()">+</button>
     </div>
-    <div class="grid__item grid__item_item0014" style="margin-right:5px;margin-left:5px;">
+    <div class="grid__item grid__item_item0014 border_right border_bottom" style="margin-right:5px;margin-left:5px;">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -74,7 +74,7 @@ $idnya = trim($idnya);
         </table>
             <button type="button" id="add2" class="btn btn-success" onclick="tambah2()">+</button>
     </div>
-    <div class="grid__item grid__item_item0015" style="margin-left:10px;">
+    <div class="grid__item grid__item_item0015 border_right border_bottom" style="margin-left:10px;">
         <table class="table table-bordered">
             <thead>
                 <tr>
