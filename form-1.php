@@ -295,6 +295,11 @@
                         <button type="submit" name="submit" >Simpan Form</button>
                 </form>
             </div>
+            <div>
+                <!-- <label for="input">Input</label> -->
+                <input type="text" id="input" />
+                <ul class="bullet" id="suggestions"></ul>
+            </div>
         </div>
 
        

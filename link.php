@@ -32,6 +32,7 @@ if (isset($_GET['url']))
         case 'show_detail';
         include 'show_detail.php';
         break;
+
         case 'updateForm-1';
         include 'updateForm1.php';
         break;
@@ -76,12 +77,27 @@ if (isset($_GET['url']))
         include 'hapusAjax.php';
         break;
 
+        case 'users';
+        include 'admin-users.php';
+        break;
+        
+        case 'userHapus';
+        include 'admin-hapus-user.php';
+        break;
+        
+        case 'userUbah';
+        include 'admin-ubah-user.php';
+        break;
+        
+        case 'jobs';
+        include 'admin-jobs.php';
+        break;
+        
+        case 'hapus';
+        include 'admin-hapus-jobs.php';
+        break;
         
         
-        
-        
-        
-
 
 
 
@@ -93,15 +109,10 @@ if (isset($_GET['url']))
         include 'list_pekerjaan2.php';
         break;
 
-        case 'show_detail';
-        include 'show_detail.php';
-        break;
-
         case 'initiatorInbox';
         include 'initiator-Inbox.php'; //delete
         break;
         
-
         case 'amnInbox';
         include 'amn-inbox.php'; //delete
         break;
@@ -109,7 +120,6 @@ if (isset($_GET['url']))
         case 'amnList';
         include 'amn-list.php'; //delete
         break;
-
 
         case 'msbInbox';
         include 'msb-inbox.php'; //delete
@@ -159,25 +169,6 @@ if (isset($_GET['url']))
         include 'dispa-update-akhir.php';
         break;
 
-        case 'users';
-        include 'admin-users.php';
-        break;
-
-        case 'jobs';
-        include 'admin-jobs.php';
-        break;
-
-        case 'userUbah';
-        include 'admin-usersUbah.php';
-        break;
-
-        case 'userHapus';
-        include 'admin-usersHapus.php';
-        break;
-
-        case 'hapus';
-        include 'admin-hapusPekerjaan.php';
-        break;
 
 
         case 'change-pass';

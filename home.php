@@ -114,23 +114,23 @@ $user=$_SESSION["username"];
 
         <?php if ($_SESSION["level"]=="admin") { ?>
           <li>
-            <a href="#">
-              <i class='fas fa-users'></i>
+            <a href="?url=users">
+              <i class='fa fa-user'></i>
               <span class="link_name">Users</span>
             </a>
             <ul class="sub-menu blank">
-              <li><a class="link_name" href="#">Users</a></li>
+              <li><a class="link_name" href="?url=users">Users</a></li>
             </ul>
           </li>
 
 
           <li>
-            <a href="#">
-              <i class='fas fa-tasks'></i>
+            <a href="?url=jobs">
+              <i class='fa fa-tasks'></i>
               <span class="link_name">Task</span>
             </a>
             <ul class="sub-menu blank">
-              <li><a class="link_name" href="#">Task</a></li>
+              <li><a class="link_name" href="?url=jobs">Task</a></li>
             </ul>
           </li>
         <?php } ?>

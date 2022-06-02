@@ -1401,9 +1401,6 @@ function rubahPass($post){
 
 }
 
-function coba($isi) {
-    
-}
 
 
 

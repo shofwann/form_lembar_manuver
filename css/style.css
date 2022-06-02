@@ -975,6 +975,7 @@
     padding: 2px 6px;
     font-size: 20px;
     cursor: pointer;
+    
   }
 
   .btn.red, .btn_remove, .btn_remove2 {
@@ -989,6 +990,12 @@
 
   .btn.green {
     background-color: green;
+  }
+
+  .color_icon {
+    background-color: rgb(22, 173, 233);
+    border-radius: 4px;
+    padding: 4px 6px;
   }
 
   th {
@@ -1155,16 +1162,23 @@
   }
 
   a.pending {
-    color: #d9d9d9;
-    background-color: #ffbf00;
+    color: #ffbf00;
+    /* background-color: #ffbf00; */
     font-size: 25px;
     padding: 4px
     
   }
 
   a.approve {
-    color: #d9d9d9;
-    background-color: green;
+    color: green;
+    /* background-color: green; */
+    font-size: 25px;
+    padding: 4px
+  }
+
+  a.disapprove {
+    color: red;
+    /* background-color: red; */
     font-size: 25px;
     padding: 4px
   }
@@ -1598,8 +1612,12 @@ ul.info-list li b:after {
   content: ":";
   position: absolute;
   right: 0;
-  
-  
+}
+
+.bullet {
+  position:absolute;
+  list-style-type: none;
+  background-color: #fff;
 }
 
 

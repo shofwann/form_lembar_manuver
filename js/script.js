@@ -351,22 +351,116 @@ function kurang(){
 
 }
 
+
+
+let destination = ["Italy", "Spain", "Portugal", "Brazil"];
+
 function tambahBaris(a,b,c) {
     let table = document.getElementById(a);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type="text" name="`+b+`" id="" autocomplete="off"></td><td></td><td></td><td></td><td><input type="text" name="`+c+`" id=""></td><td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>`;
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type="text" class="inputNew" name="`+b+`" id="inputNew" autocomplete="on"><ul class="bullet" id="suggest"><li>A</li></ul></td><td></td><td></td><td></td><td><input type="text" name="`+c+`" id=""></td><td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>`;
     table.appendChild(newRow);
+    
+    //let ulFieldNew = document.querySelector('#suggest');
+    const inputFieldNew = document.querySelector('.inputNew');
+    const ulFieldNew = document.querySelector('.bullet');
+
+    inputFieldNew.addEventListener('input', changeAutoComplete);
+    ulFieldNew.addEventListener('click', selectItem);
+    console.log(inputFieldNew);
+    console.log(ulFieldNew);
 }
+
+// const parent = document.querySelector('td');
+// let ul = 'ini';
+
+// if(parent.childNode.classList.contains('suggest')) {
+//     ul = document.querySelector('.suggest');
+// }
+
+
+
+function changeAutoComplete({ target }) {
+  let data = target.value;
+  ulFieldNew.innerHTML = ``;
+  if (data.length) {
+    let autoCompleteValues = autoComplete(data);
+    autoCompleteValues.forEach(value => { addItem(value); });
+  }
+}
+
+function autoComplete(inputValue) {
+  return destination.filter(
+    (value) => value.toLowerCase().includes(inputValue.toLowerCase())
+  );
+}
+
+function addItem(value) {
+    ulFieldNew.innerHTML = ulFieldNew.innerHTML + `<li class="">${value}</li>`;
+}
+
+function selectItem({ target }) {
+  if (target.tagName === 'LI') {
+    inputFieldNew.value = target.textContent;
+    ulFieldNew.innerHTML = ``;
+  }
+}
+
 
 function kurangBaris(ini) {
     const row = ini.parentElement.parentElement;
     const table = ini.parentElement.parentElement.parentElement;
     row.remove();
     const existingRows = table.querySelectorAll('tr');
+    
     existingRows.forEach((row, idx) => {
         row.childNodes[0].innerText = idx + 1;
     });
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+// let destination = ["Italy", "Spain", "Portugal", "Brazil"];
+// let inputField = document.getElementById('input');
+// let ulField = document.getElementById('suggestions');
+// inputField.addEventListener('input', changeAutoComplete);
+// ulField.addEventListener('click', selectItem);
+
+// function changeAutoComplete({ target }) {
+//   let data = target.value;
+//   ulField.innerHTML = ``;
+//   if (data.length) {
+//     let autoCompleteValues = autoComplete(data);
+//     autoCompleteValues.forEach(value => { addItem(value); });
+//   }
+// }
+
+
+// function autoComplete(inputValue) {
+//   return destination.filter(
+//     (value) => value.toLowerCase().includes(inputValue.toLowerCase())
+//   );
+// }
+
+// function addItem(value) {
+//   ulField.innerHTML = ulField.innerHTML + `<li class="">${value}</li>`;
+// }
+
+// function selectItem({ target }) {
+//   if (target.tagName === 'LI') {
+//     inputField.value = target.textContent;
+//     ulField.innerHTML = ``;
+//   }
+// }
