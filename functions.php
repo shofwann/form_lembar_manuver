@@ -1303,7 +1303,6 @@ function ubahDB($post) {
 
 function hapusDB($id) {
     global $conn;
-
     mysqli_query($conn,"DELETE FROM db_ajax_lokasi_detail WHERE id_lokasi_detail = $id");
     mysqli_query($conn,"DELETE FROM  db_ajax_table_pengawas WHERE id_lokasi_detail = $id");
     mysqli_query($conn,"DELETE FROM  db_ajax_table_tahapan WHERE id_lokasi_detail = $id");
@@ -1351,6 +1350,14 @@ function hapusUser($id){
 
 function hapus($id) {
     global $conn;
+    $query = mysqli_query($conn,"SELECT * FROM db_form WHERE id = $id");
+    $isiQuery = mysqli_fetch_assoc($query);
+    $dataFoto = array($isiQuery['foto'],$isiQuery['foto2'],$isiQuery['foto_dpf1'],$isiQuery['foto_dpf2']);
+    
+    for ($i=0; $i<count($dataFoto); $i++) {
+        unlink('img/'.$dataFoto[$i]);
+    }
+
     mysqli_query($conn,"DELETE FROM db_form WHERE id = $id");
     mysqli_query($conn,"DELETE FROM db_table_1 WHERE id_form = $id");
     mysqli_query($conn,"DELETE FROM db_table_2 WHERE id_form = $id");
