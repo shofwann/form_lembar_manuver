@@ -96,7 +96,25 @@ if (isset($_GET['url']))
         case 'hapus';
         include 'admin-hapus-jobs.php';
         break;
+
+        case 'form_emergency';
+        include 'form-emergency.php';
+        break;
+
+        case 'form_emergency_auto';
+        include 'form-auto-emergency.php';
+        break;
+
+        case 'update_form_emergency_awal';
+        include 'updateForm_emergency_awal.php';
+        break;
+
+        case 'update_form_emergency_akhir';
+        include 'updateForm_emergency_akhir.php';
+        break;
+
         
+
         
 
 
@@ -213,7 +231,7 @@ else
                         <h4>List Pekerjaan sedang berjalan</h4>
                         <?php while ($listPekerjaanBerlangsung = mysqli_fetch_assoc($sql)) : ?>
                             <ul style="margin-left:19px;">
-                                <li><?= $listPekerjaanBerlangsung['pekerjaan']?></li>
+                                <li><?= $listPekerjaanBerlangsung['pekerjaan']?> <?= ($listPekerjaanBerlangsung['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></li>
                             </ul>
                         <?php endwhile; ?>
                     </div>

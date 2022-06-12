@@ -14,7 +14,9 @@ include 'functions.php';
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
+    
     <form action="proses.php" method="get">
+        <input type="text" name="level" value="<?= $_SESSION['level']; ?>">
         <div class="card">
             <div class="card-header">
                 Pilih Form

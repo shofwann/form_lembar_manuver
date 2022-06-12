@@ -64,7 +64,9 @@ $user=$_SESSION["username"];
                 <li><a href="?url=select-form">Form-Auto</a></li>
               <?php } ?>
               <?php if ($_SESSION["level"]=="dispa") { ?>
-                <li><a href="#">Form-Emergency</a></li>
+                <li><a class="link_name" href="#">Create Form</a></li>
+                <li><a href="?url=form_emergency">Form Emergency</a></li>
+                <li><a href="?url=select-form">Auto Form Emergency</a></li>
               <?php } ?>
             </ul>
           </li>

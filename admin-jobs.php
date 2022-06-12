@@ -1,6 +1,28 @@
 <?php
         require 'functions.php';
-                
+                // untuk link pekerjaan
+$totalData = count(query("SELECT * FROM db_form"));
+$jumlahHalaman = ceil($totalData/$jumlahDataPerHalaman);
+if (isset($_GET['halaman'])){
+    $halamanAktif = $_GET['halaman'];
+} else {
+    $halamanAktif =1;
+}
+
+$dataAwal = ($halamanAktif * $jumlahDataPerHalaman)-$jumlahDataPerHalaman;  //data pertama ditabel
+$jumlahLink = 2;
+
+if ($halamanAktif > $jumlahLink) {
+    $star_number = $halamanAktif - $jumlahLink;
+} else {
+    $star_number = 1;
+}
+
+if($halamanAktif < ($jumlahHalaman-$jumlahLink)){
+    $end_number = $halamanAktif + $jumlahLink;
+} else {
+    $end_number = $jumlahHalaman;
+}
             
 
 ?>

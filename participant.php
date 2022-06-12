@@ -1,6 +1,13 @@
 <?php
         require 'functions.php';  
-        
+        //$totalData = count(query("SELECT * FROM db_form WHERE user_dispa_awal = '$_SESSION[username]' OR user_dispa_akhir = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman"));
+        if (isset($_GET['halaman'])){
+            $halamanAktif = $_GET['halaman'];
+        } else {
+            $halamanAktif =1;
+        }                     
+        $dataAwal = ($halamanAktif * $jumlahDataPerHalaman)-$jumlahDataPerHalaman;  //data pertama ditabel
+        $jumlahLink = 2;
 
 
 ?>
@@ -45,21 +52,24 @@
                     </thead>
                     <tbody>
                         <?php if ($_SESSION["level"]=="initiator") { ?>
-                            <?php $folder = query("SELECT * FROM db_form WHERE user='$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman");  ?>
-                            <?php $no=1; ?>
-                            <?php foreach ( $folder as $data) : ?>
+                            <?php   
+                                $folder = query("SELECT * FROM db_form WHERE user='$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman");  
+                                $totalData = count(query("SELECT * FROM db_form WHERE user = '$_SESSION[username]'")); 
+                                $no=1; 
+                                foreach ( $folder as $data) : 
+                            ?>
                             <tbody>
                                 <tr>
                                 <td class="lebar-tabel"><?= $no+$dataAwal?></td>
                                 <td><?= $data['pekerjaan'];?></td>
-                                <td class="lebar-tabel"><?=  date("d F Y", strtotime($data['date']));?></td>
+                                <td class="lebar-tabel"><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                 <td class="lebar-tabel"><?= $data['lokasi'];?></td>
                                 <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['status'] == "initiator")  {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                             }else{
-                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
                                     <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
@@ -68,7 +78,7 @@
                                             }elseif ($data['msb'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                             }else{
-                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
                                 <td class="lebar-tabel">
@@ -86,21 +96,24 @@
                         <?php } ?>
 
                         <?php if ($_SESSION["level"]=="amn" || $_SESSION["level"] == "plh_amn") { ?>
-                            <?php $folder = query("SELECT * FROM db_form WHERE user_amn='$_SESSION[username]' OR user_msb = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman");  ?>
-                            <?php $no=1; ?>
-                            <?php foreach ( $folder as $data) : ?>
+                            <?php 
+                                $folder = query("SELECT * FROM db_form WHERE user_amn='$_SESSION[username]' OR user_msb = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman"); 
+                                $totalData = count(query("SELECT * FROM db_form WHERE user_amn='$_SESSION[username]' OR user_msb = '$_SESSION[username]'"));
+                                $no=1; 
+                                foreach ( $folder as $data) : 
+                            ?>
                             <tbody>
                                 <tr>
                                     <td><?= $no+$dataAwal?></td>
                                     <td><?= $data['pekerjaan'];?></td>
-                                    <td><?= date("d F Y", strtotime($data['date']));?></td>
+                                    <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                     <td><?= $data['lokasi'];?></td>
                                     <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['status'] == "initiator")  {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                             }else{
-                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
                                     <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
@@ -108,7 +121,7 @@
                                             }elseif ($data['msb'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                             }else{
-                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                                echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
                                     <td>
@@ -125,21 +138,24 @@
                         <?php } ?>
 
                         <?php if ($_SESSION["level"]=="msb" || $_SESSION["level"] == "plh_msb") { ?>
-                            <?php $folder = query("SELECT * FROM db_form WHERE user_msb='$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman");  ?>
-                            <?php $no=1; ?>
-                            <?php foreach ( $folder as $data) : ?>
+                            <?php 
+                                $folder = query("SELECT * FROM db_form WHERE user_msb='$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman");  
+                                $no=1; 
+                                $totalData = count(query("SELECT * FROM db_form WHERE user_msb='$_SESSION[username]'"));
+                                foreach ( $folder as $data) : 
+                            ?>
                             <tbody>
                                 <tr>
                                 <td><?= $no+$dataAwal?></td>
                                 <td><?= $data['pekerjaan'];?></td>
-                                <td><?= $data['date'];?></td>
+                                <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                 <td><?= $data['lokasi'];?></td>
                                 <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
                                             echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                         }else{
-                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                         }?>
                                         
                                 </td>
@@ -148,7 +164,7 @@
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'>< class='icon text-white-50'><i class='fas fa-thumbs-down'></i></a>";
                                         }else{
-                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                         }?>
                                         
 
@@ -167,24 +183,26 @@
                         <?php } ?>
 
                         <?php if ($_SESSION["level"]=="dispa") { ?>
-                            <?php $sql=mysqli_query($conn,"SELECT * FROM db_form WHERE user_dispa_awal = '$_SESSION[username]' OR user_dispa_akhir = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman" );
-                            $no=0;
-                            while ($data=mysqli_fetch_array($sql)){
-                            $no++;
+                            <?php 
+                                $sql=mysqli_query($conn,"SELECT * FROM db_form WHERE user_dispa_awal = '$_SESSION[username]' OR user_dispa_akhir = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman" );
+                                $no=0;                   
+                                $totalData = count(query("SELECT * FROM db_form WHERE user_dispa_awal = '$_SESSION[username]' OR user_dispa_akhir = '$_SESSION[username]' "));
+                                while ($data=mysqli_fetch_array($sql)){
+                                $no++;
                             ?>
 
                                 <tbody>
                                     <tr>
                                     <td><?= $no?></td>
                                     <td><?= $data['pekerjaan'];?></td>
-                                    <td><?= $data['date'];?></td>
+                                    <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                     <td><?= $data['lokasi'];?></td>
                                     <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
                                             echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                         }else{
-                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                         }?>
                                         
                                     </td>
@@ -193,7 +211,7 @@
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'>< class='icon text-white-50'><i class='fas fa-thumbs-down'></i></a>";
                                         }else{
-                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                                            echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                         }?>
                                         
 
@@ -208,17 +226,21 @@
                                     </tr>
                                 </tbody>
                             <?php }?>
+                           
                         <?php } ?>
 
                         <?php if ($_SESSION["level"]=="amn_dispa") { ?>
-                            <?php $folder = query("SELECT * FROM db_form WHERE user_amn_dispa_awal='$_SESSION[username]' OR user_amn_dispa_akhir = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman"); ?>
-                            <?php $no=1; ?>
-                            <?php foreach ( $folder as $data) : ?>
+                            <?php
+                                $folder = query("SELECT * FROM db_form WHERE user_amn_dispa_awal='$_SESSION[username]' OR user_amn_dispa_akhir = '$_SESSION[username]' ORDER BY id DESC LIMIT $dataAwal,$jumlahDataPerHalaman");
+                                $totalData = count(query("SELECT * FROM db_form WHERE user_amn_dispa_awal='$_SESSION[username]' OR user_amn_dispa_akhir = '$_SESSION[username]'"));
+                                $no=1; 
+                                foreach ( $folder as $data) : 
+                            ?>
                             <tbody>
                                 <tr>
                                     <td><?= $no+$dataAwal?></td>
                                     <td><?= $data['pekerjaan'];?></td>
-                                    <td><?= date("d F Y", strtotime($data['date']));?></td>
+                                    <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                     <td><?= $data['lokasi'];?></td>
                                     <td><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
@@ -252,22 +274,38 @@
                         
                     </tbody>
                 </table>
-                <?php if ($halamanAktif > 1) :?>
-                    <a href="home.php?url=participant&halaman=<?= $halamanAktif -1; ?>">&laquo;</a>
-                <?php endif; ?>
+                <?php
+                    $jumlahHalaman = ceil($totalData/$jumlahDataPerHalaman);
 
-                <?php for($i=$star_number; $i<= $end_number; $i++) : ?>
-                    <?php if( $i == $halamanAktif) : ?>
-                        <a href="home.php?url=participant&halaman=<?= $i; ?>" style="font-weight:bold;background-color:grey;"><?= $i; ?></a>
-                    <?php else : ?>
-                        <a href="home.php?url=participant&halaman=<?= $i; ?>"><?= $i; ?></a>
+                    if ($halamanAktif > $jumlahLink) {
+                        $star_number = $halamanAktif - $jumlahLink;
+                    } else {
+                        $star_number = 1;
+                    }
+
+                    if($halamanAktif < ($jumlahHalaman-$jumlahLink)){
+                        $end_number = $halamanAktif + $jumlahLink;
+                    } else {
+                        $end_number = $jumlahHalaman;
+                    }
+                ?>
+                
+                    <?php if ($halamanAktif > 1) :?>
+                        <a href="home.php?url=participant&halaman=<?= $halamanAktif -1; ?>">&laquo;</a>
                     <?php endif; ?>
-                <?php endfor?>
 
-                <?php if ($halamanAktif < $jumlahHalaman) :?>
-                    <a href="home.php?url=participant&halaman=<?= $halamanAktif + 1; ?>">&raquo;</a>
-                <?php endif; ?>
+                    <?php for($i=$star_number; $i<= $end_number; $i++) : ?>
+                        <?php if( $i == $halamanAktif) : ?>
+                            <a href="home.php?url=participant&halaman=<?= $i; ?>" style="font-weight:bold;background-color:grey;"><?= $i; ?></a>
+                        <?php else : ?>
+                            <a href="home.php?url=participant&halaman=<?= $i; ?>"><?= $i; ?></a>
+                        <?php endif; ?>
+                    <?php endfor?>
 
+                    <?php if ($halamanAktif < $jumlahHalaman) :?>
+                        <a href="home.php?url=participant&halaman=<?= $halamanAktif + 1; ?>">&raquo;</a>
+                    <?php endif; ?>
+                
 
             </div>
         </div>

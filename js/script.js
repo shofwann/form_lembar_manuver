@@ -311,6 +311,18 @@ let namaGitet = [
 
 let sortNames = namaGitet.sort();
 
+// =================================mengecek apakah id tersebut exsis================================
+let varlevel = document.getElementById('level');
+if (varlevel != null){
+    level = varlevel.value;
+}
+
+let varStatus = document.getElementById('statusJob');
+if (varStatus != null ){
+    statusJob = varStatus.value;
+}
+
+// =======================================================================================================
 function tambah(){
     table = document.getElementById("table1");
     var row = table.insertRow(-1);
@@ -321,12 +333,12 @@ function tambah(){
     var cell5 = row.insertCell(4);
     var cell6 = row.insertCell(5);
 
-   cell1.innerHTML = "<input type='text' name='lokasiPembebasan[]' id=''>";
-   cell2.innerHTML = "";
-   cell3.innerHTML = "";
-   cell4.innerHTML = "";
-   cell5.innerHTML = "";
-   cell6.innerHTML = "";
+   cell1.innerHTML = `<input type='text' name='lokasiPembebasan[]' placeholder='nama lokasi' autocomplete='off'>`;
+   cell2.innerHTML = `<input type='text' name='peng_pekerjaan[]' placeholder='nama pengawas' class='disabled' autocomplete='off'>`;
+   cell3.innerHTML = `<input type='text' name='peng_manuver[]' placeholder='nama pengawas' class='disabled' autocomplete='off'>`;
+   cell4.innerHTML = `<input type='text' name='peng_k3[]' class='disabled' placeholder='nama pengawas' autocomplete='off'>`;
+   cell5.innerHTML = `<input type='text' name='spv[]' class='disabled' placeholder='nama SPV' autocomplete='off'>`;
+   cell6.innerHTML = `<input type='text' name='opr[]' class='disabled' placeholder='nama Operator' autocomplete='off'>`;
 
    table1 = document.getElementById("table2");
    var row1 = table1.insertRow(-1);
@@ -335,7 +347,18 @@ function tambah(){
 
    cell7.innerHTML = "<input type='text' name=spvPenormalan[] id='' disabled>";
    cell8.innerHTML = "<input type='text' name=oprPenormalan[] id='' disabled>";
+
+   const disabled = document.querySelectorAll('.disabled');
+   
+   if ( level != 'dispa' ){
+       for (i=0; i<disabled.length; i++){
+           disabled[i].style.display = 'none';
+       } 
+
+   }
 }
+
+
 
 function kurang(){
     table = document.getElementById("table1");
@@ -355,21 +378,29 @@ function kurang(){
 
 let destination = ["Italy", "Spain", "Portugal", "Brazil"];
 
-function tambahBaris(a,b,c) {
+function tambahBaris(a,b,c,aa,bb,cc) {
     let table = document.getElementById(a);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type="text" class="inputNew" name="`+b+`" id="inputNew" autocomplete="on"><ul class="bullet" id="suggest"><li>A</li></ul></td><td></td><td></td><td></td><td><input type="text" name="`+c+`" id=""></td><td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>`;
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type="text" class="inputNew" placeholder="lokasi" name="`+b+`" id="inputNew" autocomplete="on"></td><td><input type="time" class="disableManuver" name="`+aa+`"></td><td><input type="time" class="disableManuver" name="`+bb+`"></td><td><input type="time" class="disableManuver" name="`+cc+`"></td><td><input type="text" name="`+c+`" placeholder="installasi" id=""></td><td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>`;
     table.appendChild(newRow);
-    
-    //let ulFieldNew = document.querySelector('#suggest');
-    const inputFieldNew = document.querySelector('.inputNew');
-    const ulFieldNew = document.querySelector('.bullet');
 
-    inputFieldNew.addEventListener('input', changeAutoComplete);
-    ulFieldNew.addEventListener('click', selectItem);
-    console.log(inputFieldNew);
-    console.log(ulFieldNew);
+    const disableManuver = document.querySelectorAll('.disableManuver');
+    if (level != 'dispa'){
+        for (i=0; i<disableManuver.length; i++){
+            disableManuver[i].style.display = 'none';
+        }
+    }
+
+    const disableManuverBebas = document.querySelectorAll('#dynamic_field2 tr td .disableManuver');
+    if(statusJob == '') {
+        for (i=0; i<disableManuverBebas.length; i++){
+            disableManuverBebas[i].style.display = 'none';
+        }
+
+    }
+
+   
 }
 
 // const parent = document.querySelector('td');
@@ -381,31 +412,8 @@ function tambahBaris(a,b,c) {
 
 
 
-function changeAutoComplete({ target }) {
-  let data = target.value;
-  ulFieldNew.innerHTML = ``;
-  if (data.length) {
-    let autoCompleteValues = autoComplete(data);
-    autoCompleteValues.forEach(value => { addItem(value); });
-  }
-}
 
-function autoComplete(inputValue) {
-  return destination.filter(
-    (value) => value.toLowerCase().includes(inputValue.toLowerCase())
-  );
-}
 
-function addItem(value) {
-    ulFieldNew.innerHTML = ulFieldNew.innerHTML + `<li class="">${value}</li>`;
-}
-
-function selectItem({ target }) {
-  if (target.tagName === 'LI') {
-    inputFieldNew.value = target.textContent;
-    ulFieldNew.innerHTML = ``;
-  }
-}
 
 
 function kurangBaris(ini) {
@@ -420,11 +428,18 @@ function kurangBaris(ini) {
 
 }
 
+function hapus_baris_emergency(a) {
+    let baris = a.parentElement.parentElement;
+    baris.remove();
+}
 
 
+const varEmergency = document.querySelectorAll("#emergency");
+for (i=0; i<varEmergency.length; i++){
+    varEmergency[i].innerText = 'emergency'
+    varEmergency[i].style.color = 'red'
 
-
-
+}
 
 
 
@@ -464,3 +479,4 @@ function kurangBaris(ini) {
 //     ulField.innerHTML = ``;
 //   }
 // }
+

@@ -5,6 +5,13 @@ $search = $_GET["search"];
 $query = "SELECT * FROM db_form WHERE (user = '$_SESSION[username]' OR user_amn = '$_SESSION[username]' OR user_msb = '$_SESSION[username]') AND (pekerjaan LIKE '%$search%' OR date LIKE '%$search%' OR lokasi LIKE '%$search%')";
 $folder = query($query);
 
+if (isset($_GET['halaman'])){
+    $halamanAktif = $_GET['halaman'];
+} else {
+    $halamanAktif =1;
+}  
+$dataAwal = ($halamanAktif * $jumlahDataPerHalaman)-$jumlahDataPerHalaman;  //data pertama ditabel
+        $jumlahLink = 2;
 
 
  
@@ -42,7 +49,7 @@ $folder = query($query);
                 }elseif ($data['status'] == "initiator") {
                     echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                 }else{
-                    echo "<a href='#' class='pending w3-xlarge w3-text-orange' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                    echo "<a href='#' class='pending w3-xlarge w3-text-orange' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                 }?>
                 <a href='createPDF.php?id=<?= $data['id'];?>&jumlah=' class='' hidden><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
         </td>
@@ -52,7 +59,7 @@ $folder = query($query);
                 }elseif ($data['msb'] == "disapprove") {
                     echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                 }else{
-                    echo "<a href='#' class='pending w3-xlarge w3-text-orange' title='pending'><i class='fa fa-spinner' aria-hidden='true'></i></a>";
+                    echo "<a href='#' class='pending w3-xlarge w3-text-orange' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                    
                 }?>
                 
@@ -70,17 +77,7 @@ $folder = query($query);
     <?php $no++ ?>
     <?php endforeach; ?>
     <script>
-        // var clas1 = document.getElementsByClassName('disapprove');
-        // var clas2 = document.getElementsByClassName('pending');
-
-        // for (let i=0; i<clas1.length; i++) {
-        //     clas1[i].parentElement.children[1].style.display='none';
-        // }
-
-        // for (let i=0; i<clas2.length; i++) {
-        //     clas2[i].parentElement.children[1].style.display='none';
-        // }
-
+     
         
     </script>
 </table>

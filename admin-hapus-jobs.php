@@ -10,7 +10,7 @@ $id = $_GET["id"];
             </script>";
     } else {
         echo "<script>
-                alert ('data berhasil dihapus');
+                alert ('data gagal dihapus');
                 document.location.href ='home.php?url=jobs';
             </script>";
 

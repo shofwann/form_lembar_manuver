@@ -152,8 +152,8 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
@@ -169,13 +169,13 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=dispaInputAwal&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAwal' : 'update_form_emergency_awal' ?>&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?>
@@ -187,13 +187,13 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td> 
-                            <a href="?url=dispaInputAkhir&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                            <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAkhir' : 'update_form_emergency_akhir' ?>&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?>
@@ -204,13 +204,13 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=dispaInputAkhir&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAkhir' : 'update_form_emergency_akhir' ?>&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?> 
@@ -226,8 +226,8 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
@@ -245,8 +245,8 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
@@ -263,8 +263,8 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
@@ -281,8 +281,8 @@ require "functions.php";
                         <?php foreach($datas as $row):?>
                         <tr>
                             <td><?=$i;?></td>
-                            <td><?= $row["pekerjaan"];?></td>
-                            <td><?= $row["date"];?></td>
+                            <td><?= $row["pekerjaan"];?> <?= ($row['user'] != '') ? '<span style="color:blue;font-weight: bold;">(terencana)</span>' : '<span style="color:red;font-weight: bold;">(emergency)</span>' ?></td>
+                            <td><?= $dayList[date("D", strtotime($row["date"]))]?>, <?= date(" d F Y", strtotime($row["date"])); ?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>

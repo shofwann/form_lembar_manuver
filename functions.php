@@ -4,29 +4,7 @@ date_default_timezone_set('Asia/Jakarta');
 
 $jumlahDataPerHalaman = 10;
 
-// untuk link pekerjaan
-$totalData = count(query("SELECT * FROM db_form"));
-$jumlahHalaman = ceil($totalData/$jumlahDataPerHalaman);
-if (isset($_GET['halaman'])){
-    $halamanAktif = $_GET['halaman'];
-} else {
-    $halamanAktif =1;
-}
 
-$dataAwal = ($halamanAktif * $jumlahDataPerHalaman)-$jumlahDataPerHalaman;  //data pertama ditabel
-$jumlahLink = 2;
-
-if ($halamanAktif > $jumlahLink) {
-    $star_number = $halamanAktif - $jumlahLink;
-} else {
-    $star_number = 1;
-}
-
-if($halamanAktif < ($jumlahHalaman-$jumlahLink)){
-    $end_number = $halamanAktif + $jumlahLink;
-} else {
-    $end_number = $jumlahHalaman;
-}
 
 // untuk user list
 //$jumlahDataPerHalamanUser = 10;
@@ -93,7 +71,7 @@ function tambah($post){
     //print_r($_POST);exit;
     // cara-1
        
-    $query = "INSERT INTO db_form (id,create_date,user,pekerjaan,date,start,end,lokasi,installasi,foto,foto2,catatan_pra_pembebasan,catatan_pra_penormalan,status,jenis_pekerjaan,chose_db) VALUES ($idTask,'$create_date','$user','$pekerjaan','$date','$start','$end','$lokasi','$instal','$foto','$foto2','$catatanPraBebas','$catatanPraNormal','amn',$jenis,$pilihanDB)";
+    $query = "INSERT INTO db_form (id,create_date,create_user,user,pekerjaan,date,start,end,lokasi,installasi,foto,foto2,catatan_pra_pembebasan,catatan_pra_penormalan,status,jenis_pekerjaan,chose_db) VALUES ($idTask,'$create_date','$user','$user','$pekerjaan','$date','$start','$end','$lokasi','$instal','$foto','$foto2','$catatanPraBebas','$catatanPraNormal','amn',$jenis,$pilihanDB)";
     mysqli_query($conn,$query);
     
     if (isset($post["lokasiPembebasan"])){
@@ -607,48 +585,7 @@ function ubah($post){
     
 }
 
-function upload($post){
-    $namaFile = $_FILES[$post]["name"];
-    $ukuranFile = $_FILES[$post]["size"];
-    $error = $_FILES[$post]["error"];
-    $tmpNama = $_FILES[$post]["tmp_name"];
 
-    //cek apakah tidak ada gambar yg diupload
-    if( $error === 4) {     //angka 4 indikasi error tidak ada gambar yg diupload baku
-        echo "<script>
-                alert ('Anda belum upload gambar!');
-                </script>";
-        return false;
-    }
-    //cek yang diupload gambar atau bukan
-    $ekstensiGambarValid = ['jpg','jpeg','png']; //menentukan format
-    $ekstensiGambar = explode('.',$namaFile); //explode untuk delimiter nama file menjadi array contoh shofwan.jpg menjadi ['shofwan'.'jpg']
-    $ekstensiGambar = strtolower(end($ekstensiGambar)); // end untuk mengambil array paling belakang dimana paling belakang jpg/png/jpeg strtolower untuk mengecilkan huruf jika format kapital
-    if( !in_array($ekstensiGambar,$ekstensiGambarValid)){
-        echo "<script>
-                alert ('Anda tidak mengupload gambar format jpg, jpeg dan png!');
-                </script>";
-        return false;
-
-    } 
-
-    //cek ukuran gambar
-    if( $ukuranFile > 1000000){
-        echo "<script>
-                alert ('Anda mengupload gambar ukuran diatas 1MW');
-                </script>";
-        return false;
-    }
-
-    //lolos upload
-    //generate nama gambar agar tidak ada yg sama
-    $namaFileBaru = uniqid();                               //membuat nama file random
-    $namaFileBaru .= '.';                                   //menggabungkan nama file baru dengan ekstensu eksisting
-    $namaFileBaru .= $ekstensiGambar;
-    move_uploaded_file($tmpNama, 'img/' . $namaFileBaru);
-    return  $namaFileBaru;
-
-}
 
 function tambahFormAuto($post){
     global $conn;
@@ -920,47 +857,7 @@ function inputDispaAwal($post) {
     return mysqli_affected_rows($conn);
 }
 
-function upload3() {
-    $namaFile = $_FILES["dpfFile_awal"]["name"];
-    $ukuranFile = $_FILES["dpfFile_awal"]["size"];
-    $error = $_FILES["dpfFile_awal"]["error"];
-    $tmpNama = $_FILES["dpfFile_awal"]["tmp_name"];
 
-    // cek apakah tidak ada gambar yg diupload
-    // if ($error === 4) {
-    //     echo "<script>
-    //             alert ('Anda belum upload gambar!');
-    //           </script>";
-    //     return false;
-    // }
-    //cek yang diupload gambar atau bukan
-    $ekstensiGambarValid = ['jpg','jpeg','png','jfif']; //menentukan format
-    $ekstensiGambar = explode('.',$namaFile); //explode untuk delimiter nama file menjadi array contoh shofwan.jpg menjadi ['shofwan'.'jpg']
-    $ekstensiGambar = strtolower(end($ekstensiGambar)); // end untuk mengambil array paling belakang dimana paling belakang jpg/png/jpeg strtolower untuk mengecilkan huruf jika format kapital
-    if( !in_array($ekstensiGambar,$ekstensiGambarValid)){
-        echo "<script>
-                alert ('Anda tidak mengupload gambar format jpg, jpeg dan png!');
-                </script>";
-        return false;
-
-    } 
-
-    //cek ukuran gambar
-    if( $ukuranFile > 1000000){
-        echo "<script>
-                alert ('Anda mengupload gambar ukuran diatas 1MW');
-                </script>";
-        return false;
-    }
-
-    //lolos upload
-    //generate nama gambar agar tidak ada yg sama
-    $namaFileBaru = uniqid();                               //membuat nama file random
-    $namaFileBaru .= '.';                                   //menggabungkan nama file baru dengan ekstensu eksisting
-    $namaFileBaru .= $ekstensiGambar;
-    move_uploaded_file($tmpNama, 'dpf/' . $namaFileBaru);
-    return  $namaFileBaru;
-}
 
 
 function inputDispaAkhir($post) {
@@ -1079,18 +976,22 @@ function amnDispaAproveAwal($post) {
     $aproval = $post["aproval"];
     $timaAprovalAmnDispaAwal = $post["time"];
     $catatan = $post["catatan_amndis_awal"];
+    $level = $post["level"];
+    
 
     if ($aproval == 'approve') {
-        mysqli_query($conn,"UPDATE db_form SET status = 'dispaAkhir'  WHERE id='$idTask'");
+        $status = 'dispaAkhir';
     } elseif ($aproval == 'disapprove'){
-        mysqli_query($conn,"UPDATE db_form SET status = 'dispaAwalUbah'  WHERE id='$idTask'");
+        $status = 'dispaAwalUbah';
     }
 
     $query = "UPDATE db_form SET
               user_amn_dispa_awal = '$userAmnDispa',
               amn_dispa_awal = '$aproval',
               time_amnDispa_awal_aprove = '$timaAprovalAmnDispaAwal',
-              catatan_amnDispa_awal = '$catatan'
+              catatan_amnDispa_awal = '$catatan',
+              level_amn_dispa_awal = '$level',
+              `status` = '$status'
               WHERE id = '$idTask'
              ";
     mysqli_query($conn,$query);
@@ -1355,13 +1256,14 @@ function hapus($id) {
     $dataFoto = array($isiQuery['foto'],$isiQuery['foto2'],$isiQuery['foto_dpf1'],$isiQuery['foto_dpf2']);
     
     for ($i=0; $i<count($dataFoto); $i++) {
-        unlink('img/'.$dataFoto[$i]);
+        if(!empty($dataFoto[$i])){
+            unlink('img/'.$dataFoto[$i]);
+        }
     }
 
     mysqli_query($conn,"DELETE FROM db_form WHERE id = $id");
-    mysqli_query($conn,"DELETE FROM db_table_1 WHERE id_form = $id");
-    mysqli_query($conn,"DELETE FROM db_table_2 WHERE id_form = $id");
-    mysqli_query($conn,"DELETE FROM db_table_3 WHERE id_form = $id");
+    mysqli_query($conn,"DELETE FROM db_table_pengawas WHERE id_form = $id");
+    mysqli_query($conn,"DELETE FROM db_table_tahapan WHERE id_form = $id");
     return mysqli_affected_rows($conn);
 }
 
@@ -1391,22 +1293,380 @@ function rubahPass($post){
         return false;
     }
 
+    return mysqli_affected_rows($conn);
+}
 
-    // if( $o_pass !== $num["password"] ){
-    //     echo "<script>alert('Password lama belum sesuai');</script>";
+function tambahEmergency($post){
+    
+    global $conn;
+    $create_date = $post["create_date"];//ok
+    $user = $post["user_creater"]; ;//ok
+    $idTask =$post["idTask"];//ok
+    $pekerjaan = htmlspecialchars($post["pekerjaan"]);//ok
+    $date = $post["date"];
+    $start = $post["start"];
+    $end = $post["end"];
+    $lokasi = strtolower(ltrim(rtrim(htmlspecialchars($post["lokasi"]))));//================ke DB
+    $instal = strtolower(ltrim(rtrim(htmlspecialchars($post["instal"]))));//================ ke DB
+    $report = $post["report_date"];
 
-    // }
+    if (!$end){
+        $end = "00:00:00";
+    }
+
+    $pengawas = serialize([
+        [
+            "lokasi" => $post["lokasiPembebasan"],
+            "peng_pekerjaan" => $post["peng_pekerjaan"],
+            "peng_manuver" => $post["peng_manuver"],
+            "peng_k3" => $post["peng_k3"],
+            "spv" => $post["spv"],
+            "opr" => $post["opr"]
+        ]
+    ]);
+
+    if (isset($_POST["document"])){
+        $document = implode(",", $post["document"]);
+    }
+    
+    $surat = uploadSurat();
+
+    $scada_awal_before = htmlspecialchars($post["scada_awal_before"]);
+    
+    $scada_awal_after = htmlspecialchars($post["scada_awal_after"]);
+
+    $catatanPraBebas = htmlspecialchars($post["catatan_pra_bebas"]);
+
+    $foto = upload("foto"); 
+     if( !$foto ){
+         return false;
+     }
+    
+    $manuverBebas = serialize([
+        [
+            "lokasi" => $post["lokasiManuverBebas"],
+            "remote_bebas" => $post["remote_bebas"],
+            "real_bebas" => $post["real_bebas"],
+            "ads_bebas" => $post["ads_bebas"],
+            "installManuverBebas" => $post["installManuverBebas"]
+        ]
+    ]);
+
+    $catatanPascaBebas = htmlspecialchars($post["catatan_pasca_bebas"]);
+
+    $query = "INSERT INTO db_form 
+                (id,create_date,create_user,user_dispa_awal,pekerjaan,`date`,`start`,`end`,lokasi,installasi,emergency_pengawas_bebas,document,surat,scada_awal_before,scada_awal_after,catatan_pra_pembebasan,foto,emergency_bebas,catatan_pasca_pembebasan,`status`,report_date)
+              VALUES
+                ($idTask,'$create_date','$user','$user','$pekerjaan','$date','$start','$end','$lokasi','$instal','$pengawas','$document','$surat','$scada_awal_before','$scada_awal_after','$catatanPraBebas','$foto','$manuverBebas','$catatanPascaBebas','amnDispaAwal','$report')
+             ";
+
+
+// var_dump($query); die;
+    mysqli_query($conn,$query);
+
+    return mysqli_affected_rows($conn);
+
+}
+
+function ubahEmergencyAwal($post){
+    global $conn;
+    $create_date = $post["create_date"];//ok
+    $user = $post["user"]; ;//ok
+    $idTask =$post["idTask"];//ok
+    $pekerjaan = htmlspecialchars($post["pekerjaan"]);//ok
+    $date = $post["date"];
+    $start = $post["start"];
+    $end = $post["end"];
+    $report =$post["report_date"];
+    $lokasi = strtolower(ltrim(rtrim(htmlspecialchars($post["lokasi"]))));//================ke DB
+    $instal = strtolower(ltrim(rtrim(htmlspecialchars($post["instal"]))));//================ ke DB
+    $filelama = $post["filelama"];
+    $fotoLamaBebas = $post["fotoLamaBebas"];
+    $fotoLamaNormal = $post["fotoLamaNormal"];
+    $statusAwal = $post["status"];
+    $timaAprovalAmnDispaAwal = $post["dateAprove"];
+
+    if (!$end){
+        $end = "00:00:00";
+    }
+
+    $pengawas = serialize([
+        [
+            "lokasi" => $post["lokasiPembebasan"],
+            "peng_pekerjaan" => $post["peng_pekerjaan"],
+            "peng_manuver" => $post["peng_manuver"],
+            "peng_k3" => $post["peng_k3"],
+            "spv" => $post["spv"],
+            "opr" => $post["opr"]
+        ]
+    ]);
+
+    if (isset($_POST["document"])){
+        $document = implode(",", $post["document"]);
+        // mysqli_query($conn,"UPDATE db_form SET document = '$document' WHERE id=$idTask");
+    }
+
+    if( $_FILES['pdf']['error'] === 4){
+        $surat = $filelama;
+    } else {
+        $surat = uploadSurat();
+    }
+    
+    $scada_awal_before = htmlspecialchars($post["scada_awal_before"]);
+    $scada_awal_after = htmlspecialchars($post["scada_awal_after"]);
+    $catatanPraBebas = htmlspecialchars($post["catatan_pra_bebas"]);
+
+    if( $_FILES['foto']['error'] === 4){
+        $foto = $fotoLamaBebas;
+    } else {
+        $foto = upload("foto");
+    }
+
+    $manuverBebas = serialize([
+        [
+            "lokasi" => $post["lokasiManuverBebas"],
+            "remote_bebas" => $post["remote_bebas"],
+            "real_bebas" => $post["real_bebas"],
+            "ads_bebas" => $post["ads_bebas"],
+            "installManuverBebas" => $post["installManuverBebas"]
+        ]
+    ]);
+
+    $catatanPascaBebas = htmlspecialchars($post["catatan_pasca_bebas"]);
 
     
-    // die();
 
-    // if ($num > 0) {
-    //     mysqli_query($conn,"UPDATE db_user SET password = '$n_pass' WHERE id = '$id'");
-    // } 
+    if($statusAwal == 'dispaAwalUbah') {
+        $status = 'amnDispaAwalUbah';
+    } else {
+        $status = 'amnDispaAwal';
+    }
+
+    $query = "UPDATE db_form SET
+              pekerjaan = '$pekerjaan',
+              `date` = '$date',
+              `start` = '$start',
+              `end` = '$end',
+              lokasi = '$lokasi',
+              installasi = '$instal',
+              emergency_pengawas_bebas = '$pengawas',
+              foto = '$foto', 
+              foto2 = '$foto2',
+              document = '$document',
+              surat = '$surat',
+              scada_awal_before = '$scada_awal_before',
+              scada_awal_after = '$scada_awal_after',
+              catatan_pra_pembebasan = '$catatanPraBebas',
+              foto = '$foto',
+              emergency_bebas = '$manuverBebas',
+              catatan_pasca_pembebasan = '$catatanPascaBebas',
+              report_date = '$report',
+              time_dispa_awal_aprove = '$timaAprovalAmnDispaAwal',
+              `status` = '$status'
+              WHERE id = $idTask;
+            ";
+    mysqli_query($conn,$query);
+
+    return mysqli_affected_rows($conn);
+
+}
+
+function ubahEmergencyAkhir($post){
+    global $conn;
+    $user = $post["user"]; ;//ok
+    $idTask =$post["idTask"];//ok
+    $fotoLamaNormal = $post["fotoLamaNormal"];
+    $statusAwal = $post["status"];
+    $timaAprovalAmnDispaAwal = $post["dateAprove"];
+
+    $pengawas = serialize([
+        [
+            "spv" => $post["spv_normal"],
+            "opr" => $post["opr_normal"]
+        ]
+        
+    ]);
+
+    $scada_akhir_before = htmlspecialchars($post["scada_akhir_before"]);
+    $scada_akhir_after = htmlspecialchars($post["scada_akhir_after"]);
+    $catatanPraNormal =htmlspecialchars($post["catatan_pra_normal"]);
+
+    if( $_FILES['foto2']['error'] === 4){
+        $foto2 = $fotoLamaNormal;
+    } else {
+        $foto2 = upload("foto2");
+    }
+
+    $manuverNormal = serialize([
+        [
+            "lokasi" => $post["lokasiManuverNormal"],
+            "remote_normal" => $post["remote_normal"],
+            "real_normal" => $post["real_normal"],
+            "ads_normal" => $post["ads_normal"],
+            "installManuverNormal" => $post["installManuverNormal"]
+        ]
+        
+    ]);
+
+    $catatanPascaNormal = htmlspecialchars($post["catatan_pasca_normal"]);
+
+    if($statusAwal == 'dispaAkhirUbah') {
+        $status = 'amnDispaAkhirUbah';
+    } else {
+        $status = 'amnDispaAkhir';
+    }
+
+    $query = "UPDATE db_form SET
+                user_dispa_akhir ='$user',
+                emergency_pengawas_normal = '$pengawas',
+                emergency_normal = '$manuverNormal',
+                scada_akhir_before = '$scada_akhir_before',
+                scada_akhir_after ='$scada_akhir_after',
+                catatan_pra_penormalan = '$catatanPraNormal',
+                catatan_pasca_penormalan = '$catatanPascaNormal',
+                foto2 ='$foto2 ',
+                emergency_normal = '$manuverNormal',
+                time_dispa_akhir_aprove = '$timaAprovalAmnDispaAwal',
+                `status` = '$status'
+                WHERE id = $idTask;
+            ";
+    mysqli_query($conn,$query);
+
     return mysqli_affected_rows($conn);
 
 
 }
+
+// ===========================================================================untuk upload gambar manuver===========================================
+function upload($post){
+    $namaFile = $_FILES[$post]["name"];
+    $ukuranFile = $_FILES[$post]["size"];
+    $error = $_FILES[$post]["error"];
+    $tmpNama = $_FILES[$post]["tmp_name"];
+
+    //cek apakah tidak ada gambar yg diupload
+    if( $error === 4) {     //angka 4 indikasi error tidak ada gambar yg diupload baku
+        echo "<script>
+                alert ('Anda belum upload gambar!');
+                </script>";
+        return false;
+    }
+    //cek yang diupload gambar atau bukan
+    $ekstensiGambarValid = ['jpg','jpeg','png']; //menentukan format
+    $ekstensiGambar = explode('.',$namaFile); //explode untuk delimiter nama file menjadi array contoh shofwan.jpg menjadi ['shofwan'.'jpg']
+    $ekstensiGambar = strtolower(end($ekstensiGambar)); // end untuk mengambil array paling belakang dimana paling belakang jpg/png/jpeg strtolower untuk mengecilkan huruf jika format kapital
+    if( !in_array($ekstensiGambar,$ekstensiGambarValid)){
+        echo "<script>
+                alert ('Anda tidak mengupload gambar format jpg, jpeg dan png!');
+                </script>";
+        return false;
+
+    } 
+
+    //cek ukuran gambar
+    if( $ukuranFile > 10000000){
+        echo "<script>
+                alert ('Anda mengupload gambar ukuran diatas 1MW');
+                </script>";
+        return false;
+    }
+
+    //lolos upload
+    //generate nama gambar agar tidak ada yg sama
+    $namaFileBaru = uniqid();                               //membuat nama file random
+    $namaFileBaru .= '.';                                   //menggabungkan nama file baru dengan ekstensu eksisting
+    $namaFileBaru .= $ekstensiGambar;
+    move_uploaded_file($tmpNama, 'img/' . $namaFileBaru);
+    return  $namaFileBaru;
+
+}
+
+function uploadDpf($post) {
+    $namaFile = $_FILES[$post]["name"];
+    $ukuranFile = $_FILES[$post]["size"];
+    $error = $_FILES[$post]["error"];
+    $tmpNama = $_FILES[$post]["tmp_name"];
+
+    // cek apakah tidak ada gambar yg diupload
+    // if ($error === 4) {
+    //     echo "<script>
+    //             alert ('Anda belum upload gambar!');
+    //           </script>";
+    //     return false;
+    // }
+    //cek yang diupload gambar atau bukan
+    $ekstensiGambarValid = ['jpg','jpeg','png','jfif']; //menentukan format
+    $ekstensiGambar = explode('.',$namaFile); //explode untuk delimiter nama file menjadi array contoh shofwan.jpg menjadi ['shofwan'.'jpg']
+    $ekstensiGambar = strtolower(end($ekstensiGambar)); // end untuk mengambil array paling belakang dimana paling belakang jpg/png/jpeg strtolower untuk mengecilkan huruf jika format kapital
+    if( !in_array($ekstensiGambar,$ekstensiGambarValid)){
+        echo "<script>
+                alert ('Anda tidak mengupload gambar format jpg, jpeg dan png!');
+                </script>";
+        return false;
+
+    } 
+
+    //cek ukuran gambar
+    if( $ukuranFile > 10000000){
+        echo "<script>
+                alert ('Anda mengupload gambar ukuran diatas 1MW');
+                </script>";
+        return false;
+    }
+
+    //lolos upload
+    //generate nama gambar agar tidak ada yg sama
+    $namaFileBaru = uniqid();                               //membuat nama file random
+    $namaFileBaru .= '.';                                   //menggabungkan nama file baru dengan ekstensu eksisting
+    $namaFileBaru .= $ekstensiGambar;
+    move_uploaded_file($tmpNama, 'dpf/' . $namaFileBaru);
+    return  $namaFileBaru;
+}
+
+function uploadSurat() {
+    $namaFile = $_FILES["pdf"]["name"];
+    $ukuranFile = $_FILES["pdf"]["size"];
+    $error = $_FILES["pdf"]["error"];
+    $tmpNama = $_FILES["pdf"]["tmp_name"];
+
+    //cek apakah tidak ada gambar yg diupload
+    if( $error === 4) {     //angka 4 indikasi error tidak ada gambar yg diupload baku
+        echo "<script>
+                alert ('Anda belum upload document!');
+                </script>";
+        return false;
+    }
+
+    //cek yang diupload gambar atau bukan
+    $ekstensiGambarValid = ['jpg','jpeg','png','pdf']; //menentukan format
+    $ekstensiGambar = explode('.',$namaFile); //explode untuk delimiter nama file menjadi array contoh shofwan.jpg menjadi ['shofwan'.'jpg']
+    $ekstensiGambar = strtolower(end($ekstensiGambar)); // end untuk mengambil array paling belakang dimana paling belakang jpg/png/jpeg strtolower untuk mengecilkan huruf jika format kapital
+    if( !in_array($ekstensiGambar,$ekstensiGambarValid)){
+        echo "<script>
+                alert ('Anda tidak mengupload document format dpf, jpg, jpeg dan png!');
+                </script>";
+        return false;
+
+    } 
+
+    //cek ukuran gambar
+    if( $ukuranFile > 10000000){
+        echo "<script>
+                alert ('Anda mengupload gambar ukuran diatas 10MW');
+                </script>";
+        return false;
+    }
+
+    //lolos upload
+    //generate nama gambar agar tidak ada yg sama
+    $namaFileBaru = 'SURAT_'.date('dmY_His');                               //membuat nama file random
+    $namaFileBaru .= '.';                                   //menggabungkan nama file baru dengan ekstensu eksisting
+    $namaFileBaru .= $ekstensiGambar;
+    move_uploaded_file($tmpNama, 'surat/' . $namaFileBaru);
+    return  $namaFileBaru;
+}
+
+
 
 
 

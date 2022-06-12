@@ -40,7 +40,7 @@ if ($sql){
                         <div class="grid__item grid__item_item02 titel">Creater</div>
                         <div class="grid__item grid__item_item03 titel">Create Form</div>
                         <div class=" grid__item_item04 "></div>
-                        <div class="grid__item grid__item_item05 inputan"><p><?= $data['user']; ?></p></div>
+                        <div class="grid__item grid__item_item05 inputan"><p><?= $data['create_user']; ?></p></div>
                         <div class="grid__item grid__item_item06 inputan"><p><?= $data['create_date']; ?></p></div>
                     </div>
                     <div class="grid">
@@ -87,6 +87,23 @@ if ($sql){
                                                     <td><?= $manuverBebas["opr_gitet"]  ?></td>
                                                 </tr>
                                         <?php } ?>
+
+                                        
+                                        <?php foreach (unserialize($data["emergency_pengawas_bebas"]) ?: [] as $row) :
+                                                        for($j = 0; $j < count($row["lokasi"]); $j++){
+                                                    ?>
+                                                <tr>
+                                                    <td><?= $row['lokasi'][$j] ?></td>
+                                                    <td><?= $row['peng_pekerjaan'][$j] ?></td>
+                                                    <td><?= $row['peng_manuver'][$j] ?></td>
+                                                    <td><?= $row['peng_k3'][$j] ?></td>
+                                                    <td><?= $row['spv'][$j] ?></td>
+                                                    <td><?= $row['opr'][$j] ?></td>
+                                                </tr>
+                                                    <?php  
+                                                        }
+                                                        endforeach
+                                                    ?>
                 
                                         </tbody>
                                     </table> 
@@ -113,6 +130,21 @@ if ($sql){
                                                     <td><?= $manuverBebas2["opr_gitet_normal"]  ?></td>
                                                 </tr>
                                             <?php } ?>
+
+                                            <?php 
+                                                    foreach (unserialize($data["emergency_pengawas_normal"]) ?: [] as $row) :
+                                                      
+                                                            for($j = 0; $j < count($row["spv"]); $j++){
+                                                    ?>
+                                                <tr>
+                                                    <td><?= $row['spv'][$j] ?></td>
+                                                    <td><?= $row['opr'][$j] ?></td>
+                                                 
+                                                </tr>
+                                            <?php  
+                                                }
+                                                endforeach
+                                            ?>
                                         </tbody>
                                     </table>
                                     
@@ -125,11 +157,16 @@ if ($sql){
                                     <div action="">
                                         <?php $cekbok = explode(",", $data["document"]); ?> 
                                         <input type="checkbox" id="wp" name="document[]" value="wp" <?php in_array('wp', $cekbok) ? print 'checked' : ' '; ?> disabled>
-                                        <label for="wp">wp</label><br>
+                                        <label for="wp">Working Permit</label><br>
                                         <input type="checkbox" id="ik" name="document[]" value="ik" <?php in_array('ik', $cekbok) ? print 'checked' : ' '; ?> disabled>
                                         <label for="ik"> IK</label><br>
                                         <input type="checkbox" id="k3" name="document[]" value="k3" <?php in_array('k3', $cekbok) ? print 'checked' : ' '; ?> disabled>
                                         <label for="k3"> K3</label><br>
+                                        <?php if( $data['user'] == '') {?>
+                                            <input type="checkbox" id="surat" name="document[]" value="surat" <?php in_array('surat', $cekbok) ? print 'checked' : ' '; ?> disabled>
+                                            <label for="surat"> Surat Emergency</label>    <br><br>
+                                            <a href="surat/<?= $data['surat'] ?>" class="modal-open" download><i style="margin-left:10px;margin-right:10px;"class="fa fa-download"></i></a> <?= ($data['surat'] == '') ? 'belum upload surat' : '<input type="text" value="'.$data['surat'].'" readonly>'  ?>
+                                        <?php } ?>
                                     </div>
                             </div>
                         </div>
@@ -140,7 +177,7 @@ if ($sql){
                         <div class="grid__item grid__item_item25 titel">Pembacaan SCADA</div>
                         <div class="grid__item grid__item_item26 titel">Hasil Studi DPF</div>
                         <div class="grid__item grid__item_item27 inputan"><p><?= $data["scada_awal_before"]; ?></p></div>
-                        <div class="grid__item grid__item_item28 inputan"><p><?= $data["dpf_awal"]; ?><?= ($data['foto_dpf1'] == null) ? 'belum upload foto DPF' : '<a href="dpf/' . $data['foto_dpf1'] . '" class="" download><i style="margin:10px 10px;"class="fa fa-download"></i></a><button type="button" data-modal="modal1" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
+                        <div class="grid__item grid__item_item28 inputan"><p><?= $data["dpf_awal"]; ?> <?= ($data['foto_dpf1'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf1'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal1" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
                         <div class="modal" id="modal1">
                                 <div class="modal-content" >
                                     <div class="modal-header">
@@ -154,7 +191,7 @@ if ($sql){
                             </div>
                         </div>
                         <div class="grid__item grid__item_item29 inputan"><p><?= $data["scada_akhir_before"]; ?></p></div>
-                        <div class="grid__item grid__item_item30 inputan"><p><?= $data["dpf_akhir"]; ?><?= ($data['foto_dpf2'] == null) ? 'belum upload foto DPF' : '<a href="dpf/' . $data['foto_dpf2'] . '" class="" download><i style="margin:10px 10px;"class="fa fa-download"></i></a><button type="button" data-modal="modal2" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
+                        <div class="grid__item grid__item_item30 inputan"><p><?= $data["dpf_akhir"]; ?> <?= ($data['foto_dpf2'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf2'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal2" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
                             <div class="modal" id="modal2">
                                 <div class="modal-content" >
                                     <div class="modal-header">
@@ -184,29 +221,54 @@ if ($sql){
                         </div>
                         <div class="grid__item grid__item_item42 inputan">
                             <table class="table table-bordered mt-2" id="dynamic_field1" style="">
-                                <tr>
-                                    <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
-                                    <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
-                                    <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
-                                    <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                </tr>
-                                <tr>
-                                    <th style="width:9rem;">Remote</th>
-                                    <th style="width:9rem;">Real (R/L)</th>
-                                    <th style="width:9rem;">ADS</th>
-                                </tr>
-                                <?php $i=1; ?>
-                                    <?php while ($pembebasan = mysqli_fetch_assoc($tahapan_manuver_pembebasan) ) : ?>
-                                <tr id="">
-                                    <td><?= $i ?></td>
-                                    <td><?= $pembebasan["lokasi"]  ?></td>
-                                    <td><?= $pembebasan["remote_"] == "00:00:00" ? "" : $pembebasan["remote_"] ; ?></td>
-                                    <td><?= $pembebasan["real_"] == "00:00:00" ? "" : $pembebasan["real_"] ; ?></td>
-                                    <td><?= $pembebasan["ads"] == "00:00:00" ? "" : $pembebasan["ads"] ; ?></td>
-                                    <td style="width:10px"><?= $pembebasan["installasi"]  ?></td>
-                                </tr>
-                                    <?php $i++ ?>
-                                    <?php endwhile; ?>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                        <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                        <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
+                                        <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:9rem;">Remote</th>
+                                        <th style="width:9rem;">Real (R/L)</th>
+                                        <th style="width:9rem;">ADS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dynamic1" >
+                                    <?php $i=1; ?>
+                                        <?php while ($pembebasan = mysqli_fetch_assoc($tahapan_manuver_pembebasan) ) : ?>
+                                    <tr id="">
+                                        <td><?= $i ?></td>
+                                        <td><?= $pembebasan["lokasi"]  ?></td>
+                                        <td><?= $pembebasan["remote_"] == "00:00:00" ? "" : $pembebasan["remote_"] ; ?></td>
+                                        <td><?= $pembebasan["real_"] == "00:00:00" ? "" : $pembebasan["real_"] ; ?></td>
+                                        <td><?= $pembebasan["ads"] == "00:00:00" ? "" : $pembebasan["ads"] ; ?></td>
+                                        <td style="width:10px"><?= $pembebasan["installasi"]  ?></td>
+                                    </tr>
+                                        <?php $i++ ?>
+                                        <?php endwhile; ?>
+
+                                        <?php $i=1; ?>
+                                        <?php 
+                                            foreach (unserialize($data["emergency_bebas"])  ? : []  as $row) :
+                                                for($j = 0; $j < count($row["lokasi"]); $j++){
+                                        ?>
+                                    <tr>
+                                        <td><?= $i ?></td>
+                                        <td><p><?= $row['lokasi'][$j] ?></p></td>
+                                        <td><p><?= $row['remote_bebas'][$j] ?></p></td>
+                                        <td><p><?= $row['real_bebas'][$j] ?></p></td>
+                                        <td><p><?= $row['ads_bebas'][$j] ?></p></td>
+                                        <td><p><?= $row['installManuverBebas'][$j] ?></p></td>
+                                        
+                                    </tr>
+                                        <?php 
+                                            $i++;
+                                            }
+                                            endforeach
+                                        ?>
+
+                                </tbody>
                                 </table>
                         </div>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
@@ -217,22 +279,27 @@ if ($sql){
                         <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
+                                <?php if($data["foto2"]) {?>
                                 <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
+                                <?php }?>
                             </div>
                         </div>
                         <div class="grid__item grid__item_item50 inputan">
                             <table class="table table-bordered mt-2" id="dynamic_field2" style="">
-                                <tr>
-                                    <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
-                                    <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
-                                    <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
-                                    <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                </tr>
-                                <tr>
-                                    <th>Remote</th>
-                                    <th>Real (R/L)</th>
-                                    <th>ADS</th>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                        <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                        <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
+                                        <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Remote</th>
+                                        <th>Real (R/L)</th>
+                                        <th>ADS</th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
                                 <?php $i=1; ?>
                                 <?php while ($penormalan = mysqli_fetch_assoc($tahapan_manuver_penormalan) ) : ?>
                                     <tr id="redDua">
@@ -245,6 +312,30 @@ if ($sql){
                                     </tr>
                                 <?php $i++ ?>
                                 <?php endwhile; ?>
+
+                                <?php $i=1; ?>
+                                    <?php 
+                                        foreach (unserialize($data["emergency_normal"])  ? : []  as $row) :
+                                            for($j = 0; $j < count((is_countable($row["lokasi"])?$row["lokasi"]:[])); $j++){
+                                    ?>
+                                <tr>
+                                    <td><?= $i ?></td>
+                                    <td><p><?= $row['lokasi'][$j] ?></p></td>
+                                    <td><p><?= $row['remote_normal'][$j] ?></p></td>
+                                    <td><p><?= $row['real_normal'][$j] ?></p></td>
+                                    <td><p><?= $row['ads_normal'][$j] ?></p></td>
+                                    <td><p><?= $row['installManuverNormal'][$j] ?></p></td>
+                                    
+                                </tr>
+                                    <?php 
+                                        $i++;
+                                        }
+                                        endforeach
+                                    ?>
+
+
+
+                                </tbody>
                             </table>
                         </div>
                         <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
@@ -254,7 +345,7 @@ if ($sql){
                         <div class="grid__item grid__item_item55"></div>
                         <div class="grid__item grid__item_item56"></div>
                         <div class="grid__item grid__item_item57"></div> -->
-                        <div class="grid__item grid__item_item58">Aproval</div>
+                        <div class="grid__item grid__item_item58 titel">Aproval</div>
                         <div class="grid__item grid__item_item59">AMN ROH</div>
                         <div class="grid__item grid__item_item60">MSB DALOP</div>
                         <div class="grid__item grid__item_item61">Dispa Pembebasan</div>
@@ -263,21 +354,23 @@ if ($sql){
                         <div class="grid__item grid__item_item64">AMN Dispa Penormalan</div>
                         <div class="grid__item grid__item_item65">
                             <?php if($data['status'] == "done" ){ ?>
+                                <?php if ($data["user"] != '') { ?>
                                 <div class="stamp is-nope" id="setuju1">
                                     <span class="position"><?= mb_strtoupper(str_replace('_',' ',$data["level_amn"])); ?></span>
                                     <span class="name"><?= $data["user_amn"]?></span>
                                     <span class="date"><?= $data["time_amn_aprove"]?></span>
                                 </div>
-                            <?php } ?>
+                            <?php }} ?>
                         </div>
                         <div class="grid__item grid__item_item66">
                             <?php if($data['status'] == "done" ){ ?>
+                                <?php if ($data["user"] != '') { ?>
                                 <div class="stamp is-nope" id="setuju1">
                                     <span class="position"><?= mb_strtoupper(str_replace('_',' ',$data["level_msb"])); ?></span>
                                     <span class="name"><?= $data["user_msb"]?></span>
                                     <span class="date"><?= $data["time_msb_aprove"]?></span>
                                 </div>
-                            <?php } ?>
+                            <?php }} ?>
                         </div>
                         <div class="grid__item grid__item_item67">
                             <?php if($data['status'] == "done" ){ ?>
