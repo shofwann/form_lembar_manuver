@@ -1,25 +1,24 @@
 
 
+let tableRed1 = document.querySelectorAll('#dynamic_field1 td');
+let tablered2 = document.querySelectorAll('#dynamic_field2 td');
 
 
 
-let table = document.querySelectorAll('#dynamic_field1 td');
-let table2 = document.querySelectorAll('#dynamic_field2 td');
-
-if (table != null) {
-    for (let i = 0; i<table.length; i++) {
-        if (table[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
-            table[i].parentElement.children[1].style.color = "red";
-            table[i].parentElement.children[5].style.color = "red"; 
+if (tableRed1 != null) {
+    for (let i = 0; i<tableRed1.length; i++) {
+        if (tableRed1[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
+            tableRed1[i].parentElement.children[1].style.color = "red";
+            tableRed1[i].parentElement.children[5].style.color = "red"; 
         } 
     }
 }
 
-if (table2 != null) {
-    for (let i = 0; i<table2.length; i++) {
-        if (table2[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
-            table2[i].parentElement.children[1].style.color = "red";
-            table2[i].parentElement.children[5].style.color = "red";
+if (tablered2 != null) {
+    for (let i = 0; i<tablered2.length; i++) {
+        if (tablered2[i].innerHTML.toLowerCase().slice(-3) == "tag" ) {
+            tablered2[i].parentElement.children[1].style.color = "red";
+            tablered2[i].parentElement.children[5].style.color = "red";
             
         } 
     }
@@ -50,22 +49,6 @@ window.onclick = function(e) {
         e.target.style.display = "none";
     }
 };
-
-//==========================tabel manipulasi====================================
-// let row1 = document.querySelector("#table1").getElementsByTagName("tr");
-// const jumRow = row1.length;
-
-// let row2 = document.querySelector("#table2");
-
-// for (let i = 0; i < jumRow; i++) {
-//     // di sini code buat nambah row di table 2
-//     tableRow = row2.insertRow(0);
-//     cell1 = tableRow.insertCell(0);
-//     cell2 = tableRow.insertCell(1);
-//     cell1.innerHTML = "";
-//     cell2.innerHTML = "";
-//  }
-
 
 
 
@@ -118,11 +101,17 @@ window.onclick = function(e) {
 
 
 
+
 tableManuver1 = document.getElementById('dynamic_field1');
-jumlah_baris = tableManuver1.rows.length-1;
+if(tableManuver1){
+    jumlah_baris = tableManuver1.rows.length-1;
+}
+
 
 tableManuver2 = document.getElementById('dynamic_field2');
-jumlah_baris2 = tableManuver2.rows.length-1;
+if(tableManuver2){
+    jumlah_baris2 = tableManuver2.rows.length-1;
+}
 
 
 // jumlah_sub_row = document.getElementById('sub_dynamic_field1').getElementsByTagName('tr').length;
@@ -138,7 +127,7 @@ jumlah_baris2 = tableManuver2.rows.length-1;
 //     return lengthRows;
 // }
 
-function tambahManuver(a,b,c,d,e) {
+function tambahManuver(a,b,c,d,e,f,g,h) {
    
     table = document.getElementById(a);
     var row = table.insertRow(-1);
@@ -152,12 +141,21 @@ function tambahManuver(a,b,c,d,e) {
     var cell7 = row.insertCell(6);
 
     cell1.innerHTML = e++;
-    cell2.innerHTML = "<input type='text' name='"+b+"' style='width:8rem;padding:0rem;'>";
-    cell3.innerHTML = "";
-    cell4.innerHTML = "";
-    cell5.innerHTML = "";
-    cell6.innerHTML = "<input type='text' name='"+c+"' style='width:8rem;padding:0rem;'>";
-    cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='"+d+"' value='0' >";
+    cell2.innerHTML = "<input type='text' name='"+b+"' placeholder='lokasi' style='width:8rem;padding:0rem;'>";
+    cell3.innerHTML = "<input type='time' name='"+f+"' class='disabled'>";
+    cell4.innerHTML = "<input type='time' name='"+g+"' class='disabled' >";
+    cell5.innerHTML = "<input type='time' name='"+h+"' class='disabled' >";
+    cell6.innerHTML = "<input type='text' name='"+c+"' placeholder='installasi' style='width:8rem;padding:0rem;'>";
+    cell7.innerHTML = "<button type='button' onclick='hapus_baris_new(this)' class='btn btn-danger btn_remove'>Remove</button><input type='text' name='"+d+"' value='0' hidden>";
+
+    const disabled = document.querySelectorAll('.disabled');
+   
+   if ( level != 'dispa' ){
+       for (i=0; i<disabled.length; i++){
+           disabled[i].style.display = 'none';
+       } 
+
+   }
     
 }
 
@@ -201,18 +199,19 @@ var k=0;
 // let i=1;
 // let j=0;
 
-function tambahRowBebas(h) {
+
+function tambahFormRow(h,i,j,k) {
     //j++;
-    const id = h === 0 ? 'dynamic_form1':`dynamic_form1${h}`
+    const id = h === 0 ? ''+i+'':`${i}${h}`
     let table = document.getElementById(id);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='lokasiManuverBebas[]'></td><td></td><td></td><td></td><td><input type='text' name='lokasiManuverBebas[]'></td><td><button type='button' class='btn red' onclick='kurangRowBebas(this)'>Remove</button></td>`;
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='${j}'></td><td></td><td></td><td></td><td><input type='text' name='${k}'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_bebas[]' value='${h}'></td>`;
 
     table.appendChild(newRow);
 }
 
-function kurangRowBebas(ini){
+function kurangFormRow(ini){
     const row = ini.parentElement.parentElement;
     const table = ini.parentElement.parentElement.parentElement;
     row.remove();
@@ -222,11 +221,11 @@ function kurangRowBebas(ini){
     });
 }
 
-function tambahFormBebas(){
+function tambahForm(j,i,l,m,n,o){
     k++;
     form = document.createElement('div');
-    form.innerHTML = "<div class='container-fluid'><div class='grid-item'><img id='output"+k+"' height='auto' width='350px'><br><input type='file' accept='image/*' name='fotoBebas[]'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='titel[]' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick='tambahRowBebas("+k+")'>Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='dynamic_form1"+k+"'></tbody></table></div><div class='grid-item'><button type='button' class='btn red' onclick='kurangForm(this)'>-</button></div></div>";
-    document.getElementById('copy').appendChild(form);
+    form.innerHTML = `<div class='container-fluid'><div class='grid-item'><img id='output${k}' height='auto' width='350px'><br><input type='file' accept='image/*' name='${l}'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='${m}' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahFormRow(${k},'${j}','${n}','${o}')">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='${j}${k}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed' onclick='kurangForm(this)'>-</button></div></div>`;
+    document.getElementById(i).appendChild(form);
     form.querySelector('input[type=file]').addEventListener('change', e => { 
         const imageElement = e.target.previousElementSibling.previousElementSibling; 
         console.log(imageElement); 
@@ -240,15 +239,33 @@ function kurangForm(ini){
     row.remove();
 }
 
-function tambahRowNormal(h) {
+
+
+
+
+function tambahRowNormal(g) {
     //j++;
-    const id = h === 0 ? 'dynamic_form2':`dynamic_form2${h}`
+    const id = g === 0 ? `dynamic_form2`:`dynamic_form2${g}`
     let table = document.getElementById(id);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='lokasiManuverBebas[]'></td><td></td><td></td><td></td><td><input type='text' name='lokasiManuverBebas[]'></td><td><button type='button' class='btn red' onclick='kurangRowBebas(this)'>Remove</button></td>`;
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='lokasiManuverNormal[]'></td><td></td><td></td><td></td><td><input type='text' name='lokasiManuverNormal[]'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_normal[]' value='${g}'></td>`;
 
     table.appendChild(newRow);
+}
+
+var q=0;
+function tambahFormNormal() {
+    q++;
+    form =  document.createElement('div');
+    form.innerHTML = `<div class='container-fluid'><div class='grid-item'><img id='output${q}' height='auto' width='350px'><br><input type='file' accept='image/*' name='fotoNormal[]'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='titelNormal[]' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahRowNormal(${q})">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='dynamic_form2${q}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed' onclick='kurangForm(this)'>-</button></div></div>`;
+    document.getElementById('copy2').appendChild(form);
+    form.querySelector('input[type=file]').addEventListener('change', e => { 
+        const imageElement = e.target.previousElementSibling.previousElementSibling; 
+        console.log(imageElement); 
+        const imageURL = URL.createObjectURL(e.target.files[0]); 
+        imageElement.src = imageURL; 
+    }); 
 }
 
 function kurangRowNormal(ini){
@@ -403,16 +420,6 @@ function tambahBaris(a,b,c,aa,bb,cc) {
    
 }
 
-// const parent = document.querySelector('td');
-// let ul = 'ini';
-
-// if(parent.childNode.classList.contains('suggest')) {
-//     ul = document.querySelector('.suggest');
-// }
-
-
-
-
 
 
 
@@ -433,50 +440,99 @@ function hapus_baris_emergency(a) {
     baris.remove();
 }
 
+var user,
+element = document.getElementById('user');
+if(element != null){
+    user = element.value;
+} else {
+    str = null;
+}
 
-const varEmergency = document.querySelectorAll("#emergency");
-for (i=0; i<varEmergency.length; i++){
-    varEmergency[i].innerText = 'emergency'
-    varEmergency[i].style.color = 'red'
+if (user === ''){
+    const varEmergency = document.querySelectorAll("#emergency");
+    for (i=0; i<varEmergency.length; i++){
+        varEmergency[i].innerText = 'emergency'
+        varEmergency[i].style.color = 'red'
+    
+    }
 
 }
 
 
+var y = document.getElementById('check')
+
+
+let jumCheck = document.querySelectorAll('.fa-times').length;
+for (i=0; i <jumCheck; i++) {
+    document.querySelectorAll('.fa-times')[i].style.display = 'none';
+}
+if(y) {
+    y.addEventListener('change', function(){
+        if (y.checked == true) {
+            //document.getElementById('verdict').innerHTML = 'berangkat';
+            for (i=0; i <jumCheck; i++) {
+                document.querySelectorAll('.fa-times')[i].style.display = "";
+            }
+        } else {
+            //document.getElementById('verdict').innerHTML = 'pulang';
+            for (i=0; i <jumCheck; i++) {
+                document.querySelectorAll('.fa-times')[i].style.display = "none";
+    
+            }
+        }
+        });
+}
+
+let id = document.getElementById('submit')
+
+if (id){
+
+    id.style.display = 'none'
+}
 
 
 
-
-
-// let destination = ["Italy", "Spain", "Portugal", "Brazil"];
-// let inputField = document.getElementById('input');
-// let ulField = document.getElementById('suggestions');
-// inputField.addEventListener('input', changeAutoComplete);
-// ulField.addEventListener('click', selectItem);
-
-// function changeAutoComplete({ target }) {
-//   let data = target.value;
-//   ulField.innerHTML = ``;
-//   if (data.length) {
-//     let autoCompleteValues = autoComplete(data);
-//     autoCompleteValues.forEach(value => { addItem(value); });
-//   }
+// const toggleModal = () => {
+//     document.querySelector('.modal').classList.toggle('modal--hidden');
+//     document.querySelector('.overlay').classList.toggle('overlay--hidden');
 // }
+//     document.querySelector('#show-modal').addEventListener('click', toggleModal);
+    
+//     document.querySelector('.overlay').addEventListener('click', toggleModal);
+    
+//     document.querySelector('#learn-more-form').addEventListener('submit', (e) => {
+//     e.preventDefault();
+//     toggleModal();
+//     });
+    
+//     document.querySelector('.modal__close-bar span').addEventListener('click', toggleModal);
+//     document.querySelector('.overlay').addEventListener('click', toggleModal);
+      
 
 
-// function autoComplete(inputValue) {
-//   return destination.filter(
-//     (value) => value.toLowerCase().includes(inputValue.toLowerCase())
-//   );
-// }
+function showHide1() {
+    var x = document.getElementById("curPass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+}
 
-// function addItem(value) {
-//   ulField.innerHTML = ulField.innerHTML + `<li class="">${value}</li>`;
-// }
+function showHide2() {
+    var x = document.getElementById("newPass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+}
 
-// function selectItem({ target }) {
-//   if (target.tagName === 'LI') {
-//     inputField.value = target.textContent;
-//     ulField.innerHTML = ``;
-//   }
-// }
-
+function showHide3() {
+    var x = document.getElementById("conPass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+}

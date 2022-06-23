@@ -28,11 +28,11 @@
     $idLokasiDetail = mysqli_query($conn,"SELECT id_detail_lokasi FROM db_ajax_lokasi_detail ORDER BY id_detail_lokasi DESC LIMIT 1");
 
     if( isset($_POST["submit"]) ){
-        if( tambahEmergency($_POST) > 0){
+        if( insertEmergency($_POST) > 0){
             //var_dump(tambah($_POST)); die;
             echo "<script>
                     alert('data berhasil disubmit'); 
-                    //document.location.href = 'home.php';
+                    document.location.href = 'home.php';
                     </script>
                     ";  
                     
@@ -40,7 +40,7 @@
         // var_dump(tambah($_POST)); die;
             echo "<script>
                     alert('data gagal disubmit'); 
-                    //document.location.href = 'home.php';
+                    document.location.href = 'home.php';
                     </script>
                     "; die;
                     
@@ -90,6 +90,7 @@
                             <input type="text" name="user_creater" placeholder="" value="<?= $_SESSION['username'];?>" class="" readonly>
                             <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                             <input type="text" value="" id="statusJob">
+                            <input type="text" name="form" value="3">
                         </div>
                         <div class="chose">
                             <!-- <label for="" style="">Pilih jenis pekerjaan :</label>
@@ -165,7 +166,7 @@
                                 <br>
                                 
                                     <table class="table table-bordered" > 
-                                        <thead>
+                                        <thead id="table1">
                                                 <tr id="mirrodHead" ">  
                                                     <th style="width:158px;">Lokasi</th>
                                                     <th style="width:158px;">Peng. Pekerjaan</th>
@@ -175,7 +176,7 @@
                                                     <th style="width:158px;">Opr GITET</th>
                                                 </tr>
                                         </thead> 
-                                        <tbody id="table1">
+                                        <tbody >
                 
                                         </tbody>
                                     </table> 
@@ -231,7 +232,7 @@
                         <div class="grid__item grid__item_item36 inputan"><input type="text" disabled></div>
                         <div class="grid__item grid__item_item37 titel">MANUVER PEMBEBASAN INSTALLASI</div>
                         <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan<span>*</span></div>
-                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" id="" cols="232" rows="3"></textarea></div>
+                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" class=textarea cols="232" rows="3"></textarea></div>
                         <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan<span>*</span></div>
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
@@ -259,10 +260,10 @@
                                 </table>
                         </div>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
-                        <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" id="" cols="232" rows="3"></textarea></div>
+                        <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" class=textarea cols="232" rows="3"></textarea></div>
                         <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>
                         <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
-                        <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" id="" cols="232" rows="3" disabled></textarea></div>
+                        <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" class=textarea cols="232" rows="3" disabled></textarea></div>
                         <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
@@ -290,7 +291,7 @@
                             </table>
                         </div>
                         <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
-                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" id="" cols="232" rows="3" disabled></textarea></div>
+                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" class=textarea cols="232" rows="3" disabled></textarea></div>
                     </div><br>
                         <button type="submit" name="submit" >Simpan Form</button>
                 </form>
@@ -383,6 +384,23 @@
 
 
 <script src="js/script.js"></script>
+<script>
+    const jumRowstabel1 = document.querySelector('#table1').rows.length;
+    let tabel2 =document.querySelector('#table2')
+    let status = document.getElementById('status').value;
+
+    let dataArray = ['amnUbah','amn','msb','msbUbah','dispa','dispaAwalUbah','dispaAkhir']
+
+if(dataArray.indexOf(status) !== -1){
+    for(i=0; i<jumRowstabel1; i++){
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `<td></td><td></td>`;
+    tabel2.appendChild(newRow);
+}
+} else{
+    console.log("Value does not exists!")
+}
+</script>
 </body>
 
 </html>

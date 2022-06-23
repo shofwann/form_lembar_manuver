@@ -16,7 +16,7 @@ include 'functions.php';
 <body>
     
     <form action="proses.php" method="get">
-        <input type="text" name="level" value="<?= $_SESSION['level']; ?>">
+        <input type="text" name="level" value="<?= $_SESSION['level']; ?>" hidden>
         <div class="card">
             <div class="card-header">
                 Pilih Form
@@ -29,24 +29,24 @@ include 'functions.php';
                         <div class="grid__item grid__item_item002">Pilih Jenis Pekerjaan</div>
                         <div class="grid__item grid__item_item003">Pilih Lokasi</div>
                         <div class="grid__item grid__item_item004 border_right">Pilih detail Lokasi</div>
-                        <div class="grid__item grid__item_item005">
+                        <div class="grid__item grid__item_item005 border_bottom">
                             <select name="form" id="form">
                                 <option value="">-SELECT-</option>
                                 <option value="1">form-1</option>
                                 <option value="2">form-2</option>
                             </select>
                         </div>
-                        <div class="grid__item grid__item_item006">
+                        <div class="grid__item grid__item_item006 border_bottom">
                             <select name="idx" id="jenis">
                                 <option value="">-SELECT-</option>
                             </select>
                         </div>
-                        <div class="grid__item grid__item_item007">
+                        <div class="grid__item grid__item_item007 border_bottom">
                             <select name="idy" id="lokasi">
                                 <option style="white-space: nowrap;" value="">-SELECT-</option>
                             </select>
                         </div>
-                        <div class="grid__item grid__item_item008 border_right">
+                        <div class="grid__item grid__item_item008 border_right border_bottom">
                             <select name="idz" id="detail_lokasi">
                                 <option value="">-SELECT-</option>
                             </select>

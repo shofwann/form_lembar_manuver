@@ -18,11 +18,6 @@ if ($_SESSION["level"] != "dispa") {
 
 require "functions.php";
 
-$petugas_gitet_bebas = mysqli_query($conn,"SELECT * FROM db_ajax_table_pengawas WHERE id_lokasi_detail = '$_GET[idz]'");
-$petugas_gitet_normal = mysqli_query($conn,"SELECT * FROM db_ajax_table_pengawas WHERE id_lokasi_detail = '$_GET[idz]'");
-$tahapan_manuver_pembebasan = mysqli_query($conn, "SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail='$_GET[idz]' AND tahapan ='pembebasan'");
-$tahapan_manuver_penormalan=mysqli_query($conn,"SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail='$_GET[idz]' AND tahapan ='penormalan' "); //table4
-
 $query2 = mysqli_query($conn,"SELECT id FROM db_form ORDER BY id DESC LIMIT 1");
 $idnext = mysqli_fetch_array($query2);
 
@@ -150,22 +145,26 @@ if( isset($_POST["submit"]) ){
                                                     </tr>
                                             </thead> 
                                             <tbody id="table1">
-                                                <?php while ($manuverBebas = mysqli_fetch_assoc($petugas_gitet_bebas)) {?>
-                                                    <tr>
-                                                        <td>
-                                                            <input type="text" name="lokasiPembebasan[]" value="<?= $manuverBebas["lokasi"]; ?>">
-                                                        </td>
-                                                        <td><input type='text' name='peng_pekerjaan[]' placeholder='nama pengawas' class='disabled' autocomplete='off'></td>
-                                                        <td><input type='text' name='peng_manuver[]' placeholder='nama pengawas' class='disabled' autocomplete='off'></td>
-                                                        <td><input type='text' name='peng_k3[]' class='disabled' placeholder='nama pengawas' autocomplete='off'></td>
-                                                        <td><input type='text' name='spv[]' class='disabled' placeholder='nama SPV' autocomplete='off'></td>
-                                                        <td><input type='text' name='opr[]' class='disabled' placeholder='nama Operator' autocomplete='off'></td>
-                                                    </tr>
-                                                <?php }?>
-                                            </tbody>
-                                            <tfoot>
                                                 
-                                            </tfoot>
+
+                                                <?php foreach (unserialize($data2["pengawas"]) ?: [] as $row) :
+                                                        for($j = 0; $j < count($row["lokasiPembebasan"]); $j++){
+                                                    ?>
+                                                <tr>
+                                                    <td><input type="text" name="lokasiPembebasan[]" value="<?= $row['lokasiPembebasan'][$j] ?>"></td>
+                                                    <td><input type='text' name='peng_pekerjaan[]' placeholder='nama pengawas' class='disabled' autocomplete='off'></td>
+                                                    <td><input type='text' name='peng_manuver[]' placeholder='nama pengawas' class='disabled' autocomplete='off'></td>
+                                                    <td><input type='text' name='peng_k3[]' class='disabled' placeholder='nama pengawas' autocomplete='off'></td>
+                                                    <td><input type='text' name='spv[]' class='disabled' placeholder='nama SPV' autocomplete='off'></td>
+                                                    <td><input type='text' name='opr[]' class='disabled' placeholder='nama Operator' autocomplete='off'></td>
+                                                </tr>
+                                                    <?php  
+                                                        }
+                                                        endforeach
+                                                    ?>
+                                            </tbody>
+                                            </tbody>
+                                           
                                         </table> 
                                             <button type="button" id="add1" class="btn green" onclick="tambah()" ><i class='fa fa-plus'></i></button>
                                             <button type="button" id="remove1" class="btn red" onclick="kurang()"><i class="fa fa-minus" aria-hidden="true"></i></button> 
@@ -186,12 +185,7 @@ if( isset($_POST["submit"]) ){
                                                 </tr>
                                             </thead>
                                             <tbody id="table2">
-                                            <?php while ($manuverNormal = mysqli_fetch_array($petugas_gitet_normal)) { ?>
-                                                <tr>
-                                                    <td><?= $manuverNormal["opr_gitet_normal"]  ?></td>
-                                                    <td></td>
-                                                </tr>
-                                                <?php } ?> 
+                                            
 
                                             </tbody>
                                         </table>
@@ -246,7 +240,7 @@ if( isset($_POST["submit"]) ){
                                             <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                             <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                             <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                            <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahManuver('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]','id_update_bebas[]',jumlah_baris)">Add More</button></th>
+                                            <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahManuver('dynamic_field1','lokasiManuverBebas[]','installManuverBebas[]','id_update_bebas[]',jumlah_baris,'remote_bebas[]','real_bebas[]','ads_bebas[]')">Add More</button></th>
                                         </tr>
                                         <tr>
                                             <th style="width:9rem;">Remote</th>
@@ -254,23 +248,26 @@ if( isset($_POST["submit"]) ){
                                             <th style="width:9rem;">ADS</th>
                                         </tr>
                                     
-                                    
                                             <?php $i=1; ?>
-                                            <?php while ($pembebasan = mysqli_fetch_assoc($tahapan_manuver_pembebasan) ) : ?>
+                                            <?php 
+                                                foreach (unserialize($data2["manuver_bebas"])  ? : []  as $row) :
+                                                    for($j = 0; $j < count((is_countable($row["lokasiManuverBebas"])?$row["lokasiManuverBebas"]:[])); $j++){
+                                            ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><input type="text" name="lokasiManuverBebas[]" value="<?= $pembebasan["lokasi"] ?>" style="width:8rem;padding:0rem;" required></td>
-                                            <td><?= $pembebasan["remote_"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' name='remote_bebas[]'>" : "<input type='time' value='". $pembebasan['remote_']."' name='remote_bebas[]'>" ?></td>
-                                            <td><?= $pembebasan["real_"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' name='real_bebas[]'>" : "<input type='time' value='". $pembebasan['real_']."' name='real_bebas[]'>" ?></td>
-                                            <td><?= $pembebasan["ads"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' name='ads_bebas[]'>" : "<input type='time' value='". $pembebasan['ads']."' name='ads_bebas[]'>" ?></td>
-                                            <td><input type="text" name="installManuverBebas[]" value="<?= $pembebasan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
-                                            <td>
-                                                <button type="button" onclick="hapus_baris(this,'id_ajax_hapus_bebas[]')" class="btn btn-danger btn_remove">X</button> 
-                                                <input type="text" name="id_update_bebas[]" value="<?= $pembebasan["id"] ?>" >
-                                            </td>
+                                            <td><p><input type="text" name="lokasiManuverBebas[]" value="<?= $row['lokasiManuverBebas'][$j] ?>" style="width:8rem;padding:0rem;" ></p></td>
+                                            <td><input type="time" name="remote_bebas[]" ></td>
+                                            <td><input type="time" name="real_bebas[]" ></td>
+                                            <td><input type="time" name="ads_bebas[]" ></td>
+                                            <td><p><input type="text" name="installManuverBebas[]" value="<?= $row["installManuverBebas"][$j] ?>" style="width:8rem;padding:0rem;" ></p></td>
+                                            <td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>
+                                            
                                         </tr>
-                                            <?php $i++ ?>
-                                            <?php endwhile; ?>
+                                            <?php 
+                                                $i++;
+                                                }
+                                                endforeach
+                                            ?>
                                     
                                 </table>
                             </div>
@@ -283,7 +280,7 @@ if( isset($_POST["submit"]) ){
                             <div class="grid__item grid__item_item49 inputan">
                                 <div class="form-group ml-2">
                                     <img id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
-                                    <input type="file" accept="image/*" onchange="" name="foto2" required="required">
+                                    <!-- <input type="file" accept="image/*" onchange="" name="foto2" required="required"> -->
                                 </div>
                             </div>
                             <div class="grid__item grid__item_item50 inputan">
@@ -293,29 +290,33 @@ if( isset($_POST["submit"]) ){
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                        <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambahManuver('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]','id_update_normal[]',jumlah_baris2)">Add More</button></th>
+                                        <!-- <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambahManuver('dynamic_field2','lokasiManuverNormal[]','installManuverNormal[]','id_update_normal[]',jumlah_baris2,'remote_normal[]','real_normal[]','ads_normal[]')">Add More</button></th> -->
                                     </tr>
                                     <tr>
                                         <th style="width:9rem;">Remote</th>
                                         <th style="width:9rem;">Real (R/L)</th>
                                         <th style="width:9rem;">ADS</th>
                                     </tr>
-                                        <?php $i=1; ?>
-                                        <?php while ($penormalan = mysqli_fetch_assoc($tahapan_manuver_penormalan) ) : ?>
-                                    <tr>
-                                        <td><?= $i ?></td>
-                                        <td><input type="text" name="lokasiManuverNormal[]" value="<?= $penormalan["lokasi"] ?>" style="width:8rem;padding:0rem;" required></td>
-                                        <td><?= $penormalan["remote_"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' class='disableManuver' name='remote_normal[]'>" : "<input type='time' value='". $penormalan['remote_']."' class='disableManuver' name='remote_normal[]'>" ?></td>
-                                        <td><?= $penormalan["real_"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' class='disableManuver' name='real_normal[]'>" : "<input type='time' value='". $penormalan['real_']."' class='disableManuver' name='real_normal[]'>" ?></td>
-                                        <td><?= $penormalan["ads"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' class='disableManuver' name='ads_normal[]'>" : "<input type='time' value='". $penormalan['ads']."' class='disableManuver' name='ads_normal[]'>" ?></td>
-                                        <td><input type="text" name="installManuverNormal[]" value="<?= $penormalan["installasi"] ?>" style="width:8rem;padding:0rem;" required></td>
-                                        <td>
-                                            <button type="button" onclick="hapus_baris(this,'id_ajax_hapus_normal[]')" class="btn btn-danger btn_remove2">X</button>
-                                            <input type="text" name="id_update_normal[]" value="<?= $penormalan["id"] ?>" >
-                                        </td>
-                                    </tr>
-                                        <?php $i++ ?>
-                                        <?php endwhile; ?>
+                                    <!-- <?php $i=1; ?>
+                                            <?php 
+                                                foreach (unserialize($data2["manuver_normal"])  ? : []  as $row) :
+                                                    for($j = 0; $j < count((is_countable($row["lokasiManuverNormal"])?$row["lokasiManuverNormal"]:[])); $j++){
+                                            ?>
+                                        <tr>
+                                            <td><?= $i ?></td>
+                                            <td><p><input type="text" name="lokasiManuverNormal[]" value="<?= $row['lokasiManuverNormal'][$j] ?>" style="width:8rem;padding:0rem;" ></p></td>
+                                            <td><input type="time" name="remote_normal[]" ></td>
+                                            <td><input type="time" name="real_normal[]" ></td>
+                                            <td><input type="time" name="ads_normal[]" ></td>
+                                            <td><p><input type="text" name="installManuverNormal[]" value="<?= $row["installManuverNormal"][$j] ?>" style="width:8rem;padding:0rem;" ></p></td>
+                                            <td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>
+                                            
+                                        </tr>
+                                            <?php 
+                                                $i++;
+                                                }
+                                                endforeach
+                                            ?> -->
                                 </table>
                             </div>
                             <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
@@ -336,6 +337,15 @@ if( isset($_POST["submit"]) ){
             }
 
         }
+
+        var tabel1 = document.querySelectorAll("#table1 tr").length;
+var tabel2 = document.getElementById('table2');
+
+for(i=0; i<tabel1; i++){
+const newRow = document.createElement('tr');
+newRow.innerHTML = `<td></td><td></td>`;
+tabel2.appendChild(newRow);
+}
   </script>
   
 </body>

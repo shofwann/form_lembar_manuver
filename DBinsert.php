@@ -20,7 +20,7 @@ if ($query) {
 
 if( isset($_POST["submit"]) ){
 
-    if( tambahDB($_POST) > 0){
+    if( insertDB($_POST) > 0){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
@@ -75,11 +75,42 @@ if( isset($_POST["submit"]) ){
                                 <option value="">-SELECT-</option>
                             </select>
                         </div>
-                        <div class="grid__item grid__item_item007">
-                            <input name="lokasi" type="text" id="lokasi">   
+                        <div class="grid__item grid__item_item007" id="lokasinya">
+                            <div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
+                                <input type="text" name="lokasi" id="lokasi" class="inputi" autocomplete="off" placeholder="Sebelum input lokasi pilih jenis pekerjaan dahulu...!" style="width: 400px;">
+                                <div class="tool-tip slideIn">
+                                    Perhatikan untuk Format penulisan...!!!
+                                    <ul class="info-list" >
+                                        <li><b>SUTET</b>Cawang-Depok</li>
+                                        <li><b>REACTOR</b>Bandung Selatan</li>
+                                        <li><b>BUSBAR</b>Cawang</li>
+                                        <li><b>IBT</b>Cawang</li>
+                                    </ul>
+                                    untuk pekerjaan Reactor,Busbar, IBT gunakan nama GITET nya
+                                   
+                                </div>
+                                <div for="" id="response"></div>
+                            </div>
+                            <div style="clear:both"></div>
                         </div>
-                        <div class="grid__item grid__item_item008 border_right">
-                           <input name="detailLokasi" type="text">
+                        <div class="grid__item grid__item_item008 border_right" id="detailnya">
+                           <div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
+                                <input type="text" name="detailLokasi" id="lokasiDetail" class="" autocomplete="off" placeholder="Inputkan detail pekerjaan" style="width: 400px;">
+                                    <div class="tool-tip  slideIn">
+                                        Perhatikan untuk Format penulisan...!!!
+                                        <ul class="info-list" >
+                                            <li><b>SUTET</b>Sirkit-1</li>
+                                            <li><b>REACTOR</b>Reactor-1</li>
+                                            <li><b>BUSBAR</b>Busbar-A</li>
+                                            <li><b>IBT</b>IBT-1</li>
+                                        </ul>
+                                        Harap disesuaikan                                   
+                                    </div>
+
+                                <div for=""id="responseDetail"></div>
+                                <div style="clear:both"></div>
+                            </div>
+
                         </div>
                         
                         <div class="grid__item grid__item_item009 titel">Lokasi Pekerjaan</div>
@@ -162,11 +193,66 @@ if( isset($_POST["submit"]) ){
             
         })
 
+        $("#lokasi").keyup(function(){               
+                var query = $("#lokasi").val();
+                if (query.length > 1) {
+                        $.ajax(
+                            {
+                                url: 'get_data_autocomplete_lokasi.php',
+                                type: 'POST',
+                                data: {
+                                    //search: 1,
+                                    q: query,
+                                    id: $("#jenis").val()
+                                },
+                                success: function (data) {
+                                    $("#response").html(data);
+                                },
+                                dataType: 'text'
+                            }
+                        );
+                    }
+
+                    $('#lokasinya').on('click', 'li', function () {
+                        var lokasi = $(this).text();
+                        $("#lokasi").val(lokasi);
+                        $("#response").html("");
+                });
+                });
+
+                $("#lokasiDetail").keyup(function(){
+                    var queryDetail = $("#lokasiDetail").val();
+                    if (queryDetail.length > 1) {
+                        $.ajax(
+                            {
+                                url: 'get_data_autocomplete_lokasi_detail.php',
+                                type: 'POST',
+                                data: {
+                                    q: queryDetail,
+                                    id: $("#jenis").val(),
+                                    val: $("#lokasi").val()
+                                },
+                                success: function(data) {
+                                    $("#responseDetail").html(data);
+                                },
+                                dataType: 'text'
+                            }
+                        );
+                    }
+
+                    $('#detailnya').on('click', 'li', function () {
+                        var lokasiDetail = $(this).text();
+                        $("#lokasiDetail").val(lokasiDetail);
+                        $("#responseDetail").html("");
+                });
+
+                });
+
         function tambah1() {
             table = document.getElementById('tableBody1');
             var row = table.insertRow(-1);
             cell1 = row.insertCell(0);
-            cell1.innerHTML = "<input name='lokasiGitet[]' type='text'>";
+            cell1.innerHTML = "<input name='lokasiPembebasan[]' type='text'>";
         }
         function kurang1() {
             table = document.getElementById('tableBody1');
@@ -183,8 +269,8 @@ if( isset($_POST["submit"]) ){
             cell2 = row.insertCell(1);
             cell3 = row.insertCell(2);
             cell1.innerHTML = no++;
-            cell2.innerHTML = "<input name='lokasiOpen[]' type='text'>";
-            cell3.innerHTML = "<input name='installasiOpen[]' type='text'>";
+            cell2.innerHTML = "<input name='lokasiManuverBebas[]' type='text'>";
+            cell3.innerHTML = "<input name='installManuverBebas[]' type='text'>";
         }
         function kurang2() {
             table = document.getElementById('tableBody2');
@@ -202,8 +288,8 @@ if( isset($_POST["submit"]) ){
             cell2 = row.insertCell(1);
             cell3 = row.insertCell(2);
             cell1.innerHTML = no2++;
-            cell2.innerHTML = "<input name='lokasiClose[]' type='text'>";
-            cell3.innerHTML = "<input name='installasiClose[]' type='text'>";
+            cell2.innerHTML = "<input name='lokasiManuverNormal[]' type='text'>";
+            cell3.innerHTML = "<input name='installManuverNormal[]' type='text'>";
         }
         function kurang3() {
             table = document.getElementById('tableBody3');

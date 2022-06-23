@@ -1,14 +1,7 @@
 <?php
 require 'functions.php';
-$sql_manuver_petugas=mysqli_query($conn,"SELECT * FROM db_table_pengawas WHERE id_form='$_GET[id]'");
-$sql_manuver_petugas2=mysqli_query($conn,"SELECT * FROM db_table_pengawas WHERE id_form='$_GET[id]'");
-$tahapan_manuver_pembebasan=mysqli_query($conn,"SELECT * FROM db_table_tahapan WHERE id_form='$_GET[id]' AND tahapan = 'pembebasan'");
-$tahapan_manuver_penormalan=mysqli_query($conn,"SELECT * FROM db_table_tahapan WHERE id_form='$_GET[id]' AND tahapan = 'penormalan'");
-$sql=mysqli_query($conn,"SELECT * FROM db_form WHERE id='$_GET[id]'");
-$data=mysqli_fetch_assoc($sql);
 
-
-
+$data=query("SELECT * FROM db_form WHERE id='$_GET[id]'")[0];
 
 if( isset($_POST["submit"]) ){
 
@@ -31,9 +24,7 @@ if( isset($_POST["submit"]) ){
     }
 }
 
-if ($sql){
 
-    $tanggal = $data["date"];
 ?>
 
 
@@ -60,8 +51,6 @@ if ($sql){
                         <input type="text" name="idTask" id="idTask" class="form-control" value="<?= $data["id"]; ?>" readonly>
                         <label>Aproval date</label>
                         <input type="text" name="dateAprove" class="form-control" value="<?= date('d-M-Y H:i:s'); ?>" readonly>
-                        <label>User Dispa :</label>
-                        <input type="text" name="user" placeholder="" value="<?= $_SESSION['username'];?>" class="form-control" readonly>  
                         <input type="text" name="fotoLamaBebas"  value="<?= $data["foto"]; ?>" readonly> <!--untuk menyimpan foto lama, jika user tidak ganti foto maka foto ini yg digunakan-->
                         <input type="text" name="fotoLamaNormal" value="<?= $data["foto2"]; ?>">
                         <input type="text" name="status" id="statusJob" value="<?= $data["status"]; ?>">
@@ -69,6 +58,7 @@ if ($sql){
                         <input type="text" name="filelama" value="<?= $data['surat'];?>">
                         <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                         <input type="text" value="<?php echo $data["emergency_pengawas_normal"]?>" id="pengawas_normal">
+                        <input type="text" name="user" id="user" value="<?= $data["user"] ?>">
                     </dive>
                     <div class="grid">
                         <div class="grid__item_item01">
@@ -119,10 +109,10 @@ if ($sql){
                                        
                                         <?php 
                                         foreach (unserialize($data["emergency_pengawas_bebas"]) as $row) :
-                                            for($j = 0; $j < count($row["lokasi"]); $j++){
+                                            for($j = 0; $j < count($row["lokasiPembebasan"]); $j++){
                                         ?>
                                             <tr>
-                                                <td><p><?= $row['lokasi'][$j] ?></p></td>
+                                                <td><p><?= $row['lokasiPembebasan'][$j] ?></p></td>
                                                 <td><p><?= $row['peng_pekerjaan'][$j] ?></p></td>
                                                 <td><p><?= $row['peng_manuver'][$j] ?></p></td>
                                                 <td><p><?= $row['peng_k3'][$j] ?></p></td>
@@ -156,13 +146,7 @@ if ($sql){
                                             </tr>
                                         </thead>
                                         <tbody id="table2">
-                                            <?php while ($manuverBebas2 = mysqli_fetch_array($sql_manuver_petugas2)) { ?>
-                                                <tr>
-                                                    <td style=""><?= $manuverBebas2["spv_gitet_normal"]  ?></td>
-                                                    <td><?= $manuverBebas2["opr_gitet_normal"]  ?></td>
-                                                </tr>
-                                            <?php } ?>
-
+                                           
                                             <?php 
                                                     foreach (unserialize($data["emergency_pengawas_normal"]) ?: [] as $row) :
                                                       
@@ -220,7 +204,7 @@ if ($sql){
                         <div class="grid__item grid__item_item36 inputan"><input type="text" name="scada_akhir_after" placeholder="Fill in Mw MVar Amper Volt" style="" value="<?= $data["scada_akhir_after"]; ?>"></div>
                         <div class="grid__item grid__item_item37 titel">MANUVER PEMBEBASAN INSTALLASI</div>
                         <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan</div>
-                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" id="" cols="232" rows="3" style="" disabled><?= $data["catatan_pra_pembebasan"];?></textarea></div>
+                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" class=textarea cols="232" rows="3" style="" disabled><?= $data["catatan_pra_pembebasan"];?></textarea></div>
                         <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan</div>
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
@@ -247,11 +231,11 @@ if ($sql){
                                     <?php $i=1; ?>
                                         <?php 
                                             foreach (unserialize($data["emergency_bebas"]) as $row) :
-                                                for($j = 0; $j < count($row["lokasi"]); $j++){
+                                                for($j = 0; $j < count($row["lokasiManuverBebas"]); $j++){
                                         ?>
                                     <tr>
                                         <td><?= $i ?></td>
-                                        <td><p><?= $row['lokasi'][$j] ?></p></td>
+                                        <td><p><?= $row['lokasiManuverBebas'][$j] ?></p></td>
                                         <td><p><?= $row['remote_bebas'][$j] ?></p></td>
                                         <td><p><?= $row['real_bebas'][$j] ?></p></td>
                                         <td><p><?= $row['ads_bebas'][$j] ?></p></td>
@@ -268,10 +252,10 @@ if ($sql){
                                 </table>
                         </div>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
-                        <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" id="" cols="232" rows="3" style="" placeholder="Masukan Catatan..." disabled><?= $data["catatan_pasca_pembebasan"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" class=textarea cols="232" rows="3" style="" placeholder="Masukan Catatan..." disabled><?= $data["catatan_pasca_pembebasan"]; ?></textarea></div>
                         <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>
                         <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
-                        <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" id="" cols="232" rows="3" style="" ><?= $data["catatan_pra_penormalan"];?></textarea></div>
+                        <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" class=textarea cols="232" rows="3" style="" ><?= $data["catatan_pra_penormalan"];?></textarea></div>
                         <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
@@ -318,17 +302,16 @@ if ($sql){
                             </table>
                         </div>
                         <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
-                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" id="" cols="232" rows="3" ><?= $data["catatan_pasca_penormalan"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" class=textarea cols="232" rows="3" ><?= $data["catatan_pasca_penormalan"]; ?></textarea></div>
                         <div class="grid__item grid__item_item53 titel catatan" >Catatan AMN Dispa Awal</div>
                         <div class="grid__item grid__item_item54 titel catatan" >Catatan AMN Dispa Akhir</div>
-                        <div class="grid__item grid__item_item55 inputan catatan" ><textarea name="catatan_amndis_awal" id="" cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_awal"]; ?></textarea></div>
-                        <div class="grid__item grid__item_item56 inputan catatan" ><textarea name="catatan_amndis_akhir" id="" cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_akhir"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item55 inputan catatan" ><textarea name="catatan_amndis_awal" class=textarea cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_awal"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item56 inputan catatan" ><textarea name="catatan_amndis_akhir" class=textarea cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_akhir"]; ?></textarea></div>
                     </div><br>
                         <button type="submit" name="submit" >Simpan Form</button>
                     </div>
                     </div>
                 </form>
-                <?php  } ?>
             </div>
         </div>
     </div>

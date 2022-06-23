@@ -61,10 +61,11 @@
                             <tbody>
                                 <tr>
                                 <td class="lebar-tabel"><?= $no+$dataAwal?></td>
-                                <td><?= $data['pekerjaan'];?></td>
+                                <td><?= $data['pekerjaan'];?> </div>
+                                </td>
                                 <td class="lebar-tabel"><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
-                                <td class="lebar-tabel"><?= $data['lokasi'];?></td>
-                                <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                <td class="lebar-tabel"><?= ($data['lokasi']) ;?></td>
+                                <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['status'] == "initiator")  {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
@@ -72,7 +73,7 @@
                                                 echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
-                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                                 echo "<a href='createPDF.php?id=". $data['id']."&jumlah=' id='pdf' class='pdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
                                             }elseif ($data['msb'] == "disapprove") {
@@ -84,10 +85,16 @@
                                 <td class="lebar-tabel">
                                     <a href="?url=show_detail&id=<?= $data['id'];?>" class="w3-xlarge w3-text-blue">
                                         <span class="icon text-white-50">
-                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         </span>
-                                        
-                                    </a>
+                                    </a> 
+                                    <?php if ($data["postpone"] != '') { ?>
+                                        <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
+                                            <span class="icon text-white-50">
+                                                <i class="fa fa-pause-circle" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    <?php }?>
                                 </td>
                                 </tr>
                             </tbody>
@@ -108,7 +115,7 @@
                                     <td><?= $data['pekerjaan'];?></td>
                                     <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                     <td><?= $data['lokasi'];?></td>
-                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['status'] == "initiator")  {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
@@ -116,7 +123,7 @@
                                                 echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
-                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['msb'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
@@ -124,12 +131,19 @@
                                                 echo "<a href='#' class='pending' title='pending'><i class='fa fa-clock-o' aria-hidden='true'></i></a>";
                                             }?>
                                     </td>
-                                    <td>
+                                    <td class="manuver lebar-tabel">
                                         <a href="?url=show_detail&id=<?= $data['id'];?>" class="w3-xlarge w3-text-blue">
                                             <span class="icon text-white-50">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                             </span>                                          
                                         </a>
+                                        <?php if ($data["postpone"] != '') { ?>
+                                        <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
+                                            <span class="icon text-white-50">
+                                                <i class="fa fa-pause-circle" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                        <?php }?>
                                     </td>
                                 </tr>
                             </tbody>
@@ -150,7 +164,7 @@
                                 <td><?= $data['pekerjaan'];?></td>
                                 <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                 <td><?= $data['lokasi'];?></td>
-                                <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                             echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
@@ -159,7 +173,7 @@
                                         }?>
                                         
                                 </td>
-                                <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                             echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'>< class='icon text-white-50'><i class='fas fa-thumbs-down'></i></a>";
@@ -169,13 +183,19 @@
                                         
 
                                 </td>
-                                <td>
+                                <td class="manuver lebar-tabel">
                                     <a href="?url=show_detail&id=<?= $data['id'];?>" class="w3-xlarge w3-text-blue">
                                         <span class="icon text-white-50">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         </span>
-                                        
                                     </a>
+                                    <?php if ($data["postpone"] != '') { ?>
+                                        <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
+                                            <span class="icon text-white-50">
+                                                <i class="fa fa-pause-circle" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    <?php }?>
                                 </tr>
                             </tbody>
                             <?php $no++ ?>
@@ -197,7 +217,7 @@
                                     <td><?= $data['pekerjaan'];?></td>
                                     <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                     <td><?= $data['lokasi'];?></td>
-                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                             echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
@@ -206,7 +226,7 @@
                                         }?>
                                         
                                     </td>
-                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                             echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                         }elseif ($data['status'] == "initiator") {
                                             echo "<a href='#' class='disapprove' title='disapprove'>< class='icon text-white-50'><i class='fas fa-thumbs-down'></i></a>";
@@ -216,12 +236,19 @@
                                         
 
                                     </td>
-                                    <td>
-                                        <a href="?url=show_detail&id=<?= $data['id'];?>" class="">
+                                    <td class="manuver lebar-tabel">
+                                        <a href="?url=show_detail&id=<?= $data['id'];?>" class="w3-xlarge w3-text-blue">
                                             <span class="icon text-white-50">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                             </span>
                                         </a>
+                                        <?php if ($data["postpone"] != '') { ?>
+                                        <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
+                                            <span class="icon text-white-50">
+                                                <i class="fa fa-pause-circle" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    <?php }?>
                                     </td>
                                     </tr>
                                 </tbody>
@@ -242,7 +269,7 @@
                                     <td><?= $data['pekerjaan'];?></td>
                                     <td><?= $dayList[date("D", strtotime($data["date"]))]?>, <?= date(" d F Y", strtotime($data["date"])); ?></td>
                                     <td><?= $data['lokasi'];?></td>
-                                    <td><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "msb" || $data['status'] == "msbUbah" || $data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['amn'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><span class='icon text-white-50'><i class='fas fa-thumbs-down'></i></span></a>";
@@ -250,7 +277,7 @@
                                                 echo "<a href='#' class='pending' title='pending'><span class='icon text-white-50'><i class='fas fa-spinner'></i></span></a>";
                                             }?>
                                     </td>
-                                    <td><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done") {
+                                    <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
                                             }elseif ($data['msb'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><span class='icon text-white-50'><i class='fas fa-thumbs-down'></i></span></a>";
@@ -258,12 +285,19 @@
                                                 echo "<a href='#' class='pending' title='pending'><span class='icon text-white-50'><i class='fas fa-spinner'></i></span></a>";
                                             }?>
                                     </td>
-                                    <td>
-                                        <a href="?url=show_detail&id=<?= $data['id'];?>" class="">
+                                    <td class="manuver lebar-tabel">
+                                        <a href="?url=show_detail&id=<?= $data['id'];?>" class="w3-xlarge w3-text-blue">
                                             <span class="icon text-white-50">
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                             </span>
                                         </a>
+                                        <?php if ($data["postpone"] != '') { ?>
+                                        <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
+                                            <span class="icon text-white-50">
+                                                <i class="fa fa-pause-circle" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    <?php }?>
                                     </td>
                                 </tr>
                             </tbody>
@@ -310,6 +344,7 @@
             </div>
         </div>
     </div>
+    <script src="js/script.js"></script>
 <script>
     
 

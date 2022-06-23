@@ -4,7 +4,7 @@ require "functions.php";
 
 $id = $_GET["id"];
 
-if ( hapusAjax($id) > 0) {
+if ( hapusDB($id) > 0) {
     echo "<script>
             alert ('data berhasil dihapus');
             document.location.href ='home.php?url=updateDB';

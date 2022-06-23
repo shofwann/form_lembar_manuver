@@ -7,11 +7,13 @@ include 'functions.php';
 
 $idnya = $_POST["idDetailLokasi"];
 $idnya = trim($idnya);
-
+$query = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi_detail WHERE id_lokasi_detail='{$idnya}'");
+$data = mysqli_fetch_assoc($query);
 
 
 ?>
 <!-- <link rel="stylesheet" href="css/style.css"> -->
+<?php error_reporting(E_ALL ^ E_NOTICE);  ?>
  
     <div class="grid__item grid__item_item0013 border_right border_bottom" style="margin-right:20px;">
         <table class="table table-bordered" >
@@ -21,18 +23,17 @@ $idnya = trim($idnya);
                     <th>Action</th>
                 </tr>
             </thead>
-            <?php
-            $query = "SELECT * FROM db_ajax_table_pengawas WHERE id_lokasi_detail='{$idnya}'";
-            $result = mysqli_query($conn,$query);
-            while ($data = mysqli_fetch_assoc($result)){
-            ?>
             <tbody id="tableBody1">
+            <?php
+                foreach (unserialize($data["pengawas"]) ? : [] as $row) : 
+                    for($j=0; $j<count(is_countable($row["lokasiPembebasan"]) ? $row["lokasiPembebasan"] : []); $j++) {
+            ?>
                 <tr >
-                    <td><input type="text" name="lokasi1[]" value="<?= $data['lokasi']; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
+                    <td><input type="text" name="lokasiPembebasan[]" value="<?= $row['lokasiPembebasan'][$j]; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
                     <td><button type="button" class="btn red" onclick="hapus1(this)">x</button><input type="text" name="id1[]" value="<?= $data['id']; ?>" hidden></td>
                 </tr>
+                <?php } endforeach ?>
             </tbody>
-            <?php } ?>
             <tfoot id="tableBody1n">
 
             </tfoot>
@@ -51,15 +52,14 @@ $idnya = trim($idnya);
             </thead>
             <?php $i=1; ?>
             <?php
-            $query2 = "SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail='{$idnya}' AND tahapan='pembebasan'";
-            $result2 = mysqli_query($conn,$query2);
-            while ($data2 = mysqli_fetch_assoc($result2)){
+            foreach (unserialize($data["manuver_bebas"]) ? : [] as $row) : 
+                for($j=0; $j<count(is_countable($row["lokasiManuverBebas"]) ? $row["lokasiManuverBebas"] : [] ); $j++) {
             ?>
             <tbody id="tableBody2">
                 <tr>
                     <td><?= $i; ?></td>
-                    <td><input type="text" name="lokasi2[]" value="<?= $data2['lokasi']; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
-                    <td><input type="text" name="installasi2[]" value="<?= $data2['installasi']; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
+                    <td><input type="text" name="lokasiManuverBebas[]" value="<?= $row['lokasiManuverBebas'][$j]; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
+                    <td><input type="text" name="installManuverBebas[]" value="<?= $row['installManuverBebas'][$j]; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
                     <td>
                         <button type="button" class="btn red" onclick="hapus2(this)">x</button>
                         <input type="text" name="id2[]" value="<?= $data2['id']; ?>" hidden>
@@ -67,7 +67,7 @@ $idnya = trim($idnya);
                 </tr>
             </tbody>
             <?php  $i++; ?>
-            <?php } ?>
+            <?php } endforeach?>
             <tfoot id="tableBody2n">
 
             </tfoot>
@@ -84,24 +84,23 @@ $idnya = trim($idnya);
                     <th>Action</th>
                 </tr>
             </thead>
-            <?php $j=1; ?>
+            <?php $i=1; ?>
             <?php
-            $query3 = "SELECT * FROM db_ajax_table_tahapan WHERE id_lokasi_detail='{$idnya}' AND tahapan='penormalan'";
-            $result3 = mysqli_query($conn,$query3);
-            while ($data3 = mysqli_fetch_assoc($result3)){
+            foreach (unserialize($data["manuver_normal"]) ? : [] as $row) : 
+                for($j=0; $j<count(is_countable($row["lokasiManuverNormal"]) ? $row["lokasiManuverNormal"] : [] ); $j++) {
             ?>
             <tbody id="tableBody3">
                 <tr>
-                    <td><?= $j; ?></td>
-                    <td><input type="text" name="lokasi3[]" value="<?= $data3['lokasi']; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
-                    <td><input type="text" name="installasi3[]"value="<?= $data3['installasi']; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
+                    <td><?= $i; ?></td>
+                    <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row['lokasiManuverNormal'][$j]; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
+                    <td><input type="text" name="installManuverNormal[]"value="<?= $row['installManuverNormal'][$j]; ?>" style="background-color:#fff;outline:none;border-color:#fff;"></td>
                     <td>
                         <button type="button" class="btn red" onclick="hapus3(this)">x</button>
                         <input type="text" name="id3[]" value="<?= $data3['id']; ?>" hidden></td>
                 </tr>   
             </tbody>
-            <?php  $j++; ?>
-            <?php } ?>
+            <?php  $i++; ?>
+            <?php } endforeach?>
             <tfoot id="tableBody3n">
 
             </tfoot>

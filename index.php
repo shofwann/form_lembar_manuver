@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_SESSION["username"])) {
 	echo "<script>Anda Belum Login</script>";
-  header("location:main-dashboard.php");
+  header("location:home.php");
 	exit;
 }
 ?>

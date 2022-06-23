@@ -15,11 +15,11 @@ if ($_SESSION["level"] != "initiator") {
 include 'functions.php';
 if( isset($_POST["submit"]) ){
 
-    if( ubahDB($_POST) > 0){
+    if( updateDB($_POST) > 0){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                document.location.href = 'home.php?url=updateDB';
+                //document.location.href = 'home.php?url=updateDB';
                 </script>
                 ";  
                 
@@ -27,7 +27,7 @@ if( isset($_POST["submit"]) ){
        // var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                document.location.href = 'home.php?url=updateDB';
+                //document.location.href = 'home.php?url=updateDB';
                 </script>
                 "; die;
                 
@@ -185,7 +185,7 @@ $(document).ready(function(){
         var row = table.insertRow(-1);
         cell1 = row.insertCell(0);
         cell2 = row.insertCell(1);
-        cell1.innerHTML = "<input name='lokasi1[]' type='text'>";
+        cell1.innerHTML = "<input name='lokasiPembebasan[]' type='text'>";
         cell2.innerHTML = "<button type='button' onclick='hapus1new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id1[]' value='0' hidden>";
         }
 
@@ -215,8 +215,8 @@ $(document).ready(function(){
             cell3 = row.insertCell(2);
             cell4 = row.insertCell(3);
             cell1.innerHTML = no++;
-            cell2.innerHTML = "<input name='lokasi2[]' type='text' style='width:60px;'>";
-            cell3.innerHTML = "<input name='installasi2[]' type='text'>";
+            cell2.innerHTML = "<input name='lokasiManuverBebas[]' type='text' style='width:60px;'>";
+            cell3.innerHTML = "<input name='installManuverBebas[]' type='text'>";
             cell4.innerHTML = "<button type='button' onclick='hapus2new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id2[]' value='0' hidden>"
         }
 
@@ -244,8 +244,8 @@ $(document).ready(function(){
             cell3 = row.insertCell(2);
             cell4 = row.insertCell(3);
             cell1.innerHTML = no2++;
-            cell2.innerHTML = "<input name='lokasi3[]' type='text' style='width:60px;'>";
-            cell3.innerHTML = "<input name='installasi3[]' type='text'>";
+            cell2.innerHTML = "<input name='lokasiManuverNormal[]' type='text' style='width:60px;'>";
+            cell3.innerHTML = "<input name='installManuverNormal[]' type='text'>";
             cell4.innerHTML = "<button type='button' onclick='hapus3new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id3[]' value='0' hidden>"
         }
 

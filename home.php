@@ -148,7 +148,7 @@ $user=$_SESSION["username"];
           </div>
           <ul class="sub-menu">
             <li><a class="link_name" href="#">Setting</a></li>
-            <li><a href="#">Change Password</a></li>
+            <li><a href="?url=change-pass">Change Password</a></li>
             <li><a href="#">Activity Log</a></li>
             <li><a href="#">Theme</a></li>
           </ul>
@@ -186,7 +186,7 @@ $user=$_SESSION["username"];
     
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <span class="text">LEMBAR MANUVER ONLINE</span>
+      <!-- <span class="text">LEMBAR MANUVER ONLINE</span> -->
     </div>
   
     <div class="content">
@@ -204,7 +204,8 @@ $user=$_SESSION["username"];
   
   
   
-
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+  
   <script>
   let arrow = document.querySelectorAll(".arrow");
   for (var i = 0; i < arrow.length; i++) {
@@ -229,11 +230,29 @@ $user=$_SESSION["username"];
 			dropdownContent.classList.toggle('dropdown-toggle');
 		}
 
-  // var dd_main = document.querySelector(".dd_main");
 
-	// dd_main.addEventListener("click", function(){
-	// 	this.classList.toggle("active");
-	// // })
+    $(document).ready(function(){
+        function check_session() {
+          $.ajax({
+              url: "check_session.php",
+              method: "POST",
+              success: function(data){
+                if(data == "1"){
+                  alert("login kembali untuk melanjutkan");
+                  window.location.href = "logout.php";
+                }
+              }
+          })
+        }
+
+        setInterval(function(){
+          check_session();
+        }, 1800000)
+
+
+		 })
+
+   
   </script>
 </body>
 </html>

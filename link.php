@@ -77,6 +77,10 @@ if (isset($_GET['url']))
         include 'hapusAjax.php';
         break;
 
+        case 'hapusAjaxParent';
+        include 'hapusAjaxParent.php';
+        break;
+
         case 'users';
         include 'admin-users.php';
         break;
@@ -111,6 +115,14 @@ if (isset($_GET['url']))
 
         case 'update_form_emergency_akhir';
         include 'updateForm_emergency_akhir.php';
+        break;
+
+        case 'postpone';
+        include 'postpone.php';
+        break;
+
+        case 'change-pass';
+        include 'ganti-pass.php';
         break;
 
         
@@ -189,13 +201,9 @@ if (isset($_GET['url']))
 
 
 
-        case 'change-pass';
-        include 'ganti-pass.php';
-        break;
 
-        case 'change-pass';
-        include 'home.php';
-        break;
+
+       
 
         
         case 'form-auto-new';

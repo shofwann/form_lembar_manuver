@@ -20,13 +20,21 @@ require "functions.php";
         
     </style>
 </head>
-<body>
+<body >
     <div class="card">
         <div class="card-header">
             Inbox
         </div>
-        <div class="container-wrap">
-            <div class="container" style="">
+        <div class="container-wrap" >
+            <?php if ($_SESSION["level"] == 'dispa') {?>
+            <div class="container" style="height: 990px;">
+            <label class="switch">
+                <input type="checkbox" class="check" id="check">
+                <span class="slider"></span>
+            </label><br><br>
+
+            <p id="verdict"></p>
+            <?php } ?>
                 <table>
                     <tr>
                         <th style="width:3%;">No</th>
@@ -51,20 +59,50 @@ require "functions.php";
                             <td><?= date("d F Y", strtotime($row["date"]));?></td>  
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
-                            <td><?= "-" ?></td>
+                            <td><?= $row["status"]?></td>
                             <td>
-                                <a href="?url=updateForm-1&id=<?= $row["id"];?>" id="updateForm-2" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=updateForm-1&id=<?= $row["id"];?>"  class="w3-xlarge w3-text-green">
+                                <span class="icon text-white-50">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                            </a>
                             </td>
                             
                         </tr>
                         <?php $i++;?>
                         <?php endforeach; ?>
+
+                        <?php
+                            $datas = query("SELECT * FROM db_form WHERE user = '$_SESSION[username]' AND status = 'postpone'");
+                            foreach($datas as $row):
+                        ?>
+
+                        <tr>
+                            <td><?=$i;?></td>
+                            <td><?= $row["pekerjaan"];?></td>
+                            <td><?= date("d F Y", strtotime($row["date"]));?></td>  
+                            <td><?= $row["installasi"];?></td>
+                            <td><?= $row["lokasi"];?></td>
+                            <td><?= $row["status"] ?></td>
+                            <td>
+                                <a href="?url=updateForm-1&id=<?= $row["id"];?>" id="updateForm-2" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=hapus&id=<?= $row['id'];?>" onclick="return confirm('anda yakin menghapus <?= $data['pekerjaan']?>?')" >
+                                    <span >
+                                        <i class="fa fa-trash"></i>
+                                    </span>
+                                </a>
+                            </td>  
+                        </tr>
+                        <?php
+                            $i++;
+                            endforeach; 
+                        ?>
                     <?php } ?>
 
                     <?php if ($_SESSION["level"]=="amn" || $_SESSION["level"] == "plh_amn") { ?>
 
                         <?php
-                            $datas=query("SELECT * FROM db_form WHERE status = 'amn'");
+                            $datas=query("SELECT * FROM db_form WHERE status = 'amn' ORDER BY DATE(create_date) DESC");
                         ?>
                         <?php $i=1;?>
                         <?php foreach($datas as $row):?>
@@ -159,7 +197,7 @@ require "functions.php";
                             <td><?= $row["status"];?></td>
                             <td>
                                 <a href="?url=dispaInputAwal&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
-                            </td>
+                                <a href="?url=postpone&id=<?= $row["id"];?>"><i class="fa fa-times"></i></a> 
                         <?php $i++;?>
                         <?php endforeach; ?>
                             <!-- untuk percobaan -->
@@ -296,9 +334,32 @@ require "functions.php";
                     <?php } ?>
 
                 </table>
+
+                <!-- <button id="show-modal">Learn More</button>
+                
+                <div class="overlay overlay--hidden"></div>
+                <div class="modal modal--hidden">
+                <div class="modal__contents">
+                    <div class="modal__close-bar">
+                    <span>X</span>
+                    </div>
+                    <p>Please enter your email address to find out more</p>
+                    <form id="learn-more-form">
+                    
+                        <input type="email" placeholder="Your Best Email">
+                        <button id="submit">Submit</button>
+                    </form>
+                    
+                </div>
+
+                </div> -->
+
+
+
+
             </div>
         </div>
     </div>
-    
+    <script src="js/script.js"></script>
 </body>
 </html>
