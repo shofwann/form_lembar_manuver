@@ -20,7 +20,7 @@ if ($query) {
 
 if( isset($_POST["submit"]) ){
 
-    if( insertDB($_POST) > 0){
+    // if( insertDB($_POST) > 0){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
@@ -28,7 +28,7 @@ if( isset($_POST["submit"]) ){
                 </script>
                 ";  
                 
-    } else {
+    // } else {
        // var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
@@ -36,7 +36,7 @@ if( isset($_POST["submit"]) ){
                 </script>
                 "; die;
                 
-    }
+    // }
 }
 
 ?>
@@ -48,7 +48,7 @@ if( isset($_POST["submit"]) ){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMO - DB INSERT</title>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquey.js"></script>
 </head>
 <body>
     <div class="card">
@@ -64,7 +64,7 @@ if( isset($_POST["submit"]) ){
                         <div class="grid__item grid__item_item003">Pilih Lokasi</div>
                         <div class="grid__item grid__item_item004 border_right">Pilih detail Lokasi</div>
                         <div class="grid__item grid__item_item005">
-                            <select name="form" id="form">
+                            <select name="form" id="form" onChange=pilihForm()>
                                 <option value="">-SELECT-</option>
                                 <option value="1">form-1</option>
                                 <option value="2">form-2</option>
@@ -93,7 +93,7 @@ if( isset($_POST["submit"]) ){
                             </div>
                             <div style="clear:both"></div>
                         </div>
-                        <div class="grid__item grid__item_item008 border_right" id="detailnya">
+                        <div class="grid__item grid__item_item008 border_right " id="detailnya">
                            <div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
                                 <input type="text" name="detailLokasi" id="lokasiDetail" class="" autocomplete="off" placeholder="Inputkan detail pekerjaan" style="width: 400px;">
                                     <div class="tool-tip  slideIn">
@@ -113,57 +113,9 @@ if( isset($_POST["submit"]) ){
 
                         </div>
                         
-                        <div class="grid__item grid__item_item009 titel">Lokasi Pekerjaan</div>
-                        <div class="grid__item grid__item_item0010 titel">Manuver Pembebasan</div>
-                        <div class="grid__item grid__item_item0011 titel border_right">Manuver Penormalan</div>
-                        <div class="grid__item grid__item_item0013  border_bottom" >
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr id="tableHead">
-                                        <th>Lokasi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody1">
-                                    
-                                </tbody>
-                            </table>
-                                <button type="button" id="add1" class="btn btn-success" onclick="tambah1()">+</button>
-                                <button type="button" id="remove1" class="btn btn-danger" onclick="kurang1()">-</button> 
-                        </div>
-                        <div class="grid__item grid__item_item0014 border_bottom" >
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Lokasi</th>
-                                        <th>Installasi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody2">
-                                    
-                                </tbody>
-                            </table>
-                                <button type="button" id="add2" class="btn btn-success" onclick="tambah2()">+</button>
-                                <button type="button" id="remove2" class="btn btn-danger" onclick="kurang2()">-</button> 
-                        </div>
-                        <div class="grid__item grid__item_item0015 border_right border_bottom" >
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Lokasi</th>
-                                        <th>Installasi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody3">
-                                    
-                                </tbody>
-                            </table>
-                                <button type="button" id="add3" class="btn btn-success" onclick="tambah3()">+</button>
-                                <button type="button" id="remove3" class="btn btn-danger" onclick="kurang3()">-</button> 
-                        </div>
-                        
-                    </div>  
+                    </div>
+                    
+                    <div id=table></div>
                             
                     <button type="submit" name="submit">Simpan</button>
                 </form>
@@ -194,65 +146,79 @@ if( isset($_POST["submit"]) ){
         })
 
         $("#lokasi").keyup(function(){               
-                var query = $("#lokasi").val();
-                if (query.length > 1) {
-                        $.ajax(
-                            {
-                                url: 'get_data_autocomplete_lokasi.php',
-                                type: 'POST',
-                                data: {
-                                    //search: 1,
-                                    q: query,
-                                    id: $("#jenis").val()
-                                },
-                                success: function (data) {
-                                    $("#response").html(data);
-                                },
-                                dataType: 'text'
-                            }
-                        );
+            var query = $("#lokasi").val();
+            if (query.length > 1) {
+                    $.ajax(
+                        {
+                            url: 'get_data_autocomplete_lokasi.php',
+                            type: 'POST',
+                            data: {
+                                //search: 1,
+                                q: query,
+                                id: $("#jenis").val()
+                            },
+                            success: function (data) {
+                                $("#response").html(data);
+                            },
+                            dataType: 'text'
+                        }
+                    );
+            }
+
+            $('#lokasinya').on('click', 'li', function () {
+                var lokasi = $(this).text();
+                $("#lokasi").val(lokasi);
+                $("#response").html("");
+            });
+        });
+
+        $("#lokasiDetail").keyup(function(){
+            var queryDetail = $("#lokasiDetail").val();
+            if (queryDetail.length > 1) {
+                $.ajax(
+                    {
+                        url: 'get_data_autocomplete_lokasi_detail.php',
+                        type: 'POST',
+                        data: {
+                            q: queryDetail,
+                            id: $("#jenis").val(),
+                            val: $("#lokasi").val()
+                        },
+                        success: function(data) {
+                            $("#responseDetail").html(data);
+                        },
+                        dataType: 'text'
                     }
+                );
+            }
 
-                    $('#lokasinya').on('click', 'li', function () {
-                        var lokasi = $(this).text();
-                        $("#lokasi").val(lokasi);
-                        $("#response").html("");
-                });
-                });
+            $('#detailnya').on('click', 'li', function () {
+                var lokasiDetail = $(this).text();
+                $("#lokasiDetail").val(lokasiDetail);
+                $("#responseDetail").html("");
+            });
 
-                $("#lokasiDetail").keyup(function(){
-                    var queryDetail = $("#lokasiDetail").val();
-                    if (queryDetail.length > 1) {
-                        $.ajax(
-                            {
-                                url: 'get_data_autocomplete_lokasi_detail.php',
-                                type: 'POST',
-                                data: {
-                                    q: queryDetail,
-                                    id: $("#jenis").val(),
-                                    val: $("#lokasi").val()
-                                },
-                                success: function(data) {
-                                    $("#responseDetail").html(data);
-                                },
-                                dataType: 'text'
-                            }
-                        );
-                    }
+        });
 
-                    $('#detailnya').on('click', 'li', function () {
-                        var lokasiDetail = $(this).text();
-                        $("#lokasiDetail").val(lokasiDetail);
-                        $("#responseDetail").html("");
-                });
-
-                });
+        function pilihForm() {
+            var x =document.getElementById("form").value;
+            $.ajax({
+                url:  'get_data_form.php',
+                method:'POST',
+                data: {
+                    idForm : x
+                },
+                success:function(data){
+                    $('#table').html(data);
+                }
+            })
+        }
 
         function tambah1() {
             table = document.getElementById('tableBody1');
             var row = table.insertRow(-1);
             cell1 = row.insertCell(0);
-            cell1.innerHTML = "<input name='lokasiPembebasan[]' type='text'>";
+            cell1.innerHTML = "<input name='lokasiPembebasan[]' type='text' size='10'>";
         }
         function kurang1() {
             table = document.getElementById('tableBody1');
@@ -261,44 +227,76 @@ if( isset($_POST["submit"]) ){
                 row[row.length-1].outerHTML='';
             }
         }
-        no = 1;
-        function tambah2() {
-            table = document.getElementById('tableBody2');
-            var row = table.insertRow(-1);
-            cell1 = row.insertCell(0);
-            cell2 = row.insertCell(1);
-            cell3 = row.insertCell(2);
-            cell1.innerHTML = no++;
-            cell2.innerHTML = "<input name='lokasiManuverBebas[]' type='text'>";
-            cell3.innerHTML = "<input name='installManuverBebas[]' type='text'>";
+              
+        function tambahRow(g,h,i,j) {
+            console.log(j)
+            const idx = g === 0 ? j : `${j}${g}`;
+            if(j != 'tableBody2'){
+                console.log('tidak')
+            } 
+            let table = document.getElementById(idx);
+            const newRow = document.createElement('tr');
+            const existingRows = table.querySelectorAll('tr');
+            // console.log(existingRows)
+            newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${h}' type='text'></td><td><input name='${i}' type='text'><input type='text' name='' id='hide' value='${g}'></td>`;
+            table.appendChild(newRow);
+            
+  
         }
-        function kurang2() {
-            table = document.getElementById('tableBody2');
+       
+        function tambahForm(g,h,i,j,k,l) {   //0,'copyForm1','titelBebas[]','lokasiManuverNormal[]','installManuverNormal[]','tableBody2'
+            const id = g === 0 ? `${h}` : `${h}${g}`;
+            let table = document.getElementById(id);
+            const form = document.createElement('div');
+            const exist = table.querySelectorAll('div .flex-container-sub');
+            // console.log(exist.length + 1);
+            form.innerHTML = `<div class="flex-container-sub"><div class="grid-item " style=""><input type="" name="${i}" id=""><table class="table table-bordered" ><thead><tr><th style="width:33%">No</th><th style="width:33%">Lokasi</th><th style="width:33%">Installasi</th></tr></thead><tbody id="${l}${exist.length+1}"></tbody></table><button type="button" id="add2" class="btn btn-success" onclick="tambahRow(${exist.length+1},'${j}','${k}','${l}')">+</button><button type="button" class="btn btn-danger" onclick="kurangRow('${l}${exist.length+1}')">-</button></div><div class="grid-item form2" ><button type="button" class='btn reed open' onclick="kurangForm(this)">-</button></div><div id="${h}${exist.length+1}"></div></div>`;
+            table.appendChild(form);
+            
+            let btnRed =  document.querySelectorAll('.open');
+            const JumBtn = btnRed.length;
+
+            // var last = btnRed[btnRed.length- 1];
+            // last.style.backgroundColor = 'black';
+
+            for(l=0; l<JumBtn-1; l++){
+                btnRed[l].style.display = 'none';
+            }
+            // JumBtn[JumBtn-1].style.display = '';
+            //console.log(JumBtn);
+        }
+ 
+        function kurangRow(a) {
+            table = document.getElementById(a);
             row = table.getElementsByTagName('tr');
             if (row.length !='0') {
                 row[row.length-1].outerHTML='';
             }
-            no--;
         }
-        no2 = 1;
-        function tambah3() {
-            table = document.getElementById('tableBody3');
-            var row = table.insertRow(-1);
-            cell1 = row.insertCell(0);
-            cell2 = row.insertCell(1);
-            cell3 = row.insertCell(2);
-            cell1.innerHTML = no2++;
-            cell2.innerHTML = "<input name='lokasiManuverNormal[]' type='text'>";
-            cell3.innerHTML = "<input name='installManuverNormal[]' type='text'>";
-        }
-        function kurang3() {
-            table = document.getElementById('tableBody3');
-            row = table.getElementsByTagName('tr');
-            if (row.length !='0') {
-                row[row.length-1].outerHTML='';
+
+        function kurangForm(ini) {
+
+            
+            var cek = ini.parentElement.parentElement.parentElement.previousElementSibling;
+            var form = ini.parentElement.parentElement;
+
+            if (cek == null){
+                form.remove()
+            } else{
+                ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[0].style.display='' ;
+                form.remove()
             }
-            no2--;
+            // console.log(inilah);
+            
+
         }
+
+        
+        
+
+
+      
+        
 
     </script>
 </body>

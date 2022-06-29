@@ -43,7 +43,7 @@ if( isset($_POST["submit"]) ){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LMO - DB INSERT</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+    <link href="select2/dist/css/select2.css" rel="stylesheet" />  
 </head>
 <body>
     <div class="card">
@@ -71,8 +71,8 @@ if( isset($_POST["submit"]) ){
                             </select>
                         </div>
                         <div class="grid__item grid__item_item007">
-                            <select name="idy" id="lokasi">
-                                <option style="white-space: nowrap;" value="">-SELECT-</option>
+                            <select name="idy" id="lokasi" >
+                                <option style="white-space: nowrap;" value="" >-SELECT-</option>
                             </select>
                         </div>
                         <div class="grid__item grid__item_item008 border_right">
@@ -97,11 +97,11 @@ if( isset($_POST["submit"]) ){
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+   
+    <script src="js/jquey.js"></script>
+    <script src="select2/dist/js/select2.full.js"></script>
+    
     <script type="text/javascript">
-
 
 $(document).ready(function(){
             $('#form').on('change',function(){
@@ -141,7 +141,8 @@ $(document).ready(function(){
             })
 
             $('#lokasi').on('change',function(){
-                var form = $(this).val();
+                var form = $(this).find('option:selected').val()
+                console.log(form)
                 $.ajax({
                     url: 'get_data_jenis.php',
                     type: "POST",
@@ -157,18 +158,16 @@ $(document).ready(function(){
                     }
                 })
             })
-
-            $(document).ready(function() {
-                    $('#lokasi').select2({dropdownAutoWidth: 'true'});
-                });
             
-
         });
 
+        // $('#lokasi').select2({dropdownAutoWidth: 'true'});
+               
         function pilihanDetailLokasi() {
                 var y = document.getElementById('detail_lokasi').value;
+                var x = document.getElementById('form').value;
                 $.ajax({
-                    url:'get_data_db.php',
+                    url: (x == 1) ? 'get_data_db.php' : 'get_data_db2.php',
                     method:'POST',
                     data: {
                         idDetailLokasi : y
@@ -179,6 +178,8 @@ $(document).ready(function(){
                 })
 
         }
+
+       
 
         function tambah1() {
         table = document.getElementById('tableBody1n');
@@ -207,8 +208,8 @@ $(document).ready(function(){
 
         
         no = 1;
-        function tambah2() {
-            table = document.getElementById('tableBody2n');
+        function tambah2(a) {
+            table = document.getElementById(a);
             var row = table.insertRow(-1);
             cell1 = row.insertCell(0);
             cell2 = row.insertCell(1);
@@ -222,11 +223,7 @@ $(document).ready(function(){
 
         function hapus2(ini) {
             row = ini.parentElement.parentElement
-            if (row.children[3].children[1].value != "0"){
-                id_hapus = row.children[3].children[1].cloneNode(true);
-                id_hapus.setAttribute("name","id2_hapus[]");
-                document.getElementById("form_id").appendChild(id_hapus);
-            }
+           
             row.remove();
         }
 
@@ -235,34 +232,7 @@ $(document).ready(function(){
             row.remove();
         }
 
-        no2 = 1;
-        function tambah3() {
-            table = document.getElementById('tableBody3n');
-            var row = table.insertRow(-1);
-            cell1 = row.insertCell(0);
-            cell2 = row.insertCell(1);
-            cell3 = row.insertCell(2);
-            cell4 = row.insertCell(3);
-            cell1.innerHTML = no2++;
-            cell2.innerHTML = "<input name='lokasiManuverNormal[]' type='text' style='width:60px;'>";
-            cell3.innerHTML = "<input name='installManuverNormal[]' type='text'>";
-            cell4.innerHTML = "<button type='button' onclick='hapus3new(this)' class='btn btn-danger btn_remove'>X</button><input type='text' name='id3[]' value='0' hidden>"
-        }
-
-        function hapus3(ini) {
-            row = ini.parentElement.parentElement
-            if (row.children[3].children[1].value != "0"){
-                id_hapus = row.children[3].children[1].cloneNode(true);
-                id_hapus.setAttribute("name","id3_hapus[]");
-                document.getElementById("form_id").appendChild(id_hapus);
-            }
-            row.remove();
-        }
-
-        function hapus3new(ini) {
-            row = ini.parentElement.parentElement
-            row.remove();
-        }
+        
 
      
         </script>

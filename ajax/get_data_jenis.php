@@ -19,16 +19,16 @@ elseif ($modul == 'lokasi') {
     $sql = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi WHERE id_jenis = $form ORDER BY nama ASC") or die(mysqli_error($conn));
     $lokasi='<option>-SELECT-</option>';
     while ($dt = mysqli_fetch_array($sql)) {
-        $lokasi.='<option value="'.$dt['id_lokasi'].'">'.$dt['nama'].'</option>';
+        $lokasi.='<option value="'.$dt['id_lokasi'].'">'.strtoupper($dt['nama']).'</option>';
     }
 
     echo $lokasi;
 }
 elseif ($modul == 'detail_lokasi') {
-    $sql = mysqli_query($conn,"SELECT * FROM db_ajax_detail_lokasi WHERE id_lokasi = $form ORDER BY nama ASC") or die(mysqli_error($conn));
+    $sql = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi_detail WHERE id_lokasi = $form ORDER BY nama ASC") or die(mysqli_error($conn));
     $detail='<option>-SELECT-</option>';
     while ($dt = mysqli_fetch_array($sql)) {
-        $detail.='<option value="'.$dt['id_detail_lokasi'].'">'.$dt['nama'].'</option>';
+        $detail.='<option value="'.$dt['id_lokasi_detail'].'">'.strtoupper($dt['nama']).'</option>';
     }
 
     echo $detail;

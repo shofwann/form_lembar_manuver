@@ -977,6 +977,33 @@
     width: 100%;
     border-collapse: collapse;
   }
+  .table.bordered{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    
+    
+  }
+
+  .flex-container {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+  }
+
+  .flex-container-sub, .flex-container-diverent {
+    display: grid;
+    grid-template-columns: 630px auto;
+  }
+
+  .grid-item {
+    text-align: left;
+    padding-left:10px;
+  }
+
+  .grid-item .form {
+    width: auto;
+  } 
+
 
   .btn{
     /* background-color: DodgerBlue; */
@@ -1770,6 +1797,13 @@ input[type="time"]::-ms-clear {
   margin-right: -2rem;
   margin-top: -1rem;
 } */
+
+.search-box {
+  position: absolute;
+}
+.select-box {
+  position: relative;
+}
 
 
 

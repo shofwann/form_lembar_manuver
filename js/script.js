@@ -203,9 +203,9 @@ var k=0;
 function tambahFormRow(h,i,j,k) {
     //j++;
     const id = h === 0 ? ''+i+'':`${i}${h}`
-    let table = document.getElementById(id);
-    const newRow = document.createElement('tr');
-    const existingRows = table.querySelectorAll('tr');
+    let table = document.getElementById(id); //tangkap id
+    const newRow = document.createElement('tr');  // buat elemen tr
+    const existingRows = table.querySelectorAll('tr'); // untuk menghitung jumlah row
     newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='${j}'></td><td></td><td></td><td></td><td><input type='text' name='${k}'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_bebas[]' value='${h}'></td>`;
 
     table.appendChild(newRow);
@@ -240,15 +240,13 @@ function kurangForm(ini){
 }
 
 
-
-
-
 function tambahRowNormal(g) {
     //j++;
     const id = g === 0 ? `dynamic_form2`:`dynamic_form2${g}`
     let table = document.getElementById(id);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
+    console.log(existingRows.length + 1)
     newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='lokasiManuverNormal[]'></td><td></td><td></td><td></td><td><input type='text' name='lokasiManuverNormal[]'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_normal[]' value='${g}'></td>`;
 
     table.appendChild(newRow);
@@ -268,15 +266,15 @@ function tambahFormNormal() {
     }); 
 }
 
-function kurangRowNormal(ini){
-    const row = ini.parentElement.parentElement;
-    const table = ini.parentElement.parentElement.parentElement;
-    row.remove();
-    const existingRows = table.querySelectorAll('tr');
-    existingRows.forEach((row, idx) => {
-        row.childNodes[0].innerText = idx + 1;
-    });
-}
+// function kurangRowNormal(ini){
+//     const row = ini.parentElement.parentElement;
+//     const table = ini.parentElement.parentElement.parentElement;
+//     row.remove();
+//     const existingRows = table.querySelectorAll('tr');
+//     existingRows.forEach((row, idx) => {
+//         row.childNodes[0].innerText = idx + 1;
+//     });
+// }
 
 
 // ======================================autocomplete nama GITET

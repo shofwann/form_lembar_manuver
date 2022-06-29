@@ -82,7 +82,7 @@
             <div class="container">
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="additional">
-                        <div class="default" hidden>
+                        <div class="default" >
                             <label>ID Task:</label>
                             <input type="text" name="idTask" value="<?= $idnext['id']+1; ?>" class="" readonly>
                             <label for="">ID Lokasi :</label>
@@ -93,7 +93,7 @@
                             <input type="text" name="user" placeholder="" value="<?= $_SESSION['username'];?>" class="" readonly>
                             <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                             <input type="text" value="" id="statusJob">
-                            <input type="text" name="form" value="1">
+                            <input type="text" name="form" id="form" value="1">
                         </div>
                         <div class="chose">
                             <label for="" style="">Pilih jenis pekerjaan :</label>
@@ -323,29 +323,29 @@
                 // ======================================autocomplete lokasi==========================================
                 $("#lokasi").keyup(function(){               
                 var query = $("#lokasi").val();
-                if (query.length > 3) {
-                        $.ajax(
-                            {
-                                url: 'get_data_autocomplete_lokasi.php',
-                                type: 'POST',
-                                data: {
-                                    //search: 1,
-                                    q: query,
-                                    id: $("#jenis").val()
-                                },
-                                success: function (data) {
-                                    $("#response").html(data);
-                                },
-                                dataType: 'text'
-                            }
-                        );
+                    if (query.length > 3) {
+                            $.ajax(
+                                {
+                                    url: 'ajax/get_data_autocomplete_lokasi.php',
+                                    type: 'POST',
+                                    data: {
+                                        //search: 1,
+                                        q: query,
+                                        id: $("#jenis").val()
+                                    },
+                                    success: function (data) {
+                                        $("#response").html(data);
+                                    },
+                                    dataType: 'text'
+                                }
+                            );
                     }
 
                     $('#lokasinya').on('click', 'li', function () {
                         var lokasi = $(this).text();
                         $("#lokasi").val(lokasi);
                         $("#response").html("");
-                });
+                    });
                 });
 
                
@@ -356,7 +356,7 @@
                     if (queryDetail.length > 3) {
                         $.ajax(
                             {
-                                url: 'get_data_autocomplete_lokasi_detail.php',
+                                url: 'ajax/get_data_autocomplete_lokasi_detail.php',
                                 type: 'POST',
                                 data: {
                                     q: queryDetail,
@@ -375,7 +375,7 @@
                         var lokasiDetail = $(this).text();
                         $("#lokasiDetail").val(lokasiDetail);
                         $("#responseDetail").html("");
-                });
+                    });
 
                 });
 
