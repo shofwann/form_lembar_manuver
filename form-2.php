@@ -28,7 +28,7 @@
             //var_dump(tambah($_POST)); die;
             echo "<script>
                     alert('data berhasil disubmit'); 
-                    document.location.href = 'participant.php';
+                    //document.location.href = 'participant.php';
                     </script>
                     ";  
                     
@@ -36,7 +36,8 @@
         // var_dump(tambah($_POST)); die;
             echo "<script>
                     alert('data gagal disubmit'); 
-                    document.location.href = 'participant.php';
+                    //document.location.href = 'participant.php';
+                    //history.back(-1);
                     </script>
                     "; die;
                     
@@ -108,7 +109,6 @@
                             <input type="text" name="form" id="form" value="2">
                             <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                             <input type="text" value="" id="statusJob">
-
                         </div>
 
                         <div class="chose">
@@ -255,7 +255,7 @@
                         <div class="grid__item grid__item_item39 inputan border_right"><textarea name="catatan_pra_bebas" class="textarea" cols="232" rows="3"></textarea></div>
                         <div class="grid__item grid__item_item40 titel border_right">Tahapan Manuver Pembebasan<span>*</span></div>
                         <div class="grid__item grid__item_item43 inputan border_right">
-                        <div class="container-fluid">
+                            <div class="container-fluid">
                                 <div class="grid-item"> 
                                     
                                     <img id="output0" height="auto" width="800px" style="padding-top:.50rem;"><br>
@@ -265,6 +265,7 @@
                                 <div class="grid-item">
                                     <label for="">Masukkan Titel</label><br>
                                     <input type="text" name="titelBebas[]" style="font: size 20px; margin-bottom:10px;">
+                                    <p>0</p>
                                     <table style="">
                                         <thead>
                                             <tr>
@@ -272,7 +273,7 @@
                                                 <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                                 <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                                 <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahFormRow(0,'dynamic_form1','lokasiManuverBebas[]','installManuverBebas[]')">Add More</button></th>
+                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRow(0,'lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','rowBebas')">Add More</button></th>
                                             </tr>
                                             <tr>
                                                 <th style="width:9rem;">Remote</th>
@@ -280,16 +281,16 @@
                                                 <th style="width:9rem;">ADS</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="dynamic_form1">
+                                        <tbody id="rowBebas">
 
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="grid-item">
-                                    <button type="button" class="btn-greend" onclick="tambahForm('dynamic_form1','copy1','fotoBebas[]','titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]')">+</button>
+                                    <button type="button" class="btn-greend" onclick="tambahForm(0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','fotoBebas[]','copyFormBebas','rowBebas','removeFormBottonBebas')">+</button>
                                 </div>
                             </div>
-                            <div id="copy1">
+                            <div id="copyFormBebas">
                             </div>
                          
                         </div>
@@ -308,6 +309,7 @@
                                 <div class="grid-item">
                                     <label for="">Masukkan Titel</label><br>
                                     <input type="text" name="titelNormal[]" style="font: size 20px; margin-bottom:10px;">
+                                    <input type="text" value="0">
                                     <table style="">
                                         <thead>
                                             <tr>
@@ -315,7 +317,7 @@
                                                 <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                                 <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
                                                 <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRowNormal(0)">Add More</button></th>
+                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRow(0,'lokasiManuverNormal[]','installManuverNormal[]','idNormal[]','rowNormal')">Add More</button></th>
                                             </tr>
                                             <tr>
                                                 <th style="width:9rem;">Remote</th>
@@ -323,16 +325,16 @@
                                                 <th style="width:9rem;">ADS</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="dynamic_form2">
+                                        <tbody id="rowNormal">
             
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="grid-item">
-                                    <button type="button" class="btn-greend" onclick="tambahFormNormal()">+</button>
+                                    <button type="button" class="btn-greend" onclick="tambahForm(0,'titelNormal[]','lokasiManuverNormal[]','installManuverNormal[]','idNormal[]','fotoNormal[]','copyFormNormal','rowNormal','removeFormBottonNormal')">+</button>
                                 </div>
                             </div>
-                            <div id ="copy2">
+                            <div id ="copyFormNormal">
 
                             </div>
                             

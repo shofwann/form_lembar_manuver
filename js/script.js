@@ -195,86 +195,140 @@ fileInput.forEach(input => {
     }); 
 });
 
-var k=0;
+// var k=0;
 // let i=1;
 // let j=0;
 
 
-function tambahFormRow(h,i,j,k) {
-    //j++;
-    const id = h === 0 ? ''+i+'':`${i}${h}`
-    let table = document.getElementById(id); //tangkap id
-    const newRow = document.createElement('tr');  // buat elemen tr
-    const existingRows = table.querySelectorAll('tr'); // untuk menghitung jumlah row
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='${j}'></td><td></td><td></td><td></td><td><input type='text' name='${k}'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_bebas[]' value='${h}'></td>`;
+// function tambahFormRow(h,i,j,k) {
+//     //j++;
+//     const id = h === 0 ? ''+i+'':`${i}${h}`
+//     let table = document.getElementById(id); //tangkap id
+//     const newRow = document.createElement('tr');  // buat elemen tr
+//     const existingRows = table.querySelectorAll('tr'); // untuk menghitung jumlah row
+//     newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='${j}'></td><td></td><td></td><td></td><td><input type='text' name='${k}'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_bebas[]' value='${h}'></td>`;
 
-    table.appendChild(newRow);
-}
+//     table.appendChild(newRow);
+// }
 
-function kurangFormRow(ini){
+
+
+// function tambahForm(j,i,l,m,n,o){
+//     k++;
+//     form = document.createElement('div');
+//     form.innerHTML = `<div class='container-fluid'><div class='grid-item'><img id='output${k}' height='auto' width='350px'><br><input type='file' accept='image/*' name='${l}'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='${m}' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahFormRow(${k},'${j}','${n}','${o}')">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='${j}${k}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed' onclick='kurangForm(this)'>-</button></div></div>`;
+//     document.getElementById(i).appendChild(form);
+//     form.querySelector('input[type=file]').addEventListener('change', e => { 
+//         const imageElement = e.target.previousElementSibling.previousElementSibling; 
+//         console.log(imageElement); 
+//         const imageURL = URL.createObjectURL(e.target.files[0]); 
+//         imageElement.src = imageURL; 
+//     }); 
+// }
+
+
+
+
+// function tambahRowNormal(g) {
+//     //j++;
+//     const id = g === 0 ? `dynamic_form2`:`dynamic_form2${g}`
+//     let table = document.getElementById(id);
+//     const newRow = document.createElement('tr');
+//     const existingRows = table.querySelectorAll('tr');
+//     console.log(existingRows.length + 1)
+//     newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='lokasiManuverNormal[]'></td><td></td><td></td><td></td><td><input type='text' name='lokasiManuverNormal[]'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_normal[]' value='${g}'></td>`;
+
+//     table.appendChild(newRow);
+// }
+
+// var q=0;
+// function tambahFormNormal() {
+//     q++;
+//     form =  document.createElement('div');
+//     form.innerHTML = `<div class='container-fluid'><div class='grid-item'><img id='output${q}' height='auto' width='350px'><br><input type='file' accept='image/*' name='fotoNormal[]'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='titelNormal[]' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahRowNormal(${q})">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='dynamic_form2${q}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed' onclick='kurangForm(this)'>-</button></div></div>`;
+//     document.getElementById('copy2').appendChild(form);
+//     form.querySelector('input[type=file]').addEventListener('change', e => { 
+//         const imageElement = e.target.previousElementSibling.previousElementSibling; 
+//         console.log(imageElement); 
+//         const imageURL = URL.createObjectURL(e.target.files[0]); 
+//         imageElement.src = imageURL; 
+//     }); 
+// }
+function kurangRow(ini){
     const row = ini.parentElement.parentElement;
+    console.log(row.childNodes[0])
     const table = ini.parentElement.parentElement.parentElement;
     row.remove();
     const existingRows = table.querySelectorAll('tr');
+    // console.log(existingRows)
     existingRows.forEach((row, idx) => {
         row.childNodes[0].innerText = idx + 1;
     });
 }
 
-function tambahForm(j,i,l,m,n,o){
-    k++;
-    form = document.createElement('div');
-    form.innerHTML = `<div class='container-fluid'><div class='grid-item'><img id='output${k}' height='auto' width='350px'><br><input type='file' accept='image/*' name='${l}'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='${m}' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahFormRow(${k},'${j}','${n}','${o}')">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='${j}${k}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed' onclick='kurangForm(this)'>-</button></div></div>`;
-    document.getElementById(i).appendChild(form);
-    form.querySelector('input[type=file]').addEventListener('change', e => { 
-        const imageElement = e.target.previousElementSibling.previousElementSibling; 
-        console.log(imageElement); 
-        const imageURL = URL.createObjectURL(e.target.files[0]); 
-        imageElement.src = imageURL; 
-    }); 
-}
+function kurangForm(ini,clasRemoveFormBottonBebas){
+    let btnRed = document.querySelectorAll(`.${clasRemoveFormBottonBebas}`);
+    const jumBtn = btnRed.length;
 
-function kurangForm(ini){
+
     row = ini.parentElement.parentElement;
-    row.remove();
+    const div = ini.parentElement.parentElement.parentElement.parentElement.parentElement;
+    // console.log(div);
+    // row.children[1].children[3].children[0].children[0].children[4].children[0].getAttribute('onclick').innerHTML = 0;
+    //row.remove();
+    const existingForm = div.querySelectorAll('div .newBebas');
+    existingForm.forEach((row, idx) => {
+        row.children[1].childNodes[3].innerText = idx + 1;
+    }); 
+
+    if (jumBtn == 1){
+        // console.log('no')
+        row.remove()
+    } else {
+        console.log(ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[2])//children[0].children[1].children[0]).style.display= '' ;
+        ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[2].children[0].style.display = '';
+        row.remove()
+        //form.remove()
+        // console.log('yes')
+    } 
+
 }
 
-
-function tambahRowNormal(g) {
-    //j++;
-    const id = g === 0 ? `dynamic_form2`:`dynamic_form2${g}`
+function tambahRow(index,namaLokasi,namaInstallasi,namaId,lokasiAppendRow){  //0,'lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','rowBebas'
+    // let isi = ini.parentElement.parentElement.parentElement.parentElement.parentElement.children[3].innerText;
+    //console.log(isi)
+    const id = index === 0 ? lokasiAppendRow : `${lokasiAppendRow}${index}`;
     let table = document.getElementById(id);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
-    console.log(existingRows.length + 1)
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input type='text' name='lokasiManuverNormal[]'></td><td></td><td></td><td></td><td><input type='text' name='lokasiManuverNormal[]'></td><td><button type='button' class='btn red' onclick='kurangFormRow(this)'>Remove</button><input type='' name='id_normal[]' value='${g}'></td>`;
-
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${namaLokasi}' type='text'></td><td></td><td></td><td></td><td><input name='${namaInstallasi}' type='text'></td><td><button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button><input type='' name='${namaId}' value='${index}'></td>`;
     table.appendChild(newRow);
 }
 
-var q=0;
-function tambahFormNormal() {
-    q++;
-    form =  document.createElement('div');
-    form.innerHTML = `<div class='container-fluid'><div class='grid-item'><img id='output${q}' height='auto' width='350px'><br><input type='file' accept='image/*' name='fotoNormal[]'></div><div class='grid-item'><label>Masukkan Titel</label><br><input type='text' name='titelNormal[]' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahRowNormal(${q})">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='dynamic_form2${q}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed' onclick='kurangForm(this)'>-</button></div></div>`;
-    document.getElementById('copy2').appendChild(form);
+function tambahForm(index,namaTitel,namaLokasi,namaInstallasi,namaId,namaFoto,lokasiAppendForm,lokasiAppendRow,clasRemoveFormBottonBebas){ //0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','copyFormBebas','rowBebas'
+    const id = index === 0 ? `${lokasiAppendForm}` : `${lokasiAppendForm}${index}`;
+    let table = document.getElementById(id);
+    const form = document.createElement('div');
+    const exist = table.querySelectorAll('div .container-fluid');
+    //console.log(exist)
+    form.innerHTML = `<div class='container-fluid newBebas'><div class='grid-item'><img id='output${exist.length+1}' height='auto' width='800px'><br><input type='file' accept='image/*' name='${namaFoto}'></div><div class='grid-item'><p>${exist.length+1}</p><label>Masukkan Titel</label><br><input type='text' name='${namaTitel}' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahRow(${exist.length+1},'${namaLokasi}','${namaInstallasi}','${namaId}','${lokasiAppendRow}')">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='${lokasiAppendRow}${exist.length+1}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed ${clasRemoveFormBottonBebas}' onclick="kurangForm(this,'${clasRemoveFormBottonBebas}')">-</button></div></div>`;
+    table.appendChild(form);
     form.querySelector('input[type=file]').addEventListener('change', e => { 
         const imageElement = e.target.previousElementSibling.previousElementSibling; 
         console.log(imageElement); 
         const imageURL = URL.createObjectURL(e.target.files[0]); 
         imageElement.src = imageURL; 
     }); 
+
+    let btnRed =  document.querySelectorAll(`.${clasRemoveFormBottonBebas}`);
+    const jumBtn = btnRed.length;
+    for(l=0; l<jumBtn-1; l++){
+        btnRed[l].style.display = 'none';
+    }
+
 }
 
-// function kurangRowNormal(ini){
-//     const row = ini.parentElement.parentElement;
-//     const table = ini.parentElement.parentElement.parentElement;
-//     row.remove();
-//     const existingRows = table.querySelectorAll('tr');
-//     existingRows.forEach((row, idx) => {
-//         row.childNodes[0].innerText = idx + 1;
-//     });
-// }
+
 
 
 // ======================================autocomplete nama GITET

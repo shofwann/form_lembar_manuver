@@ -20,23 +20,21 @@ if ($query) {
 
 if( isset($_POST["submit"]) ){
 
-    // if( insertDB($_POST) > 0){
-        //var_dump(tambah($_POST)); die;
+    if( insertDB($_POST) > 0){
         echo "<script>
                 alert('data berhasil disubmit'); 
-                //document.location.href = 'home.php';
+                document.location.href = 'home.php';
                 </script>
                 ";  
                 
-    // } else {
-       // var_dump(tambah($_POST)); die;
+    } else {
         echo "<script>
                 alert('data gagal disubmit'); 
-                //document.location.href = 'home.php';
+                document.location.href = 'home.php';
                 </script>
                 "; die;
                 
-    // }
+    }
 }
 
 ?>
@@ -77,7 +75,7 @@ if( isset($_POST["submit"]) ){
                         </div>
                         <div class="grid__item grid__item_item007" id="lokasinya">
                             <div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
-                                <input type="text" name="lokasi" id="lokasi" class="inputi" autocomplete="off" placeholder="Sebelum input lokasi pilih jenis pekerjaan dahulu...!" style="width: 400px;">
+                                <input type="text" name="lokasi" id="lokasi" class="inputi" autocomplete="off" placeholder="Sebelum input lokasi pilih jenis pekerjaan dahulu...!" style="width: 400px;" required>
                                 <div class="tool-tip slideIn">
                                     Perhatikan untuk Format penulisan...!!!
                                     <ul class="info-list" >
@@ -95,7 +93,7 @@ if( isset($_POST["submit"]) ){
                         </div>
                         <div class="grid__item grid__item_item008 border_right " id="detailnya">
                            <div class="on-focus clearfix" style="position: relative; padding: 0px; margin: 10px auto; display: table; float: left">
-                                <input type="text" name="detailLokasi" id="lokasiDetail" class="" autocomplete="off" placeholder="Inputkan detail pekerjaan" style="width: 400px;">
+                                <input type="text" name="detailLokasi" id="lokasiDetail" class="" autocomplete="off" placeholder="Inputkan detail pekerjaan" style="width: 400px;" required>
                                     <div class="tool-tip  slideIn">
                                         Perhatikan untuk Format penulisan...!!!
                                         <ul class="info-list" >
@@ -150,7 +148,7 @@ if( isset($_POST["submit"]) ){
             if (query.length > 1) {
                     $.ajax(
                         {
-                            url: 'get_data_autocomplete_lokasi.php',
+                            url: 'ajax/get_data_autocomplete_lokasi.php',
                             type: 'POST',
                             data: {
                                 //search: 1,
@@ -177,7 +175,7 @@ if( isset($_POST["submit"]) ){
             if (queryDetail.length > 1) {
                 $.ajax(
                     {
-                        url: 'get_data_autocomplete_lokasi_detail.php',
+                        url: 'ajax/get_data_autocomplete_lokasi_detail.php',
                         type: 'POST',
                         data: {
                             q: queryDetail,
@@ -203,7 +201,7 @@ if( isset($_POST["submit"]) ){
         function pilihForm() {
             var x =document.getElementById("form").value;
             $.ajax({
-                url:  'get_data_form.php',
+                url: 'get_data_form.php',
                 method:'POST',
                 data: {
                     idForm : x
@@ -228,42 +226,33 @@ if( isset($_POST["submit"]) ){
             }
         }
               
-        function tambahRow(g,h,i,j) {
-            console.log(j)
+        function tambahRow(g,h,i,j,k) { //0,'lokasiManuverBebas[]','installManuverBebas[]','tableBody2','idBebas[]'
             const idx = g === 0 ? j : `${j}${g}`;
-            if(j != 'tableBody2'){
-                console.log('tidak')
-            } 
             let table = document.getElementById(idx);
             const newRow = document.createElement('tr');
             const existingRows = table.querySelectorAll('tr');
-            // console.log(existingRows)
-            newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${h}' type='text'></td><td><input name='${i}' type='text'><input type='text' name='' id='hide' value='${g}'></td>`;
+            newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${h}' type='text'></td><td><input name='${i}' type='text'><input type='text' name='${k}' id='hide' value='${g}'></td>`;
             table.appendChild(newRow);
-            
-  
         }
        
-        function tambahForm(g,h,i,j,k,l) {   //0,'copyForm1','titelBebas[]','lokasiManuverNormal[]','installManuverNormal[]','tableBody2'
+        function tambahForm(g,h,i,j,k,l,m,n) {   //0,'copyForm1','titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','tableBody2','idBebas[]','openBebas'
             const id = g === 0 ? `${h}` : `${h}${g}`;
             let table = document.getElementById(id);
             const form = document.createElement('div');
             const exist = table.querySelectorAll('div .flex-container-sub');
             // console.log(exist.length + 1);
-            form.innerHTML = `<div class="flex-container-sub"><div class="grid-item " style=""><input type="" name="${i}" id=""><table class="table table-bordered" ><thead><tr><th style="width:33%">No</th><th style="width:33%">Lokasi</th><th style="width:33%">Installasi</th></tr></thead><tbody id="${l}${exist.length+1}"></tbody></table><button type="button" id="add2" class="btn btn-success" onclick="tambahRow(${exist.length+1},'${j}','${k}','${l}')">+</button><button type="button" class="btn btn-danger" onclick="kurangRow('${l}${exist.length+1}')">-</button></div><div class="grid-item form2" ><button type="button" class='btn reed open' onclick="kurangForm(this)">-</button></div><div id="${h}${exist.length+1}"></div></div>`;
+            form.innerHTML = `<div class="flex-container-sub"><div class="grid-item " style=""><input type="" name="${i}" required><table class="table table-bordered" ><thead><tr><th style="width:33%">No</th><th style="width:33%">Lokasi</th><th style="width:33%">Installasi</th></tr></thead><tbody id="${l}${exist.length+1}"></tbody></table><button type="button" id="add2" class="btn btn-success" onclick="tambahRow(${exist.length+1},'${j}','${k}','${l}','${m}')">+</button><button type="button" class="btn btn-danger" onclick="kurangRow('${l}${exist.length+1}')">-</button></div><div class="grid-item form2" ><button type="button" class='btn reed ${n}' onclick="kurangForm(this,'${n}')">-</button></div><div id="${h}${exist.length+1}"></div></div>`;
             table.appendChild(form);
             
-            let btnRed =  document.querySelectorAll('.open');
+            let btnRed =  document.querySelectorAll(`.${n}`);
             const JumBtn = btnRed.length;
-
-            // var last = btnRed[btnRed.length- 1];
-            // last.style.backgroundColor = 'black';
-
             for(l=0; l<JumBtn-1; l++){
                 btnRed[l].style.display = 'none';
             }
-            // JumBtn[JumBtn-1].style.display = '';
-            //console.log(JumBtn);
+
+           
+            console.log(JumBtn)
+ 
         }
  
         function kurangRow(a) {
@@ -274,20 +263,20 @@ if( isset($_POST["submit"]) ){
             }
         }
 
-        function kurangForm(ini) {
-
-            
+        function kurangForm(ini,a) {
+            let btnRed =  document.querySelectorAll(`.${a}`);
+            const JumBtn = btnRed.length;
             var cek = ini.parentElement.parentElement.parentElement.previousElementSibling;
             var form = ini.parentElement.parentElement;
 
-            if (cek == null){
+            if (JumBtn == 1){
+                // console.log('no')
                 form.remove()
-            } else{
-                ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[0].style.display='' ;
+            } else {
+                ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[1].children[0].style.display= '' ;
                 form.remove()
-            }
-            // console.log(inilah);
-            
+                // console.log('yes')
+            } 
 
         }
 

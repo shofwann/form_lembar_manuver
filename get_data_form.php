@@ -2,8 +2,6 @@
 
 $idnya = $_POST["idForm"];
 
-
-
 ?>
 
 
@@ -42,8 +40,8 @@ $idnya = $_POST["idForm"];
                     
                 </tbody>
             </table>
-                <button type="button" id="add2" class="btn btn-success" onclick="tambah2()">+</button>
-                <button type="button" id="remove2" class="btn btn-danger" onclick="kurang2()">-</button> 
+                <button type="button" id="add2" class="btn btn-success" onclick="tambahRow(0,'lokasiManuverBebas[]','installManuverBebas[]','tableBody2',0)">+</button>
+                <button type="button" id="remove2" class="btn red" onclick="kurangRow('tableBody2')">-</button> 
         </div>
         <div class="grid-item">
             <table class="table table-bordered">
@@ -58,8 +56,8 @@ $idnya = $_POST["idForm"];
                     
                 </tbody>
             </table>
-                <button type="button" id="add3" class="btn btn-success" onclick="tambah3()">+</button>
-                <button type="button" id="remove3" class="btn btn-danger" onclick="kurang3()">-</button> 
+                <button type="button" id="add3" class="btn btn-success" onclick="tambahRow(0,'lokasiManuverNormal[]','installManuverNormal[]','tableBody3',0)">+</button>
+                <button type="button" id="remove3" class="btn red" onclick="kurangRow('tableBody3')">-</button> 
         </div>   
     </div>
 
@@ -89,7 +87,7 @@ $idnya = $_POST["idForm"];
         <div class="grid-item">
             <div class="flex-container-sub">
                 <div class="grid-item " style="">
-                    <input type="text" name="titel[]" id="">
+                    <input type="text" name="titelBebas[]" id="">
                     <table class="table table-bordered" >
                         <thead>
                             <tr>
@@ -102,11 +100,11 @@ $idnya = $_POST["idForm"];
                             
                         </tbody>
                     </table>
-                        <button type="button" id="add2" class="btn btn-success" onclick="tambahRow(0,'lokasiBebas[]','installManuverBebas[]','tableBody2')">+</button>
+                        <button type="button" id="add2" class="btn btn-success" onclick="tambahRow(0,'lokasiManuverBebas[]','installManuverBebas[]','tableBody2','idBebas[]')">+</button>
                         <button type="button" id="remove2" class="btn btn-danger" onclick="kurangRow('tableBody2')">-</button>
                 </div>
                 <div class="grid-item form2" >
-                    <button type="button" onclick="tambahForm(0,'copyForm1','titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','tableBody2')">+</button>
+                    <button type="button" onclick="tambahForm(0,'copyForm1','titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','tableBody2','idBebas[]','openBebas')">+</button>
                 </div>
             </div>
             
@@ -120,7 +118,7 @@ $idnya = $_POST["idForm"];
         <div class="grid-item">
             <div class="flex-container-sub">
                 <div class="grid-item " style="">
-                    <input type="text" name="titel[]" id="">
+                    <input type="text" name="titelNormal[]" id="">
                     <table class="table table-bordered" >
                         <thead>
                             <tr>
@@ -133,11 +131,11 @@ $idnya = $_POST["idForm"];
                             
                         </tbody>
                     </table>
-                        <button type="button" id="add2" class="btn btn-success" onclick="tambahRow(0,'lokasiManuverNormal[]','installManuverNormal[]','tableBody3')">+</button>
+                        <button type="button" id="add2" class="btn btn-success" onclick="tambahRow(0,'lokasiManuverNormal[]','installManuverNormal[]','tableBody3','idNormal[]')">+</button>
                         <button type="button" id="remove2" class="btn btn-danger" onclick="kurangRow('tableBody3')">-</button>
                 </div>
                 <div class="grid-item form2" >
-                    <button type="button" onclick="tambahForm(0,'copyForm2','titelNormal[]','lokasiManuverNormal[]','installManuverNormal[]','tableBody3')">+</button>
+                    <button type="button" onclick="tambahForm(0,'copyForm2','titelNormal[]','lokasiManuverNormal[]','installManuverNormal[]','tableBody3','idNormal[]','openNormal')">+</button>
                 </div>
             </div> 
             <div id="copyForm2">

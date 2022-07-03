@@ -4,6 +4,19 @@ date_default_timezone_set('Asia/Jakarta');
 
 $jumlahDataPerHalaman = 10;
 
+$dataArray = [0,0,0,1,2,3,4];
+
+
+$dataArray = array_values($dataArray);
+$newDataArray = array_unique($dataArray);
+print_r($newDataArray);
+
+$dataValidasi1 = end($dataArray);
+$dataValidasi2 = count($dataArray)-1;
+
+echo $newDataArray[4]."<br>";
+echo $dataValidasi1."<br>";
+echo $dataValidasi2;
 
 
 // untuk user list
@@ -339,7 +352,7 @@ function insertForm2($post){
     }
 
     $catatanPraBebas = htmlspecialchars($post["catatan_pra_bebas"]);
-
+   
     $array_foto_bebas = [];
     for ($i=0; $i<count($_FILES["fotoBebas"]["name"]); $i++){
         $namaFile = uploadIndex($i,"fotoBebas");
@@ -349,16 +362,24 @@ function insertForm2($post){
         array_push($array_foto_bebas,$namaFile);
     }
 
-    if (isset($post["id_bebas"])){ 
+    if (isset($post["idBebas"])){ 
     $manuverBebas = serialize([
         [
-            "id_bebas" => $post["id_bebas"],
+            "idBebas" => $post["idBebas"],
             "titelBebas" => $post["titelBebas"],
-            "fotoBebas" => $post["fotoBebas"],
+            "fotoBebas" => $array_foto_bebas,
             "lokasiManuverBebas" => $post["lokasiManuverBebas"],
             "installManuverBebas" => $post["installManuverBebas"]
         ]
 
+    ]);
+    $manuverBebasDB = serialize([
+        [
+            "idBebas" => $post["idBebas"],
+            "titelBebas" => $post["titelBebas"],
+            "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+            "installManuverBebas" => $post["installManuverBebas"]
+        ]
     ]);
     } else {
         echo "<script>
@@ -379,19 +400,28 @@ function insertForm2($post){
         array_push($array_foto_normal,$namaFile);
     }
 
-    if (isset($post["id_normal"])){ 
+    if (isset($post["idNormal"])){ 
         $manuverNormal = serialize([
             [
-                "id_normal" => $post["id_normal"],
+                "idNormal[]" => $post["idNormal"],
                 "titelNormal" => $post["titelNormal"],
-                "fotoNormal" => $post["fotoNormal"],
+                "fotoNormal" => $array_foto_normal,
+                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                "installManuverNormal" => $post["installManuverNormal"]
+            ]
+        ]);
+
+        $manuverNormalDB = serialize([
+            [
+                "idNormal" => $post["idNormal"],
+                "titelNormal" => $post["titelNormal"],
                 "lokasiManuverNormal" => $post["lokasiManuverNormal"],
                 "installManuverNormal" => $post["installManuverNormal"]
             ]
         ]);
     } else {
         echo "<script>
-        alert ('Anda belum memasukkan Manuver Pembebasan');
+        alert ('Anda belum memasukkan Manuver Penormalan');
         history.back(-1);
      </script>";
         return false;
@@ -416,14 +446,14 @@ function insertForm2($post){
         if (mysqli_num_rows($joinLokasiDetail) == 0){
             if (mysqli_num_rows($cekLokasi) == 0) {
                 mysqli_query($conn,"INSERT INTO db_ajax_lokasi (id_jenis,nama) VALUES ($jenis,'$lokasi')");
-                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi]+1,'$instal','$pengawas','$manuverBebas','$manuverNormal')");
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi]+1,'$instal','$pengawas','$manuverBebasDB','$manuverNormalDB')");
                 $id_lokasi_detail = $ambilIdLokasiDetail["id_lokasi_detail"]+1;
             } else {
-                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($isiLokasi[id_lokasi],'$instal','$pengawas','$manuverBebas','$manuverNormal')");
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($isiLokasi[id_lokasi],'$instal','$pengawas','$manuverBebasDB','$manuverNormalDB')");
                 $id_lokasi_detail = $ambilIdLokasiDetail["id_lokasi_detail"]+1;
             }
         } else {
-            mysqli_query($conn,"UPDATE db_ajax_lokasi_detail SET pengawas = '$pengawas', manuver_bebas = '$manuverBebas', manuver_normal='$manuverNormal' WHERE id_lokasi_detail = $isiJoin[id_lokasi_detail]");
+            mysqli_query($conn,"UPDATE db_ajax_lokasi_detail SET pengawas = '$pengawas', manuver_bebas = '$manuverBebasDB', manuver_normal='$manuverNormalDB' WHERE id_lokasi_detail = $isiJoin[id_lokasi_detail]");
             $id_lokasi_detail = $isiJoin["id_lokasi_detail"];
         }
     } else {
@@ -434,7 +464,7 @@ function insertForm2($post){
         }
     }
 
-    if ($_GET['form']){
+    if (isset($_GET['form'])){
         $form = $_GET['form'];
     } else {
         $form = $post['form'];
@@ -451,6 +481,7 @@ function insertForm2($post){
 }
 
 function insertDB($post){
+    // var_dump($post); die;
     global $conn;
     $form = $post["form"];
     $jenis = $post["jenis"];
@@ -473,25 +504,55 @@ function insertDB($post){
         die;
     }
     
-    $pengawas = serialize([
-        [
-            "lokasiPembebasan" => $post["lokasiPembebasan"]
-        ]
-    ]);
+    if (isset($post["lokasiPembebasan"])){
+        $pengawas = serialize([
+            [
+                "lokasiPembebasan" => $post["lokasiPembebasan"]
+            ]
+        ]);
+    } 
 
-    $manuverBebas = serialize([
-        [
-            "lokasiManuverBebas" => $post["lokasiManuverBebas"],
-            "installManuverBebas" => $post["installManuverBebas"]
-        ]
-    ]);
+    if (isset($post["lokasiManuverBebas"])){
+        $manuverBebas = serialize([
+            [
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+        ]);
+    }
 
-    $manuverNormal = serialize([
-        [
-            "lokasiManuverNormal" => $post["lokasiManuverNormal"],
-            "installManuverNormal" => $post["installManuverNormal"]
-        ]
-    ]);
+    if (isset($post["lokasiManuverNormal"])) {
+        $manuverNormal = serialize([
+            [
+                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                "installManuverNormal" => $post["installManuverNormal"]
+            ]
+        ]);
+
+    }
+
+    if (isset($post["idBebas"])) {
+        $manuverBebasForm = serialize([
+            [
+                "idBebas" => $post["idBebas"],
+                "titelBebas" => $post["titelBebas"],
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+        ]);
+
+    }
+
+    if ($post["idNormal"]) {
+        $manuverNormalForm = serialize([
+            [
+                "idNormal" => $post["idNormal"],
+                "titelNormal" => $post["titelNormal"],
+                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                "installManuverNormal" => $post["installManuverNormal"]
+            ]
+        ]);
+    }
 
     $joinLokasiDetail = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi LEFT JOIN db_ajax_lokasi_detail ON db_ajax_lokasi.id_lokasi = db_ajax_lokasi_detail.id_lokasi WHERE db_ajax_lokasi.id_jenis=$jenis AND db_ajax_lokasi.nama='$lokasi' AND db_ajax_lokasi_detail.nama='$detail'");
     $isiJoin = mysqli_fetch_assoc($joinLokasiDetail);
@@ -509,19 +570,34 @@ function insertDB($post){
     $cekLokasiDetail = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi_detail WHERE id_lokasi = $isiLokasi[id_lokasi] AND nama='$instal'");
     $isiLokasiDetail = mysqli_fetch_assoc($cekLokasiDetail);
 
-    
-    if (mysqli_num_rows($joinLokasiDetail) == 0) {
-        if (mysqli_num_rows($cekLokasi) == 0){
-            mysqli_query($conn,"INSERT INTO db_ajax_lokasi (id_jenis,nama) VALUES ($jenis,'$lokasi')");
-            mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi]+1,'$detail','$pengawas','$manuverBebas','$manuverNormal')");
-        } else {
-            mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi],'$detail','$pengawas','$manuverBebas','$manuverNormal')");
+    if ($form == 1) {
+        if (mysqli_num_rows($joinLokasiDetail) == 0) {
+            if (mysqli_num_rows($cekLokasi) == 0){
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi (id_jenis,nama) VALUES ($jenis,'$lokasi')");
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi]+1,'$detail','$pengawas','$manuverBebas','$manuverNormal')");
+            } else {
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi],'$detail','$pengawas','$manuverBebas','$manuverNormal')");
+            }
+        }   else {
+            echo "<script>
+                    alert ('database tersebut sudah ada');
+                 </script>";
+            return false;
         }
-    }   else {
-        echo "<script>
-                alert ('database tersebut sudah ada');
-             </script>";
-        return false;
+    } else {
+        if (mysqli_num_rows($joinLokasiDetail) == 0) {
+            if (mysqli_num_rows($cekLokasi) == 0){
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi (id_jenis,nama) VALUES ($jenis,'$lokasi')");
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi]+1,'$detail','$pengawas','$manuverBebasForm','$manuverNormalForm')");
+            } else {
+                mysqli_query($conn,"INSERT INTO db_ajax_lokasi_detail (id_lokasi,nama,pengawas,manuver_bebas,manuver_normal) VALUES ($ambilIdLokasi[id_lokasi],'$detail','$pengawas','$manuverBebasForm','$manuverNormalForm')");
+            }
+        }   else {
+            echo "<script>
+                    alert ('database tersebut sudah ada');
+                 </script>";
+            return false;
+        }
     }
 
     mysqli_query($conn,$query);
@@ -531,9 +607,9 @@ function insertDB($post){
 
 function updateDB($post){
     global $conn;
+    $form = $post["form"];
     $idLokasi = $post["idy"];
     $idLokasiDetail = $post["idz"];
-
     $namaLokasi = $post["nama_lokasi"];
     $namaLokasiDetail = $post["nama_lokasi_detail"];
 
@@ -550,30 +626,64 @@ function updateDB($post){
         die;
     }
 
-    $pengawas = serialize([
-        [
-            "lokasiPembebasan" => $post["lokasiPembebasan"]
-        ]
-    ]);
+    if (isset($post["lokasiPembebasan"])){
+        $pengawas = serialize([
+            [
+                "lokasiPembebasan" => $post["lokasiPembebasan"]
+            ]
+        ]);
+    }
 
-    $manuverBebas = serialize([
-        [
-            "lokasiManuverBebas" => $post["lokasiManuverBebas"],
-            "installManuverBebas" => $post["installManuverBebas"]
-        ]
-    ]);
+    if (isset($post["lokasiManuverBebas"])){
+        $manuverBebas = serialize([
+            [
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+        ]);
+    }
 
-    $manuverNormal = serialize([
-        [
-            "lokasiManuverNormal" => $post["lokasiManuverNormal"],
-            "installManuverNormal" => $post["installManuverNormal"]
-        ]
-    ]);
+    if (isset($post["lokasiManuverNormal"])) {
+        $manuverNormal = serialize([
+            [
+                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                "installManuverNormal" => $post["installManuverNormal"]
+            ]
+        ]);
+    }
 
-    mysqli_query($conn,"UPDATE db_ajax_lokasi SET nama = '$namaLokasi' WHERE id_lokasi = $idLokasi");
-    
-    mysqli_query($conn,"UPDATE db_ajax_lokasi_detail SET nama = '$namaLokasiDetail', pengawas = '$pengawas', manuver_bebas='$manuverBebas', manuver_normal='$manuverNormal' WHERE id_lokasi_detail = $idLokasiDetail");
+    if (isset($post["idBebas"])) {
+        $manuverBebasForm = serialize([
+            [
+                "idBebas" => $post["idBebas"],
+                "titelBebas" => $post["titelBebas"],
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+        ]);
 
+    }
+
+    if ($post["idNormal"]) {
+        $manuverNormalForm = serialize([
+            [
+                "idNormal" => $post["idNormal"],
+                "titelNormal" => $post["titelNormal"],
+                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                "installManuverNormal" => $post["installManuverNormal"]
+            ]
+        ]);
+    }
+
+    if ($form == 1) {
+        mysqli_query($conn,"UPDATE db_ajax_lokasi SET nama = '$namaLokasi' WHERE id_lokasi = $idLokasi");
+        $query = "UPDATE db_ajax_lokasi_detail SET nama = '$namaLokasiDetail', pengawas = '$pengawas', manuver_bebas='$manuverBebas', manuver_normal='$manuverNormal' WHERE id_lokasi_detail = $idLokasiDetail";
+    } else{
+        mysqli_query($conn,"UPDATE db_ajax_lokasi SET nama = '$namaLokasi' WHERE id_lokasi = $idLokasi");
+        $query = "UPDATE db_ajax_lokasi_detail SET nama = '$namaLokasiDetail', pengawas = '$pengawas', manuver_bebas='$manuverBebasForm', manuver_normal='$manuverNormalForm' WHERE id_lokasi_detail = $idLokasiDetail";
+    }
+
+    mysqli_query($conn,$query);
     return mysqli_affected_rows($conn);
 }
 

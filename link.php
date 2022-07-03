@@ -60,6 +60,10 @@ if (isset($_GET['url']))
         case 'autoForm1';
         include 'form-auto.php';
         break;
+
+        case 'autoForm2';
+        include 'form-auto2.php';
+        break;
         
         case 'select-form';
         include 'select-form.php';
