@@ -4,17 +4,16 @@ date_default_timezone_set('Asia/Jakarta');
 
 $jumlahDataPerHalaman = 10;
 
-$dataArray = [0,0,0,1,2,3,4];
+$dataArray = [0,0,0,1,2,2,3,3,4];
+
+$newDataArray = array_values(array_unique($dataArray));
+
+//print_r($newDataArray);
+
+$dataValidasi1 = end($newDataArray);
+$dataValidasi2 = count($newDataArray)-1;
 
 
-$dataArray = array_values($dataArray);
-$newDataArray = array_unique($dataArray);
-print_r($newDataArray);
-
-$dataValidasi1 = end($dataArray);
-$dataValidasi2 = count($dataArray)-1;
-
-echo $newDataArray[4]."<br>";
 echo $dataValidasi1."<br>";
 echo $dataValidasi2;
 

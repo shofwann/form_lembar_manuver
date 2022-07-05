@@ -663,6 +663,11 @@
     grid-row: row 17;
   }
 
+  .grid__item_item41new {
+    grid-column: col / span 12;
+    grid-row: row 17;
+  }
+
   .grid__item_item43 {
     grid-column: col  / span 12;
     grid-row: row 18;
@@ -692,6 +697,11 @@
     grid-row: row 23;
   }
 
+  .grid__item_item49new {
+    grid-column: col  / span 12;
+    grid-row: row 24;
+  }
+  
   .grid__item_item49 {
     grid-column: col  / span 6;
     grid-row: row 24;
@@ -701,6 +711,7 @@
     grid-column: col 7 / span 6;
     grid-row: row 24;
   }
+
 
   .grid__item_item51 {
     grid-column: col  / span 12;

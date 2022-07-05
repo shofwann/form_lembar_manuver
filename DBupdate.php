@@ -229,7 +229,7 @@ $(document).ready(function(){
             let table = document.getElementById(id);
             const form = document.createElement('div');
             const exist = table.querySelectorAll('div .flex-container-sub');
-            const existData = document.querySelectorAll(`input[name="${i}"]`)
+            const existData = document.querySelectorAll(`input[name="${i}"]`); //titelBebas
             const totalRow = existData.length-1;
             form.innerHTML = `<div class="flex-container-sub"><div class="grid-item " style=""><input type="" name="${i}" required><table class="table table-bordered" ><thead><tr><th style="width:33%">No</th><th style="width:33%">Lokasi</th><th style="width:33%">Installasi</th></tr></thead><tbody id="${l}${totalRow+1}"></tbody></table><button type="button" id="add2" class="btn btn-success" onclick="tambahRow(${totalRow+1},'${j}','${k}','${l}','${m}')">+</button><button type="button" class="btn btn-danger" onclick="kurangRow('${l}${totalRow+1}')">-</button></div><div class="grid-item form2" ><button type="button" class='btn reed ${n}' onclick="kurangForm(this,'${n}')">-</button></div><div id="${h}${totalRow+1}"></div></div>`;
             table.appendChild(form);

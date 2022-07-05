@@ -199,13 +199,14 @@ if ($sql){
                         <div class="grid__item grid__item_item38 titel border_right">Catatan Pra Pembebasan</div>
                         <div class="grid__item grid__item_item39 inputan border_right"><textarea name="catatan_pra_bebas" class="textarea" cols="232" rows="3" style="color:red;" disabled><?= $data["catatan_pra_pembebasan"];?></textarea></div>
                         <div class="grid__item grid__item_item40 titel border_right">Tahapan Manuver Pembebasan</div>
+                        <?php if ($data["jenis_form"] == 1 ) {  ?>
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
                                 <img src="img/<?= $data["foto"];?>" id="output1" height="auto" width="900px" style="padding-top:.50rem;padding-right:.50rem"><br>
                             </div>
                         </div>
                         <div class="grid__item grid__item_item42 inputan border_right">
-                            <table class="table table-bordered mt-2" style="">
+                            <table class="table table-bordered mt-2" id="dynamic_field1" style="">
                                 <thead>
                                     <tr>
                                         <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
@@ -219,8 +220,8 @@ if ($sql){
                                         <th style="width:9rem;">ADS</th>
                                     </tr>
                                 </thead>
-                                <tbody id="dynamic_field1" >
-                              
+                                <tbody >
+                                  
 
                                         <?php $i=1; ?>
                                         <?php 
@@ -229,58 +230,114 @@ if ($sql){
                                         ?>
                                     <tr>
                                         <td><?= $i ?></td>
-                                        <td><?= $row['lokasiManuverBebas'][$j] ?></td>
-                                        <td><p></p></td>
-                                        <td><p></p></td>
-                                        <td><p></p></td>
-                                        <td><?= $row['installManuverBebas'][$j] ?></td>
+                                        <td><p><?= $row['lokasiManuverBebas'][$j] ?></p></td>
+                                        <td><p><?= isset($row['remote_bebas'][$j]) ? $row['remote_bebas'][$j] :'' ?></p></td>
+                                        <td><p><?= isset($row['real_bebas'][$j]) ? $row['real_bebas'][$j] : '' ?></p></td>
+                                        <td><p><?= isset($row['ads_bebas'][$j]) ? $row['ads_bebas'][$j] : '' ?></p></td>
+                                        <td><p><?= $row['installManuverBebas'][$j] ?></p></td>
                                         
                                     </tr>
                                         <?php 
                                             $i++;
                                             }
                                             endforeach
-                                        ?>
-
+                                            ?>
                                 </tbody>
-                            </table>
+                                </table>
                         </div>
+                    <?php } else { ?>
+                        <div class="grid__item grid__item_item41new inputan border_right">
+                            <?php //var_dump(unserialize($data["emergency_bebas"]));
+                                foreach(unserialize($data["emergency_bebas"]) as $row) : 
+                                $maxIndex = intval(end($row["idBebas"])); 
+                                for($i = 0; $i<=$maxIndex; $i++) { 
+                            ?>
+                            <table>
+                                <td><img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px"></td>
+                                <td style='valign = top;'>
+                                    <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                                <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                                <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
+                                                <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Remote</th>
+                                                <th>Real (R/L)</th>
+                                                <th>ADS</th>
+                                            </tr> 
+                                        </thead>
+                                            <?php $k=1;
+                                                for($j = 0; $j < count($row["idBebas"]); $j++) {
+                                                    if ($row["idBebas"][$j] == $i) {
+                                            ?>
+                                        <tbody>
+                                            <tr>
+                                                <td><?= $k;?></td>
+                                                <td><?= $row["lokasiManuverBebas"][$j] ?></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><?= $row["installManuverBebas"][$j] ?></td>
+
+                                            </tr>
+                                            <?php 
+                                               $k++; }}
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </table>
+                            <?php } endforeach;?>
+                        </div>
+                    <?php }?>
                         <div class="grid__item grid__item_item43 titel border_right">Catatan Pasca Pembebasan :</div>
                         <div class="grid__item grid__item_item44 inputan border_right"><textarea name="catatan_pasca_bebas" class="textarea" cols="232" rows="3" style="" disabled></textarea></div>
                         <div class="grid__item grid__item_item45 titel border_right">MANUVER PENORMALAN INSTALLASI</div>
                         <div class="grid__item grid__item_item46 titel border_right">Catatan Pra Penormalan :</div>
                         <div class="grid__item grid__item_item47 inputan border_right"><textarea name="catatan_pra_normal" class="textarea" cols="232" rows="3" style="color:red" disabled><?= $data["catatan_pra_penormalan"];?></textarea></div>
                         <div class="grid__item grid__item_item48 titel border_right">Tahapan Manuver Penormalan :</div>
+                        <?php if ($data["jenis_form"] == 1 ) { ?>
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
+                                <?php if($data["foto2"]) {?>
                                 <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
+                                <?php }?>
                             </div>
                         </div>
                         <div class="grid__item grid__item_item50 inputan border_right">
                             <table class="table table-bordered mt-2" id="dynamic_field2" style="">
-                                <tr>
-                                    <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
-                                    <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
-                                    <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
-                                    <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                </tr>
-                                <tr>
-                                    <th style="width:9rem;">Remote</th>
-                                    <th style="width:9rem;">Real (R/L)</th>
-                                    <th style="width:9rem;">ADS</th>
-                                </tr>
-                                    <?php $i=1; ?>
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                        <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                        <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
+                                        <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Remote</th>
+                                        <th>Real (R/L)</th>
+                                        <th>ADS</th>
+                                    </tr> 
+                                </thead>
+                                <tbody>
+                              
+
+                                <?php $i=1; ?>
                                     <?php 
                                         foreach (unserialize($data["emergency_normal"])  ? : []  as $row) :
                                             for($j = 0; $j < count((is_countable($row["lokasiManuverNormal"])?$row["lokasiManuverNormal"]:[])); $j++){
                                     ?>
                                 <tr>
                                     <td><?= $i ?></td>
-                                    <td><?= $row['lokasiManuverNormal'][$j] ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><?= $row['installManuverNormal'][$j] ?></td>
+                                    <td><p><?= $row['lokasiManuverNormal'][$j] ?></p></td>
+                                    <td><p><?= isset($row['remote_normal'][$j]) ? $row['remote_normal'][$j] :'' ?></p></td>
+                                    <td><p><?= isset($row['real_normal'][$j]) ? $row['real_normal'][$j] : '' ?></p></td>
+                                    <td><p><?= isset($row['ads_normal'][$j]) ? $row['ads_normal'][$j] : '' ?></p></td>
+                                    <td><p><?= $row['installManuverNormal'][$j] ?></p></td>
                                     
                                 </tr>
                                     <?php 
@@ -288,8 +345,58 @@ if ($sql){
                                         }
                                         endforeach
                                     ?>
+                                </tbody>
                             </table>
                         </div>
+                    <?php } else { ?>
+                        <div class="grid__item grid__item_item49new inputan">
+                            <?php //var_dump(unserialize($data["emergency_normal"]));
+                                foreach(unserialize($data["emergency_normal"]) as $row) : 
+                                $maxIndex = intval(end($row["idNormal"])); 
+                                for($i = 0; $i<=$maxIndex; $i++) { 
+                            ?>
+                            <table>
+                                <td><img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="780px"></td>
+                                <td style='valign = top;'>
+                                <h3><?= $row["titelNormal"][$i] ?></h3>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                                <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                                <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
+                                                <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Remote</th>
+                                                <th>Real (R/L)</th>
+                                                <th>ADS</th>
+                                            </tr> 
+                                        </thead>
+                                            <?php $k=1;
+                                                for($j = 0; $j < count($row["idNormal"]); $j++) {
+                                                    if ($row["idNormal"][$j] == $i) {
+                                            ?>
+                                        <tbody>
+                                            <tr>
+                                                <td><?= $k;?></td>
+                                                <td><?= $row["lokasiManuverNormal"][$j] ?></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td><?= $row["installManuverNormal"][$j] ?></td>
+
+                                            </tr>
+                                            <?php 
+                                               $k++; }}
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </table>
+                            <?php } endforeach;?>    
+                        </div>
+                    <?php } ?>
                         <div class="grid__item grid__item_item51 titel border_right">Catatan Pasca Penormalan :</div>
                         <div class="grid__item grid__item_item52 inputan border_right"><textarea name="catatan_pasca_normal" class="textarea" cols="232" rows="3" style="" disabled></textarea></div>
                         <div class="grid__item grid__item_item53 titel ">Masukan AMN jika ada kekeliruan</div>

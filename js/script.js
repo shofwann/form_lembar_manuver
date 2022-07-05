@@ -328,6 +328,101 @@ function tambahForm(index,namaTitel,namaLokasi,namaInstallasi,namaId,namaFoto,lo
 
 }
 
+function tambahRowUpdate(index,namaLokasi,namaInstallasi,namaId,lokasiAppendRow){  //0,'lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','rowBebas'
+    // let isi = ini.parentElement.parentElement.parentElement.parentElement.parentElement.children[3].innerText;
+    //console.log(isi)
+    const id = index === 0 ? lokasiAppendRow : `${lokasiAppendRow}${index}`;
+    let table = document.getElementById(id);
+    const newRow = document.createElement('tr');
+    const existingRows = table.querySelectorAll('tr');
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${namaLokasi}' type='text'></td><td></td><td></td><td></td><td><input name='${namaInstallasi}' type='text'></td><td><button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button><input type='' name='${namaId}' value='${index}'></td>`;
+    table.appendChild(newRow);
+}
+
+function tambahFormUpdate(index,namaTitel,namaLokasi,namaInstallasi,namaId,namaFoto,lokasiAppendForm,lokasiAppendRow,clasRemoveFormBottonBebas,clasContainer,clasBtn){ //0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','copyFormBebas','rowBebas'
+    const id = index === 0 ? `${lokasiAppendForm}` : `${lokasiAppendForm}${index}`;
+    let table = document.getElementById(id);
+    const form = document.createElement('div');
+    const exist = table.querySelectorAll('div .container-fluid');
+    const dataExist = document.querySelectorAll('.exist-bebas').length-1;
+    console.log(exist.length+1);
+    form.innerHTML = `<div class='container-fluid ${clasContainer}'><div class='grid-item'><img id='output${dataExist+exist.length+1}' height='auto' width='800px'><br><input type='file' accept='image/*' name='${namaFoto}'></div><div class='grid-item'><p>${exist.length+1}</p><label>Masukkan Titel</label><br><input type='text' name='${namaTitel}' style='font: size 20px; margin-bottom:10px;'><table><thead><tr><th rowspan='2' style='padding-top:35px;width:4rem'>No.</th><th rowspan='2' style='width:7rem;text-align:center;padding-top:35px'>Lokasi</th><th colspan='3'style='width:9rem;text-align:center'>Jam Manuver Buka</th><th rowspan='2'style='padding-top:35px;width:9rem;'>Installasi</th><th rowspan='2'><button type='button' class='btn green' onclick="tambahRowUpdate(${dataExist+exist.length+1},'${namaLokasi}','${namaInstallasi}','${namaId}','${lokasiAppendRow}')">Add More</button></th></tr><tr><th style='width:9rem;'>Remote</th><th style='width:9rem;'>Real (R/L)</th><th style='width:9rem;'>ADS</th></tr></thead><tbody id='${lokasiAppendRow}${dataExist+exist.length+1}'></tbody></table></div><div class='grid-item'><button type='button' class='btn reed ${clasRemoveFormBottonBebas}' onclick="kurangFormUpdate(this,'${clasRemoveFormBottonBebas}')">-</button></div></div>`;
+    table.appendChild(form);
+    form.querySelector('input[type=file]').addEventListener('change', e => { 
+        const imageElement = e.target.previousElementSibling.previousElementSibling; 
+        console.log(imageElement); 
+        const imageURL = URL.createObjectURL(e.target.files[0]); 
+        imageElement.src = imageURL; 
+    }); 
+
+    let btnExist = document.querySelectorAll(`.${clasBtn}`);
+    //console.log(btnExist);
+    for (i=1; i<btnExist.length; i++){
+        btnExist[1].children[0].style.display = 'none';
+    }
+
+    let btnRed =  document.querySelectorAll(`.${clasRemoveFormBottonBebas}`);
+    //console.log(btnRed)
+    const jumBtn = btnRed.length;
+    for(l=0; l<jumBtn-1; l++){
+        btnRed[l].style.display = 'none';
+    }
+
+}
+
+function kurangFormUpdate(ini,clasRemoveFormBottonBebas){
+    let btnRed = document.querySelectorAll(`.${clasRemoveFormBottonBebas}`);
+    const jumBtn = btnRed.length;
+
+
+    row = ini.parentElement.parentElement;
+    const div = ini.parentElement.parentElement.parentElement.parentElement.parentElement;
+    // console.log(div);
+    // row.children[1].children[3].children[0].children[0].children[4].children[0].getAttribute('onclick').innerHTML = 0;
+    //row.remove();
+    const existingForm = div.querySelectorAll('div .newBebas');
+    existingForm.forEach((row, idx) => {
+        row.children[1].childNodes[3].innerText = idx + 1;
+    }); 
+
+    if (jumBtn == 1){
+        //console.log(ini.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[2].children[0].innerText = '<button>ini</button>')
+        ini.parentElement.parentElement.parentElement.parentElement.previousElementSibling.children[2].innerHTML = '<button type="button"  class="btn reed" onclick="kurangFormUpdateExist(this)">-</button>';
+        //ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[2].children[0]
+        row.remove()
+    } else {
+        //console.log(ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[2])//children[0].children[1].children[0]).style.display= '' ;
+        ini.parentElement.parentElement.parentElement.previousElementSibling.children[0].children[2].children[0].style.display = '';
+        row.remove()
+    } 
+}
+
+
+function kurangFormUpdateExist(ini){
+    let btnRedExis = document.querySelectorAll(`.exist-bebas`)
+
+    const jumBtn = btnRedExis.length;
+
+    if (jumBtn == 2) {
+        btnRedExis[1].remove()
+    } else if (jumBtn > 2 ) {
+        console.log(btnRedExis[1])
+    }
+
+}
+
+let btnBebas = document.querySelectorAll('.btn_bebas');
+for(i=1; i<btnBebas.length; i++){
+    btnBebas[btnBebas.length-1].innerHTML = `<button class="btn reed" onclick="kurangFormUpdateExist(this)">-</button>`;
+}
+
+let btnNormal = document.querySelectorAll('.btn_normal');
+for(i=1; i<btnNormal.length; i++){
+    btnNormal[btnNormal.length-1].innerHTML = `<button class="btn reed" onclick="kurangFormUpdateExist(this)">-</button>`;
+}
+
+
+
 
 
 
