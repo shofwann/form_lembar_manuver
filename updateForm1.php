@@ -12,13 +12,12 @@ $cekData = mysqli_num_rows($dataAjax);
 
 
 if( isset($_POST["submit"]) ){
-
     if( updateForm($_POST) > 0){
         //var_dump(ubah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                setTimeout(myURL, 5000);
-                document.location.href = 'home.php?url=inbox';
+                //setTimeout(myURL, 5000);
+                //document.location.href = 'home.php?url=inbox';
                 </script>
                 ";  
                 
@@ -26,7 +25,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(ubah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                document.location.href = 'home.php?url=inbox';
+                //document.location.href = 'home.php?url=inbox';
                 </script>"; 
                 die;
                 
@@ -94,6 +93,7 @@ if ($sql){
                                 <input type="text" name="id_lokasi_detail" value="<?= $data["id_lokasi_detail"]; ?>">
                                 <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                                 <input type="text" value="" id="statusJob">
+                                <input type="text" name="jenis_form" value="<?= $data["jenis_form"]?>">
                             </div>
                             <div class="chose">
                                 <label for="" style="">Pilih jenis pekerjaan :</label>
@@ -325,15 +325,19 @@ if ($sql){
                         </div>
                     <?php } else { ?>
                         <div class="grid__item grid__item_item41new inputan border_right">
-                            <?php //var_dump(unserialize($data["emergency_bebas"]));
+                            <?php var_dump(unserialize($data["emergency_bebas"]));
                                 foreach(unserialize($data["emergency_bebas"]) as $row) : 
+                                  echo "<br><br>";  var_dump($row["fotoBebas"]); ?>
+                            <?php
                                 $maxIndex = intval(end($row["idBebas"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 
                             ?>
                             <div class="container-fluid exist-bebas">
                                 <div class="grid-item">
                                     <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px"><br>
-                                    <input type="file" accept="image/*" onchange="" name="fotoBebas[]">
+                                    <input type="file" accept="image/*" onchange="" name="fotoBebasOld[]">
+                                    <input type="hidden" name="idBebasOld[]" value="<?= $i ?>" disabled>
+                                    <!-- <input type="text" name="fotoBebas[]" value="<?//= $row["fotoBebas"][$i] ?>" disabled> -->
                                 </div>
                                 <div class="grid-item">
                                 <label for="">Masukkan Titel</label><br>
@@ -379,7 +383,7 @@ if ($sql){
                                     </table>
                                 </div>
                                 <div class="grid-item btn_bebas">
-                                    <button type="button" class="btn-greend " onclick="tambahFormUpdate(0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','fotoBebas[]','copyFormBebas','rowBebas<?= $i ?>','removeFormBottonBebas','newBebas','btn_bebas')">+</button>
+                                    <button type="button" class="btn-greend " onclick="tambahFormUpdate(0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','fotoBebasNew[]','copyFormBebas','rowBebas<?= $i ?>','removeFormBottonBebas','new-bebas','btn_bebas','exist-bebas')">+</button>
                                 </div>
                             </div>
                             <?php } endforeach;?>
@@ -441,7 +445,7 @@ if ($sql){
                         </div>
                     <?php } else { ?> 
                         <div class="grid__item grid__item_item49new inputan">
-                            <?php //var_dump(unserialize($data["emergency_normal"]));
+                            <?php var_dump(unserialize($data["emergency_normal"]));
                                 foreach(unserialize($data["emergency_normal"]) as $row) : 
                                 $maxIndex = intval(end($row["idNormal"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 
@@ -450,7 +454,8 @@ if ($sql){
                             <div class="container-fluid exist-normal">
                                 <div class="grid-item">
                                     <img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="780px"><br>
-                                    <input type="file" accept="image/*" onchange="" name="fotoNormal[]">
+                                    <input type="file" accept="image/*" onchange="" name="fotoNormalOld[]">
+                                    <input type="hidden" name="idNormalOld[]" value="<?= $i ?>" disabled>
                                 </div>
                                 <div class="grid-item">
                                     <h3><input type="text" name="titelNormal[]" value="<?= $row["titelNormal"][$i] ?>"></h3>
@@ -461,27 +466,30 @@ if ($sql){
                                                 <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                                 <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
                                                 <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRowUpdate(<?= $i ?>,'lokasiManuverNormal[]','installManuverNormal[]','idNormal[]','rowNormal')">Add More</button></th>
                                             </tr>
                                             <tr>
-                                                <th>Remote</th>
-                                                <th>Real (R/L)</th>
-                                                <th>ADS</th>
+                                                <th style="width:9rem;">Remote</th>
+                                                <th style="width:9rem;">Real (R/L)</th>
+                                                <th style="width:9rem;">ADS</th>
                                             </tr> 
-                                        </thead id="rowNormal<?= $i ?>">
+                                        </thead >
+                                        <tbody id="rowNormal<?= $i ?>">
                                             <?php $k=1;
                                                 for($j = 0; $j < count($row["idNormal"]); $j++) {
-                                                    if ($row["idNormal"][$j] == $i) {
-                                                     
+                                                    if ($row["idNormal"][$j] == $i) {    
                                             ?>
-                                        <tbody>
                                             <tr>
                                                 <td><?= $k;?></td>
                                                 <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row["lokasiManuverNormal"][$j] ?>"></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td><input type="text" name="installManuverNormal[]" value="<?= $row["installManuverNormal"][$j] ?>"></td>
-
+                                                <td><input type="text" name="installManuverNormal[]" value="<?= $row["installManuverNormal"][$j] ?>"></td>                                                </td>
+                                                <td>
+                                                    <button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button>
+                                                    <input type="text" name="idNormal[]" value="<?= $row["idNormal"][$j] ?>">
+                                                </td>
                                             </tr>
                                             <?php 
                                                $k++; }}
@@ -490,7 +498,7 @@ if ($sql){
                                     </table>
                                 </div>
                                 <div class="grid-item btn_normal">
-                                    <button type="button" class="btn-greend " onclick="tambahFormUpdate(0,'titelNormal[]','lokasiManuverNormal[]','installManuverNormal[]','idNormal[]','fotoNormal[]','copyFormNormal','rowNormal<?= $i ?>','removeFormBottonNormal','newNormal','btn_normal')">+</button>
+                                    <button type="button" class="btn-greend " onclick="tambahFormUpdate(0,'titelNormal[]','lokasiManuverNormal[]','installManuverNormal[]','idNormal[]','fotoNormalNew[]','copyFormNormal','rowNormal<?= $i ?>','removeFormBottonNormal','new-normal','btn_normal','exist-normal')">+</button>
                                 </div>
                             </div>
                             <?php } endforeach;?>  

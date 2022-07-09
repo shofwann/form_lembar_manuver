@@ -252,45 +252,47 @@ if ($sql){
                                 $maxIndex = intval(end($row["idBebas"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 
                             ?>
-                            <table>
-                                <td><img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px"></td>
-                                <td style='valign = top;'>
-                                    <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
-                                                <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
-                                                <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
-                                                <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
-                                            </tr>
-                                            <tr>
-                                                <th>Remote</th>
-                                                <th>Real (R/L)</th>
-                                                <th>ADS</th>
-                                            </tr> 
-                                        </thead>
-                                            <?php $k=1;
-                                                for($j = 0; $j < count($row["idBebas"]); $j++) {
-                                                    if ($row["idBebas"][$j] == $i) {
-                                            ?>
-                                        <tbody>
-                                            <tr>
-                                                <td><?= $k;?></td>
-                                                <td><?= $row["lokasiManuverBebas"][$j] ?></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td><?= $row["installManuverBebas"][$j] ?></td>
+                        <div class="container-aprove">
+                            <div class="grid-item-aprove">
+                                <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px">
+                            </div>
+                            <div class="grid-item-aprove">
+                                <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                            <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                            <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
+                                            <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:9rem;">Remote</th>
+                                            <th style="width:9rem;">Real (R/L)</th>
+                                        <th style="width:9rem;">ADS</th>
+                                        </tr> 
+                                    </thead>
+                                        <?php $k=1;
+                                            for($j = 0; $j < count($row["idBebas"]); $j++) {
+                                                if ($row["idBebas"][$j] == $i) {
+                                        ?>
+                                    <tbody>
+                                        <tr>
+                                            <td><?= $k;?></td>
+                                            <td><?= $row["lokasiManuverBebas"][$j] ?></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><?= $row["installManuverBebas"][$j] ?></td>
 
-                                            </tr>
-                                            <?php 
-                                               $k++; }}
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </table>
+                                        </tr>
+                                        <?php 
+                                            $k++; }}
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                             <?php } endforeach;?>
                         </div>
                     <?php }?>
@@ -318,9 +320,9 @@ if ($sql){
                                         <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
                                     </tr>
                                     <tr>
-                                        <th>Remote</th>
-                                        <th>Real (R/L)</th>
-                                        <th>ADS</th>
+                                        <th style="width:9rem;">Remote</th>
+                                        <th style="width:9rem;">Real (R/L)</th>
+                                        <th style="width:9rem;">ADS</th>
                                     </tr> 
                                 </thead>
                                 <tbody>
@@ -355,10 +357,12 @@ if ($sql){
                                 $maxIndex = intval(end($row["idNormal"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 
                             ?>
-                            <table>
-                                <td><img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="780px"></td>
-                                <td style='valign = top;'>
-                                <h3><?= $row["titelNormal"][$i] ?></h3>
+                            <div class="container-aprove">
+                                <div class="grid-item-aprove">
+                                    <img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="780px">
+                                </div>
+                                <div class="grid-item-aprove">
+                                    <h3><?= $row["titelNormal"][$i] ?></h3>
                                     <table>
                                         <thead>
                                             <tr>
@@ -368,9 +372,9 @@ if ($sql){
                                                 <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
                                             </tr>
                                             <tr>
-                                                <th>Remote</th>
-                                                <th>Real (R/L)</th>
-                                                <th>ADS</th>
+                                                <th style="width:9rem;">Remote</th>
+                                                <th style="width:9rem;">Real (R/L)</th>
+                                                <th style="width:9rem;">ADS</th>
                                             </tr> 
                                         </thead>
                                             <?php $k=1;
@@ -392,8 +396,8 @@ if ($sql){
                                             ?>
                                         </tbody>
                                     </table>
-                                </td>
-                            </table>
+                                </div>
+                            </div>
                             <?php } endforeach;?>    
                         </div>
                     <?php } ?>
