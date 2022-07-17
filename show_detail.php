@@ -283,9 +283,9 @@ if ($sql){
                                         <tr>
                                             <td><?= $k;?></td>
                                             <td><?= $row["lokasiManuverBebas"][$j] ?></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><?= isset($row['remote_bebas'][$j]) ? $row['remote_bebas'][$j] : '' ?></td>
+                                            <td><?= isset($row['real_bebas'][$j]) ? $row['real_bebas'][$j] : '' ?></td>
+                                            <td><?= isset($row['ads_bebas'][$j]) ? $row['ads_bebas'][$j] : '' ?></td>
                                             <td><?= $row["installManuverBebas"][$j] ?></td>
 
                                         </tr>
@@ -489,7 +489,7 @@ if ($sql){
     let tabel2 =document.querySelector('#table2')
     let status = document.getElementById('status').value;
     
-    let dataArray = ['amnUbah','amn','msb','msbUbah','dispa','dispaAwalUbah','dispaAkhir','amnDispaAwal']
+    let dataArray = ['amnUbah','amn','msb','msbUbah','dispa','dispaAwalUbah','dispaAkhir','amnDispaAwal','amnDispaAwalUbah','amnDispaAkhirUbah']
 
     if(dataArray.indexOf(status) !== -1){
         for(i=0; i<jumRowstabel1; i++){
@@ -500,6 +500,8 @@ if ($sql){
     } else{
         console.log("Value does not exists!")
     }
+
+
 
    
 

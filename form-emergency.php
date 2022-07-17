@@ -15,6 +15,7 @@
     require "functions.php";
 
     // skript auto number for ID
+    
    
     $query = "SELECT id FROM db_form ORDER BY id DESC LIMIT 1";
 
@@ -27,7 +28,7 @@
 
     $idLokasiDetail = mysqli_query($conn,"SELECT id_detail_lokasi FROM db_ajax_lokasi_detail ORDER BY id_detail_lokasi DESC LIMIT 1");
 
-    if( isset($_POST["submit"]) ){
+    if( isset($_POST["submit1"]) ){
         if( insertEmergency($_POST) > 0){
             //var_dump(tambah($_POST)); die;
             echo "<script>
@@ -45,6 +46,21 @@
                     "; die;
                     
         }
+    } elseif (isset($_POST["submit2"])) {
+        if (inserEmergency2($_POST) > 0 ){
+            echo "<script>
+                    alert('data berhasil disubmit'); 
+                    document.location.href = 'home.php';
+                    </script>
+                    ";  
+        } else {
+            echo "<script>
+            alert('data gagal disubmit'); 
+            document.location.href = 'home.php';
+            </script>
+            "; die;
+        }
+
     }
 
 ?>
@@ -90,7 +106,7 @@
                             <input type="text" name="user_creater" placeholder="" value="<?= $_SESSION['username'];?>" class="" readonly>
                             <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                             <input type="text" value="" id="statusJob">
-                            <input type="text" name="form" value="3">
+                            <input type="text" name="form" id="form" value="<?= $_GET["form"] ?>">
                         </div>
                         <div class="chose">
                             <!-- <label for="" style="">Pilih jenis pekerjaan :</label>
@@ -232,8 +248,9 @@
                         <div class="grid__item grid__item_item36 inputan"><input type="text" disabled></div>
                         <div class="grid__item grid__item_item37 titel">MANUVER PEMBEBASAN INSTALLASI</div>
                         <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan<span>*</span></div>
-                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" class=textarea cols="232" rows="3"></textarea></div>
+                        <div class="grid__item grid__item_item39 inputan "><textarea name="catatan_pra_bebas" class="textarea" cols="232" rows="3"></textarea></div>
                         <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan<span>*</span></div>
+                    <?php if ($_GET["form"] == 3 ) {?>
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
                                 <img id="output1" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
@@ -259,17 +276,57 @@
                                 </tfoot>
                                 </table>
                         </div>
+                    <?php } else {?>
+                        <div class="grid__item grid__item_item41new inputan border_right">
+                            <div class="container-fluid">
+                                <div class="grid-item"> 
+                                    
+                                    <img id="output0" height="auto" width="800px" style="padding-top:.50rem;"><br>
+                                    <input type="file" accept="image/*" name="fotoBebas[]" >
+                                    
+                                </div>
+                                <div class="grid-item">
+                                    <label for="">Masukkan Titel</label><br>
+                                    <input type="text" name="titelBebas[]" style="font: size 20px; margin-bottom:10px;">
+                                    <p>0</p>
+                                    <table style="">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                                <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                                <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
+                                                <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRow(0,'lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','rowBebas','remote_bebas[]','real_bebas[]','ads_bebas[]')">Add More</button></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:9rem;">Remote</th>
+                                                <th style="width:9rem;">Real (R/L)</th>
+                                                <th style="width:9rem;">ADS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rowBebas">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="grid-item">
+                                    <button type="button" class="btn-greend" onclick="tambahForm(0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','fotoBebas[]','copyFormBebas','rowBebas','removeFormBottonBebas','remote_bebas[]','real_bebas[]','ads_bebas[]')">+</button>
+                                </div>
+                            </div>
+                            <div id="copyFormBebas"></div>
+                            </div>
+                    <?php }?>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
                         <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" class=textarea cols="232" rows="3"></textarea></div>
                         <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>
-                        <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
+                        <!-- <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
                         <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" class=textarea cols="232" rows="3" disabled></textarea></div>
                         <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
-                                <img id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
+                                <img id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br> -->
                                 <!-- <input type="file" accept="image/*" onchange="" name="foto2"> -->
-                            </div>
+                            <!-- </div>
                         </div>
                         <div class="grid__item grid__item_item50 inputan">
                             <table class="" id="dynamic_field2" style="">
@@ -277,9 +334,9 @@
                                     <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
                                     <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                     <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Tutup</th>
-                                    <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                    <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th> -->
                                     <!-- <th rowspan="2"><button type="button" name="add4" id="add4" onclick="tambahBaris('dynamic2','lokasiManuverNormal[]','installManuverNormal[]','remote_normal[]','real_normal[]','ads_normal[]')" class="btn btn-success green">Add More</button></th> -->
-                                </tr>
+                                <!-- </tr>
                                 <tr>
                                     <th>Remote</th>
                                     <th>Real (R/L)</th>
@@ -291,9 +348,13 @@
                             </table>
                         </div>
                         <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
-                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" class=textarea cols="232" rows="3" disabled></textarea></div>
+                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" class=textarea cols="232" rows="3" disabled></textarea></div> -->
                     </div><br>
-                        <button type="submit" name="submit" >Simpan Form</button>
+                    <?php if($_GET["form"] == 3) {?>
+                        <button type="submit" name="submit1" >Simpan Form</button>
+                    <?php } else {?>
+                        <button type="submit" name="submit2" >Simpan Form</button>
+                    <?php } ?>
                 </form>
             </div>
             <div>

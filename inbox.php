@@ -197,7 +197,9 @@ require "functions.php";
                             <td><?= $row["status"];?></td>
                             <td>
                                 <a href="?url=dispaInputAwal&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
-                                <a href="?url=postpone&id=<?= $row["id"];?>"><i class="fa fa-times"></i></a> 
+                                <?php if($row['user'] != '') {?>
+                                    <a href="?url=postpone&id=<?= $row["id"];?>"><i class="fa fa-times"></i></a> 
+                                <?php } ?>
                         <?php $i++;?>
                         <?php endforeach; ?>
                             <!-- untuk percobaan -->

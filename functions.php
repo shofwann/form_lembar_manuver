@@ -35,6 +35,12 @@ $jumlahDataPerHalaman = 10;
 // $res = array_combine($dataArray5,$dataArray6);
 // print_r($res); echo "<br>";
 
+// $dataArray1 = [null];
+// $dataArray2 = [1,2];
+
+// $array = array_replace($dataArray1,$dataArray2);
+// print_r($dataArray1);
+
 // ========================================================================================
 // untuk user list
 //$jumlahDataPerHalamanUser = 10;
@@ -249,6 +255,7 @@ function updateForm($post) {
         if( $_FILES['foto']['error'] === 4){
             $foto = $fotolama1;
         } else {
+            unlink('img/'.$fotolama1);
             $foto = upload("foto");
         }
     
@@ -264,6 +271,7 @@ function updateForm($post) {
         if( $_FILES['foto2']['error'] === 4){
             $foto2 = $fotolama2;
         } else {
+            unlink('img/'.$fotolama2);
             $foto2 = upload("foto2");
         }
     
@@ -276,20 +284,28 @@ function updateForm($post) {
             ]);
         } 
     } else {
-            
+        $foto = "no foto";
+        $foto2 = "no foto";
  
         if (array_unique($_FILES['fotoBebasOld']['error']) === array(4)){
             $array_foto_bebas = $extrakFotoBebas;
+            //var_dump($extrakFotoBebas); die;
         } else {
             $idBebasOld = $post["idBebasOld"];
-       
+            
             $array_foto_bebas_old = [];
                 for ($i=0; $i<count($_FILES["fotoBebasOld"]["name"]); $i++){
                         $namaFile = uploadIndexNew($i,"fotoBebasOld");
                         array_push($array_foto_bebas_old,$namaFile);
                     }
-                $filter = array_filter($array_foto_bebas_old);
-                $combine = array_combine($idBebasOld,$filter);
+                $filter = array_filter($array_foto_bebas_old); //menghapus nilai null array
+                //var_dump($extrakFotoBebas); echo "<br>"; var_dump(array_filter($array_foto_bebas_old)); echo "<br>"; var_dump(array_intersect_key($extrakFotoBebas,$filter)); die;
+                $intersec_key = array_intersect_key($extrakFotoBebas,$filter); // mengambil data yang rencana akan dihapus
+                $value = array_values($intersec_key);  // mengurutkan key dari 0
+                for ($i=0; $i<count($value); $i++) {
+                    unlink('img/'.$value[$i]);
+                }
+                $combine = array_combine($idBebasOld,$filter); // menyseusaikan key dari 0 menjadi sesuai id eksisting
                 $array_foto_bebas = array_replace($extrakFotoBebas,$combine);   
         }
 
@@ -328,7 +344,7 @@ function updateForm($post) {
 
 
         
-// =====================================normalan area========================================================
+                // =====================================normalan area========================================================
 
 
 
@@ -342,6 +358,12 @@ function updateForm($post) {
                         array_push($array_foto_normal_old,$namaFile);
                     }
                 $filter = array_filter($array_foto_normal_old);
+                $intersec_key = array_intersect_key($extrakFotoNormal,$filter);
+                $value = array_values($intersec_key);
+                // var_dump($value); die;
+                for ($i=0; $i<count($value); $i++) {
+                    unlink('img/'.$value[$i]);
+                }
                 $combine = array_combine($idNormalOld,$filter);
                 $array_foto_normal = array_replace($extrakFotoBebas,$combine);
         }
@@ -433,27 +455,7 @@ function updateForm($post) {
             $id_lokasi_detail = 0;
         }
     }
-
-    if ($post["jenis_form"] == 1) {
-        $query = "UPDATE db_form SET
-                    pekerjaan = '$pekerjaan',
-                    `date` = '$date',
-                    `start` = '$start',
-                    `end` = '$end',
-                    lokasi = '$lokasi',
-                    installasi = '$instal',
-                    emergency_pengawas_bebas = '$pengawas',
-                    foto = '$foto', 
-                    emergency_bebas ='$manuverBebas',
-                    foto2 = '$foto2',
-                    emergency_normal = '$manuverNormal',
-                    `status` = 'amnUbah',
-                    catatan_pra_pembebasan = '$catatanPraBebas',
-                    chose_db = $pilihanDB,
-                    catatan_pra_penormalan = '$catatanPraNormal',
-                    id_lokasi_detail = $id_lokasi_detail
-                WHERE id = $idTask ";
-    } else {
+    
         $query = "UPDATE db_form SET
                     pekerjaan = '$pekerjaan',
                     `date` = '$date',
@@ -470,9 +472,7 @@ function updateForm($post) {
                     catatan_pra_penormalan = '$catatanPraNormal',
                     id_lokasi_detail = $id_lokasi_detail
                 WHERE id = $idTask ";
-    }
-
-  
+    
     mysqli_query($conn,$query);
 
     return mysqli_affected_rows($conn);
@@ -1009,6 +1009,9 @@ function aprovalMsb($post){
 function inputDispaAwal($post) {
     global $conn;
     $idTask = $post["idTask"]; 
+    $data = query("SELECT * FROM db_form WHERE id = $idTask")[0];
+    $extrakArrayBebas = unserialize($data["emergency_bebas"])[0];
+    //var_dump($data["jenis_form"]); die;
     $fotolama = $post["fotoLama"];
     $time = $post["dateAprove"];
     $report = $post["report_date"];
@@ -1042,15 +1045,30 @@ function inputDispaAwal($post) {
     
     $scada_awal_after = htmlspecialchars($post["scada_awal_after"]);
 
-    $manuverBebas = serialize([
-        [
-            "lokasiManuverBebas" => $post["lokasiManuverBebas"],
-            "remote_bebas" => $post["remote_bebas"],
-            "real_bebas" => $post["real_bebas"],
-            "ads_bebas" => $post["ads_bebas"],
-            "installManuverBebas" => $post["installManuverBebas"]
-        ]
-    ]);
+    if ($data["jenis_form"] == 1){
+        $manuverBebas = serialize([
+            [
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "remote_bebas" => $post["remote_bebas"],
+                "real_bebas" => $post["real_bebas"],
+                "ads_bebas" => $post["ads_bebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+        ]);
+    } else {
+        $manuverBebas = serialize([
+            [
+                "idBebas" => $extrakArrayBebas["idBebas"],
+                "titelBebas" => $extrakArrayBebas["titelBebas"],
+                "fotoBebas" => $extrakArrayBebas["fotoBebas"],
+                "lokasiManuverBebas" => $extrakArrayBebas["lokasiManuverBebas"],
+                "remote_bebas" => $post["remote_bebas"],
+                "real_bebas" => $post["real_bebas"],
+                "ads_bebas" => $post["ads_bebas"],
+                "installManuverBebas" => $extrakArrayBebas["installManuverBebas"]
+            ]
+        ]);
+    }
 
     
     $catatan = htmlspecialchars($post["catatan_pasca_bebas"]);
@@ -1061,7 +1079,7 @@ function inputDispaAwal($post) {
         $status ='amnDispaAwal';
     }
 
-    if ($post["jenis_form"] == 1) {
+   
     $query = "UPDATE db_form SET
               user_dispa_awal = '$userDispa',
               emergency_pengawas_bebas = '$pengawas',
@@ -1076,22 +1094,7 @@ function inputDispaAwal($post) {
               emergency_bebas = '$manuverBebas',
               `status` = '$status'
               WHERE id = $idTask";
-    } else {
-    $query = "UPDATE db_form SET
-                user_dispa_awal = '$userDispa',
-                emergency_pengawas_bebas = '$pengawas',
-                scada_awal_before = '$scada_awal_before',
-                scada_awal_after = '$scada_awal_after',
-                report_date = '$report',
-                dpf_awal = '$dpf_awal',
-                document = '$document',
-                catatan_pasca_pembebasan = '$catatan',
-                time_dispa_awal_aprove = '$time',
-                foto_dpf1 = '$foto',
-                emergency_bebas = '$manuverBebas',
-                `status` = '$status'
-            WHERE id = $idTask";
-    }
+  
     mysqli_query($conn,$query);
 
     return mysqli_affected_rows($conn);
@@ -1282,17 +1285,36 @@ function hapus($id) {
     global $conn;
     $query = mysqli_query($conn,"SELECT * FROM db_form WHERE id = $id");
     $isiQuery = mysqli_fetch_assoc($query);
-    $dataFoto = array($isiQuery['foto'],$isiQuery['foto2'],$isiQuery['foto_dpf1'],$isiQuery['foto_dpf2']);
+    if ($isiQuery["jenis_form"] == 1) {
+        $dataFoto = array($isiQuery['foto'],$isiQuery['foto2']);
+        
+        for ($i=0; $i<count($dataFoto); $i++) {
+            if(!empty($dataFoto[$i])){
+                unlink('img/'.$dataFoto[$i]);
+            }
+        }
+    } else {
+        $dataFotoBebas = unserialize($data["emergency_bebas"])[0]["fotoBebas"];
+        for ($i=0; $i<count($dataFotoBebas); $i++) {
+            unlink('img/'.$dataFotoBebas[$i]);
+        }
+
+        $dataFotoNormal = unserialize($data["emergency_normal"])[0]["fotoNormal"];
+        for ($i=0; $i<count($dataFotoNormal); $i++) {
+            unlink('img/'.$dataFotoNormal[$i]);
+        }
+
+    }
     
+    $dataDpf = array($isiQuery['foto_dpf1'],$isiQuery['foto_dpf2']);
+
     for ($i=0; $i<count($dataFoto); $i++) {
         if(!empty($dataFoto[$i])){
-            unlink('img/'.$dataFoto[$i]);
+            unlink('dpf/'.$dataFoto[$i]);
         }
     }
 
     mysqli_query($conn,"DELETE FROM db_form WHERE id = $id");
-    mysqli_query($conn,"DELETE FROM db_table_pengawas WHERE id_form = $id");
-    mysqli_query($conn,"DELETE FROM db_table_tahapan WHERE id_form = $id");
     return mysqli_affected_rows($conn);
 }
 
@@ -1337,12 +1359,7 @@ function insertEmergency($post){
     $lokasi = strtolower(ltrim(rtrim(htmlspecialchars($post["lokasi"]))));//================ke DB
     $instal = strtolower(ltrim(rtrim(htmlspecialchars($post["instal"]))));//================ ke DB
     $report = $post["report_date"];
-
-    if ($_GET['form']) {
-        $form = $_GET["form"];
-    } else {
-        $form = $post["form"];
-    }
+    $form = $_GET["form"];
 
     if (!$end){
         $end = "00:00:00";
@@ -1402,11 +1419,100 @@ function insertEmergency($post){
 
 }
 
+function inserEmergency2($post){
+    global $conn;
+    $create_date = $post["create_date"];//ok
+    $user = $post["user_creater"]; ;//ok
+    $idTask =$post["idTask"];//ok
+    $pekerjaan = htmlspecialchars($post["pekerjaan"]);//ok
+    $date = $post["date"];
+    $start = $post["start"];
+    $end = $post["end"];
+    $lokasi = strtolower(ltrim(rtrim(htmlspecialchars($post["lokasi"]))));//================ke DB
+    $instal = strtolower(ltrim(rtrim(htmlspecialchars($post["instal"]))));//================ ke DB
+    $report = $post["report_date"];
+    $form = $_GET["form"];
+
+    if (!$end){
+        $end = "00:00:00";
+    }
+
+    $pengawas = serialize([
+        [
+            "lokasiPembebasan" => $post["lokasiPembebasan"],
+            "peng_pekerjaan" => $post["peng_pekerjaan"],
+            "peng_manuver" => $post["peng_manuver"],
+            "peng_k3" => $post["peng_k3"],
+            "spv" => $post["spv"],
+            "opr" => $post["opr"]
+        ]
+    ]);
+
+    if (isset($_POST["document"])){
+        $document = implode(",", $post["document"]);
+    }
+    
+    $surat = uploadSurat();
+
+    $scada_awal_before = htmlspecialchars($post["scada_awal_before"]);
+    
+    $scada_awal_after = htmlspecialchars($post["scada_awal_after"]);
+
+    $catatanPraBebas = htmlspecialchars($post["catatan_pra_bebas"]);
+
+    $array_foto_bebas = [];
+    for ($i=0; $i<count($_FILES["fotoBebas"]["name"]); $i++){
+        $namaFile = uploadIndex($i,"fotoBebas");
+            if (!$namaFile){
+                return false;
+            }
+        array_push($array_foto_bebas,$namaFile);
+    }
+
+    if (isset($post["idBebas"])){ 
+    $manuverBebas = serialize([
+        [
+            "idBebas" => $post["idBebas"],
+            "titelBebas" => $post["titelBebas"],
+            "fotoBebas" => $array_foto_bebas,
+            "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+            "remote_bebas" => $post["remote_bebas"],
+            "real_bebas" => $post["real_bebas"],
+            "ads_bebas" => $post["ads_bebas"],
+            "installManuverBebas" => $post["installManuverBebas"]
+        ]
+
+    ]);
+    
+    } else {
+        echo "<script>
+        alert ('Anda belum memasukkan Manuver Pembebasan');
+        history.back(-1);
+        </script>";
+        return false;
+    }
+    
+    $catatanPascaBebas = htmlspecialchars($post["catatan_pasca_bebas"]);
+
+    $query = "INSERT INTO db_form 
+                (id,create_date,create_user,user_dispa_awal,pekerjaan,`date`,`start`,`end`,lokasi,installasi,emergency_pengawas_bebas,document,surat,scada_awal_before,scada_awal_after,catatan_pra_pembebasan,foto,emergency_bebas,catatan_pasca_pembebasan,`status`,report_date,jenis_form)
+              VALUES
+                ($idTask,'$create_date','$user','$user','$pekerjaan','$date','$start','$end','$lokasi','$instal','$pengawas','$document','$surat','$scada_awal_before','$scada_awal_after','$catatanPraBebas','null','$manuverBebas','$catatanPascaBebas','amnDispaAwal','$report',$form)
+             ";
+
+    mysqli_query($conn,$query);
+
+    return mysqli_affected_rows($conn);
+
+}
+
 function ubahEmergencyAwal($post){
     global $conn;
     $create_date = $post["create_date"];//ok
     $user = $post["user"]; ;//ok
     $idTask =$post["idTask"];//ok
+    $data = query("SELECT * FROM db_form WHERE id = $idTask")[0];
+    $extrakFotoBebas = unserialize($data["emergency_bebas"])[0]["fotoBebas"];
     $pekerjaan = htmlspecialchars($post["pekerjaan"]);//ok
     $date = $post["date"];
     $start = $post["start"];
@@ -1450,25 +1556,86 @@ function ubahEmergencyAwal($post){
     $scada_awal_after = htmlspecialchars($post["scada_awal_after"]);
     $catatanPraBebas = htmlspecialchars($post["catatan_pra_bebas"]);
 
-    if( $_FILES['foto']['error'] === 4){
-        $foto = $fotoLamaBebas;
+    if ($post["jenis_form"] == 1){
+        if( $_FILES['foto']['error'] === 4){
+            $foto = $fotoLamaBebas;
+        } else {
+            $foto = upload("foto");
+        }
+    
+        $manuverBebas = serialize([
+            [
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "remote_bebas" => $post["remote_bebas"],
+                "real_bebas" => $post["real_bebas"],
+                "ads_bebas" => $post["ads_bebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+        ]);
     } else {
-        $foto = upload("foto");
+        $foto = "no foto";
+
+        if (array_unique($_FILES['fotoBebasOld']['error']) === array(4)){
+            $array_foto_bebas = $extrakFotoBebas;
+            //var_dump($extrakFotoBebas); die;
+        } else {
+            $idBebasOld = $post["idBebasOld"];
+            
+            $array_foto_bebas_old = [];
+                for ($i=0; $i<count($_FILES["fotoBebasOld"]["name"]); $i++){
+                        $namaFile = uploadIndexNew($i,"fotoBebasOld");
+                        array_push($array_foto_bebas_old,$namaFile);
+                    }
+                $filter = array_filter($array_foto_bebas_old); //menghapus nilai null array
+                //var_dump($extrakFotoBebas); echo "<br>"; var_dump(array_filter($array_foto_bebas_old)); echo "<br>"; var_dump(array_intersect_key($extrakFotoBebas,$filter)); die;
+                if ($extrakFotoBebas != null){
+                    $intersec_key = array_intersect_key($extrakFotoBebas,$filter); // mengambil data yang rencana akan dihapus( memilih yg valuenya samam)
+                    $value = array_values($intersec_key);  // mengurutkan key dari 0
+                    for ($i=0; $i<count($value); $i++) {
+                        unlink('img/'.$value[$i]);
+                    }
+                } else {
+                    $extrakFotoBebas = [];
+                }
+                $combine = array_combine($idBebasOld,$filter); // menyseusaikan key dari 0 menjadi sesuai id eksisting
+                // var_dump($extrakArrayBebas); var_dump($array_foto_bebas_old);die;
+                // if ($extrakFotoBebas == null){
+                //     $array_foto_bebas = $combine;
+                // } else {
+                // }
+                $array_foto_bebas = array_replace($extrakFotoBebas,$combine);   
+        }
+
+        if ( isset($_FILES['fotoBebasNew']['name'])){
+            $array_foto_bebas_new = [];
+            for ($i=0; $i<count($_FILES["fotoBebasNew"]["name"]); $i++){
+                $namaFile = uploadIndex($i,"fotoBebasNew");
+                    if (!$namaFile){
+                        return false;
+                    }
+                array_push($array_foto_bebas_new,$namaFile);
+            }
+            $array_foto_bebas = array_merge($array_foto_bebas,$array_foto_bebas_new );
+        } 
+        // var_dump($array_foto_bebas);die;
+        // var_dump($array_foto_bebas_new); die;
+
+        $manuverBebas = serialize([
+            [
+                "idBebas" => $post["idBebas"],
+                "titelBebas" => $post["titelBebas"],
+                "fotoBebas" => $array_foto_bebas,
+                "lokasiManuverBebas" => $post["lokasiManuverBebas"],
+                "remote_bebas" => $post["remote_bebas"],
+                "real_bebas" => $post["real_bebas"],
+                "ads_bebas" => $post["ads_bebas"],
+                "installManuverBebas" => $post["installManuverBebas"]
+            ]
+    
+        ]);
     }
 
-    $manuverBebas = serialize([
-        [
-            "lokasiManuverBebas" => $post["lokasiManuverBebas"],
-            "remote_bebas" => $post["remote_bebas"],
-            "real_bebas" => $post["real_bebas"],
-            "ads_bebas" => $post["ads_bebas"],
-            "installManuverBebas" => $post["installManuverBebas"]
-        ]
-    ]);
-
     $catatanPascaBebas = htmlspecialchars($post["catatan_pasca_bebas"]);
-
-    
 
     if($statusAwal == 'dispaAwalUbah') {
         $status = 'amnDispaAwalUbah';
@@ -1484,7 +1651,6 @@ function ubahEmergencyAwal($post){
               lokasi = '$lokasi',
               installasi = '$instal',
               emergency_pengawas_bebas = '$pengawas',
-              foto = '$foto', 
               document = '$document',
               surat = '$surat',
               scada_awal_before = '$scada_awal_before',
@@ -1493,7 +1659,7 @@ function ubahEmergencyAwal($post){
               foto = '$foto',
               emergency_bebas = '$manuverBebas',
               catatan_pasca_pembebasan = '$catatanPascaBebas',
-              report_date = '$report',
+              report_date = '$report',      
               time_dispa_awal_aprove = '$timaAprovalAmnDispaAwal',
               `status` = '$status'
               WHERE id = $idTask;
@@ -1511,6 +1677,7 @@ function ubahEmergencyAkhir($post){
     $fotoLamaNormal = $post["fotoLamaNormal"]; 
     $statusAwal = $post["status"];
     $timaAprovalAmnDispaAwal = $post["dateAprove"];
+    $form = $post["form"];
 
     $pengawas = serialize([
         [
@@ -1524,22 +1691,118 @@ function ubahEmergencyAkhir($post){
     $scada_akhir_after = htmlspecialchars($post["scada_akhir_after"]);
     $catatanPraNormal =htmlspecialchars($post["catatan_pra_normal"]);
 
-    if( $_FILES['foto2']['error'] === 4){
-        $foto2 = $fotoLamaNormal;
+    $data = query("SELECT * FROM db_form WHERE id = $idTask")[0];
+    $extrakFotoNormal = unserialize($data["emergency_normal"])[0]["fotoNormal"];
+    
+    //var_dump($data["emergency_normal"]); die;
+
+    
+
+    if ($form == 4) {
+        if ( $data["emergency_normal"] == null) {
+            $foto2 = "no foto";
+            $array_foto_normal = [];
+            for ($i=0; $i<count($_FILES["fotoNormal"]["name"]); $i++){
+                $namaFile = uploadIndex($i,"fotoNormal");
+                    if (!$namaFile){
+                        return false;
+                    }
+                array_push($array_foto_normal,$namaFile);
+            }
+
+            if (isset($post["idNormal"])){ 
+                $manuverNormal = serialize([
+                    [
+                        "idNormal" => $post["idNormal"],
+                        "titelNormal" => $post["titelNormal"],
+                        "fotoNormal" => $array_foto_normal,
+                        "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                        "remote_normal" => $post["remote_normal"],
+                        "real_normal" => $post["real_normal"],
+                        "ads_normal" => $post["ads_normal"],
+                        "installManuverNormal" => $post["installManuverNormal"]
+                    ]
+                ]);
+
+            } else {
+                echo "<script>
+                        alert ('Anda belum memasukkan Manuver Penormalan');
+                        history.back(-1);
+                     </script>";
+                return false;
+            } 
+
+        } else {
+            $foto2 = "no foto";
+            if (array_unique($_FILES['fotoNormalOld']['error']) === array(4)){
+                $array_foto_normal = $extrakFotoNormal;
+            } else {
+                $idNormalOld = $post["idNormalOld"];
+                $array_foto_normal_old = [];
+                    for ($i=0; $i<count($_FILES["fotoNormalOld"]["name"]); $i++){
+                            $namaFile = uploadIndexNew($i,"fotoNormalOld");
+                            array_push($array_foto_normal_old,$namaFile);
+                        }
+                    $filter = array_filter($array_foto_normal_old);
+                    if ($extrakFotoNormal != null) {
+                        $intersec_key = array_intersect_key($extrakFotoNormal,$filter);
+                        $value = array_values($intersec_key);
+                        // var_dump($value); die;
+                        for ($i=0; $i<count($value); $i++) {
+                            unlink('img/'.$value[$i]);
+                        }
+                    } else{
+                        $extrakFotoNormal = [];
+                    }
+                    //  var_dump($extrakFotoNormal); var_dump($array_foto_normal_old); die;
+                    $combine = array_combine($idNormalOld,$filter);
+                    $array_foto_normal = array_replace($extrakFotoNormal,$combine);
+            }
+                  
+            if ( isset($_FILES['fotoNormalNew']['name'])){
+                $array_foto_normal_new = [];
+                for ($i=0; $i<count($_FILES["fotoNormalNew"]["name"]); $i++){
+                    $namaFile = uploadIndex($i,"fotoNormalNew");
+                        if (!$namaFile){
+                            return false;
+                        }
+                    array_push($array_foto_normal_new,$namaFile);
+                }
+                $array_foto_normal = array_merge($array_foto_normal,$array_foto_normal_new );
+            } 
+    
+            $manuverNormal = serialize([
+                [
+                    "idNormal" => $post["idNormal"],
+                    "titelNormal" => $post["titelNormal"],
+                    "fotoNormal" => $array_foto_normal,
+                    "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                    "remote_normal" => $post["remote_normal"],
+                    "real_normal" => $post["real_normal"],
+                    "ads_normal" => $post["ads_normal"],
+                    "installManuverNormal" => $post["installManuverNormal"]
+                ]
+            ]);
+        }
     } else {
-        $foto2 = upload("foto2");
+        if( $_FILES['foto2']['error'] === 4){
+            $foto2 = $fotoLamaNormal;
+        } else {
+            $foto2 = upload("foto2");
+        }
+    
+        $manuverNormal = serialize([
+            [
+                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                "remote_normal" => $post["remote_normal"],
+                "real_normal" => $post["real_normal"],
+                "ads_normal" => $post["ads_normal"],
+                "installManuverNormal" => $post["installManuverNormal"]
+            ]
+            
+        ]);
     }
 
-    $manuverNormal = serialize([
-        [
-            "lokasiManuverNormal" => $post["lokasiManuverNormal"],
-            "remote_normal" => $post["remote_normal"],
-            "real_normal" => $post["real_normal"],
-            "ads_normal" => $post["ads_normal"],
-            "installManuverNormal" => $post["installManuverNormal"]
-        ]
-        
-    ]);
 
     $catatanPascaNormal = htmlspecialchars($post["catatan_pasca_normal"]);
 

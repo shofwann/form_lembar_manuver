@@ -3,8 +3,12 @@ require 'functions.php';
 
 $sql=mysqli_query($conn,"SELECT * FROM db_form WHERE id='$_GET[id]'");
 $data=mysqli_fetch_assoc($sql);
-
-
+$extractDataBebas =unserialize($data["emergency_bebas"])[0];
+var_dump($extractDataBebas["idBebas"]); echo "<br>";
+var_dump($extractDataBebas["titelBebas"]); echo "<br>";
+var_dump($extractDataBebas["fotoBebas"]); echo "<br>";
+var_dump($extractDataBebas["lokasiManuverBebas"]); echo "<br>";
+var_dump($extractDataBebas["installManuverBebas"]); echo "<br>";
 
 
 if( isset($_POST["submit"]) ){
@@ -13,7 +17,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                document.location.href = 'home.php?url=inbox';
+                //document.location.href = 'home.php?url=inbox';
                 </script>
                 ";  
                 
@@ -21,7 +25,7 @@ if( isset($_POST["submit"]) ){
        // var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                document.location.href = 'home.php?url=inbox';
+                //document.location.href = 'home.php?url=inbox';
                 </script>
                 "; die;
                 
@@ -250,6 +254,7 @@ if ($sql){
                            <div class="container-aprove">
                             <div class="grid-item-aprove">
                                 <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px">
+                                
                             </div>
                             <div class="grid-item-aprove">
                                 <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
@@ -280,7 +285,6 @@ if ($sql){
                                             <td><input type="time" name="ads_bebas[]" value="<?= isset($row['ads_bebas'][$j]) ? $row['real_bebas'][$j] : '' ?>"></td>
                                             <td>
                                                 <input type="text" name="installManuverBebas[]" value="<?= $row['installManuverBebas'][$j] ?>" readonly>
-                                                <input type="text" name="idBebas[]" value="<?= $row["idBebas"][$j] ?>">
                                             </td>
 
                                         </tr>
@@ -327,9 +331,9 @@ if ($sql){
                                 <tr>
                                     <td><?= $i ?></td>
                                     <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row['lokasiManuverNormal'][$j] ?>" readonly></td>
-                                    <td><input type="time" name="remote_Normal[]" value="<?= $row['remote_bebas'][$j] ?>" readonly></td>
-                                    <td><input type="time" name="real_Normal[]" value="<?= $row['real_bebas'][$j] ?>" readonly></td>
-                                    <td><input type="time" name="ads_Normal[]" value="<?= $row['ads_bebas'][$j] ?>" readonly></td>
+                                    <td><input type="time" name="remote_normal[]" value="<?= $row['remote_normal'][$j] ?>" readonly></td>
+                                    <td><input type="time" name="real_normal[]" value="<?= $row['real_normal'][$j] ?>" readonly></td>
+                                    <td><input type="time" name="ads_normal[]" value="<?= $row['ads_normal'][$j] ?>" readonly></td>
                                     <td><input type="text" name="installManuverNormal[]" value="<?= $row['installManuverNormal'][$j] ?>" readonly></td>
                                         
                                 </tr>
@@ -339,7 +343,9 @@ if ($sql){
                                         endforeach
                                     ?>
 
-                                
+<input type='time' name='remote_Normal[]' class='disabled-manuver'>
+<input type='time' name='real_Normal[]' class='disabled-manuver'>
+<input type='time' name='ads_Normal[]' class='disabled-manuver'> 
                             </table>
                         </div>
                     <?php } else { ?>
@@ -377,9 +383,9 @@ if ($sql){
                                             <tr>
                                                 <td><?= $k;?></td>
                                                 <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row['lokasiManuverNormal'][$j] ?>" readonly></td>
-                                                <td><input type="time" name="remote_Normal[]" value="<?= $row['remote_bebas'][$j] ?>" readonly></td>
-                                                <td><input type="time" name="real_Normal[]" value="<?= $row['real_bebas'][$j] ?>" readonly></td>
-                                                <td><input type="time" name="ads_Normal[]" value="<?= $row['ads_bebas'][$j] ?>" readonly></td>
+                                                <td><input type="time" name="remote_normal[]" value="<?= $row['remote_normal'][$j] ?>" readonly></td>
+                                                <td><input type="time" name="real_normal[]" value="<?= $row['real_normal'][$j] ?>" readonly></td>
+                                                <td><input type="time" name="ads_normal[]" value="<?= $row['ads_normal'][$j] ?>" readonly></td>
                                                 <td><input type="text" name="installManuverNormal[]" value="<?= $row['installManuverNormal'][$j] ?>" readonly></td>
                                             </tr>
                                             <?php 

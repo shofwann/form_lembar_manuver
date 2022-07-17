@@ -16,8 +16,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(ubah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                //setTimeout(myURL, 5000);
-                //document.location.href = 'home.php?url=inbox';
+                document.location.href = 'home.php?url=inbox';
                 </script>
                 ";  
                 
@@ -25,7 +24,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(ubah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                //document.location.href = 'home.php?url=inbox';
+                document.location.href = 'home.php?url=inbox';
                 </script>"; 
                 die;
                 

@@ -13,7 +13,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                document.location.href = 'home.php?url=inbox';
+                //document.location.href = 'home.php?url=inbox';
                 </script>
                 ";  
                 
@@ -21,7 +21,7 @@ if( isset($_POST["submit"]) ){
        // var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                document.location.href = 'home.php?url=inbox';
+                //document.location.href = 'home.php?url=inbox';
                 </script>
                 "; die;
                 
@@ -52,7 +52,7 @@ if ($sql){
         <div class="container-wrap">
             <div class="container">
                 <form action="" method="post" enctype="multipart/form-data">
-                    <dive class="hiden" hidden>
+                    <dive class="hiden" >
                         <label for="id" class="control-label">id</label>
                         <input type="text" name="idTask" id="idTask" class="form-control" value="<?= $data["id"]; ?>" readonly>
                         <label>Aproval date</label>
@@ -65,6 +65,7 @@ if ($sql){
                         <input type="text" name="create_date" value="<?= date('d-M-Y H:i:s');?>">
                         <input type="text" name="filelama" value="<?= $data['surat'];?>">
                         <input type="text" value="<?= $_SESSION['level'];?>" id="level">
+                        <input type="text" name="jenis_form" value="<?= $data['jenis_form']?>">
                     </dive>
                     <div class="grid">
                         <div class="grid__item_item01">
@@ -244,6 +245,7 @@ if ($sql){
                         <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan</div>
                         <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" class=textarea cols="232" rows="3" style="color:red;"><?= $data["catatan_pra_pembebasan"];?></textarea></div>
                         <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan</div>
+                    <?php if ($data["jenis_form"] == 1 || $data["jenis_form"] == 3) {?>
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
                                 <img src="img/<?= $data["foto"];?>" id="output1" height="auto" width="900px" style="padding-top:.50rem;padding-right:.50rem"><br>
@@ -292,6 +294,73 @@ if ($sql){
                                 </tbody>
                                 </table>
                         </div>
+                    <?php } else {?>
+                        <div class="grid__item grid__item_item41new inputan border_right">
+                            <?php var_dump(unserialize($data["emergency_bebas"]));
+                                foreach(unserialize($data["emergency_bebas"]) as $row) : 
+                                  echo "<br><br>";  var_dump($row["fotoBebas"]); ?>
+                            <?php
+                                $maxIndex = intval(end($row["idBebas"])); 
+                                for($i = 0; $i<=$maxIndex; $i++) { 
+                            ?>
+                            <div class="container-fluid exist-bebas">
+                                <div class="grid-item">
+                                    <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px"><br>
+                                    <input type="file" accept="image/*" onchange="" name="fotoBebasOld[]">
+                                    <input type="hidden" name="idBebasOld[]" value="<?= $i ?>" disabled>
+                                    <!-- <input type="text" name="fotoBebas[]" value="<?//= $row["fotoBebas"][$i] ?>" disabled> -->
+                                </div>
+                                <div class="grid-item">
+                                <label for="">Masukkan Titel</label><br>
+                                    <input type="text" name="titelBebas[]" value="<?= $row["titelBebas"][$i] ?>" style="font: size 20px; margin-bottom:10px;">
+                                    
+                                    <table style="">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
+                                                <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
+                                                <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
+                                                <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                                <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRowUpdate(<?= $i ?>,'lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','rowBebas')">Add More</button></th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:9rem;">Remote</th>
+                                                <th style="width:9rem;">Real (R/L)</th>
+                                                <th style="width:9rem;">ADS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rowBebas<?= $i ?>">
+                                            <?php $k=1;
+                                                for($j = 0; $j < count($row["idBebas"]); $j++) {
+                                                    if ($row["idBebas"][$j] == $i) {
+                                            ?>
+                                                <tr>
+                                                    <td><?= $k;?></td>
+                                                    <td><input type="text" name="lokasiManuverBebas[]" value="<?= $row["lokasiManuverBebas"][$j] ?>"></td>
+                                                    <td><input type="time" name="remote_bebas[]" value="<?= $row['remote_bebas'][$j] ?>"></td>
+                                                    <td><input type="time" name="real_bebas[]" value="<?= $row['real_bebas'][$j] ?>"></td>
+                                                    <td><input type="time" name="ads_bebas[]" value="<?= $row['ads_bebas'][$j] ?>"></td>
+                                                    <td><input type="text" name="installManuverBebas[]" value="<?= $row["installManuverBebas"][$j] ?>"></td>
+                                                    <td>
+                                                        <button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button>
+                                                        <input type="text" name="idBebas[]" value="<?= $row["idBebas"][$j] ?>">
+                                                    </td>
+                                                </tr>
+                                            <?php 
+                                               $k++; }}
+                                            ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="grid-item btn_bebas">
+                                    <button type="button" class="btn-greend " onclick="tambahFormUpdate(0,'titelBebas[]','lokasiManuverBebas[]','installManuverBebas[]','idBebas[]','fotoBebasNew[]','copyFormBebas','rowBebas<?= $i ?>','removeFormBottonBebas','new-bebas','btn_bebas','exist-bebas')">+</button>
+                                </div>
+                            </div>
+                            <?php } endforeach;?>
+                            <div id="copyFormBebas"></div>
+                        </div>
+                    <?php } ?>
                         <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
                         <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" class=textarea cols="232" rows="3" style="" placeholder="Masukan Catatan..."><?= $data["catatan_pasca_pembebasan"]; ?></textarea></div>
                         <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>

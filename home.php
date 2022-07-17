@@ -65,7 +65,8 @@ $user=$_SESSION["username"];
               <?php } ?>
               <?php if ($_SESSION["level"]=="dispa") { ?>
                 <li><a class="link_name" href="#">Create Form</a></li>
-                <li><a href="?url=form_emergency">Form Emergency</a></li>
+                <li><a href="?url=form_emergency&form=3">Form Emergency 1</a></li>
+                <li><a href="?url=form_emergency&form=4">Form Emergency 2</a></li>
                 <li><a href="?url=select-form">Auto Form Emergency</a></li>
               <?php } ?>
             </ul>
@@ -247,7 +248,7 @@ $user=$_SESSION["username"];
 
         setInterval(function(){
           check_session();
-        }, 1800000)
+        }, 3609000) //1 jam
 
 
 		 })

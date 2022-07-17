@@ -135,32 +135,9 @@ if (isset($_GET['url']))
 
 
 
-        case'listManuverDispa';
-        include 'listManuverDispa.php';   //delete
-        break;
 
         case 'list_pekerjaan';
         include 'list_pekerjaan2.php';
-        break;
-
-        case 'initiatorInbox';
-        include 'initiator-Inbox.php'; //delete
-        break;
-        
-        case 'amnInbox';
-        include 'amn-inbox.php'; //delete
-        break;
-
-        case 'amnList';
-        include 'amn-list.php'; //delete
-        break;
-
-        case 'msbInbox';
-        include 'msb-inbox.php'; //delete
-        break;
-
-        case 'msbList';
-        include 'msb-list.php'; //delete
         break;
 
         case 'msbApprove';

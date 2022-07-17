@@ -301,7 +301,7 @@
                         <div class="grid__item grid__item_item46 titel border_right">Catatan Pra Penormalan :</div>
                         <div class="grid__item grid__item_item47 inputan border_right"><textarea name="catatan_pra_normal" class="textarea" cols="232" rows="3" placeholder="masukkan catatan sebelum penormalan" required="required"></textarea></div>
                         <div class="grid__item grid__item_item75 inputan border_right">
-                        <div class="container-fluid">
+                            <div class="container-fluid">
                                 <div class="grid-item">
                                     <img id="output0" height="auto" width="800px" style="padding-top:.50rem;"><br>
                                     <input type="file" accept="image/*" name="fotoNormal[]" >

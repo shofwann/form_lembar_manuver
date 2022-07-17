@@ -224,7 +224,7 @@ if( isset($_POST["submit"]) ){
                             <div class="grid__item grid__item_item36 inputan"><input type="text" ></div>
                             <div class="grid__item grid__item_item37 titel">MANUVER PEMBEBASAN INSTALLASI</div>
                             <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan<span>*</span></div>
-                            <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" id="" cols="232" rows="3"></textarea></div>
+                            <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" class="textarea" cols="232" rows="3"></textarea></div>
                             <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan<span>*</span></div>
                             <div class="grid__item grid__item_item41 inputan">
                                 <div class="form-group ml-2">
@@ -272,10 +272,10 @@ if( isset($_POST["submit"]) ){
                                 </table>
                             </div>
                             <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
-                            <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" id="" cols="232" rows="3" disabled></textarea></div>
+                            <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" class="textarea" cols="232" rows="3" disabled></textarea></div>
                             <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>
                             <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
-                            <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" id="" cols="232" rows="3"></textarea></div>
+                            <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" class="textarea" cols="232" rows="3"></textarea></div>
                             <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
                             <div class="grid__item grid__item_item49 inputan">
                                 <div class="form-group ml-2">
@@ -320,7 +320,7 @@ if( isset($_POST["submit"]) ){
                                 </table>
                             </div>
                             <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
-                            <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" id="" cols="232" rows="3" disabled></textarea></div>
+                            <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" class="textarea" cols="232" rows="3" disabled></textarea></div>
                         </div><br>
                             <button type="submit" name="submit" >Simpan Form</button>
 
