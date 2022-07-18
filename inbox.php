@@ -60,12 +60,12 @@ require "functions.php";
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"]?></td>
-                            <td>
-                                <a href="?url=updateForm-1&id=<?= $row["id"];?>"  class="w3-xlarge w3-text-green">
-                                <span class="icon text-white-50">
-                                    <i class="fa fa-pencil-square-o"></i>
-                                </span>
-                            </a>
+                            <td class="lebar-tabel">
+                                <a href="?url=updateForm-1&id=<?= $row["id"];?>"  class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </span>
+                                </a>
                             </td>
                             
                         </tr>
@@ -87,7 +87,7 @@ require "functions.php";
                             <td>
                                 <a href="?url=updateForm-1&id=<?= $row["id"];?>" id="updateForm-2" class=""><i class="fa fa-pencil-square-o"></i></a>
                                 <a href="?url=hapus&id=<?= $row['id'];?>" onclick="return confirm('anda yakin menghapus <?= $data['pekerjaan']?>?')" >
-                                    <span >
+                                    <span class="icon text-white-50">
                                         <i class="fa fa-trash"></i>
                                     </span>
                                 </a>
@@ -112,10 +112,13 @@ require "functions.php";
                             <td><?= date("d F Y", strtotime($row["date"]));?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
-                            <td><?= "-" ?></td>
+                            <td><?= $row["status"]; ?></td>
                             <td>
-                                <a href="?url=amnApprove&id=<?= $row["id"]; ?>" class=""><i class="fa fa-pencil-square-o"></i></a>
-                                <!-- <a href="remove.php?id=<?= $row["id"];?>" onclick="return confirm('yakin menghapus');">Delete</a>-->
+                                <a href="?url=amnApprove&id=<?= $row["id"]; ?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td> 
                         </tr>
                         <?php $i++;?>
@@ -131,10 +134,13 @@ require "functions.php";
                             <td><?= date("d F Y", strtotime($row["date"]));?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
-                            <td><?= "-" ?></td>
+                            <td><?= $row["status"]; ?></td>
                             <td align="center" valign="center">
-                                <a href="?url=amnApprove&id=<?= $row["id"];?>" class="" ><i class="fa fa-pencil-square-o"></i></a>
-                                <!-- <a href="remove.php?id=<?= $row["id"];?>" onclick="return confirm('yakin menghapus');">Delete</a> -->
+                                <a href="?url=amnApprove&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue" >
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                         <?php $i++;?>
@@ -154,9 +160,13 @@ require "functions.php";
                             <td><?= date("d F Y", strtotime($row["date"]));?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
-                            <td><?= "-" ?></td>
+                            <td><?= $row["status"]; ?></td>
                             <td align="center" valign="center" >
-                                <a href="?url=msbApprove&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=msbApprove&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?>
@@ -171,9 +181,13 @@ require "functions.php";
                             <td><?= date("d F Y", strtotime($row["date"]));?></td>
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
-                            <td><?= "-" ?></td>
+                            <td><?= $row["status"]; ?></td>
                             <td align="center" valign="center"> 
-                                <a href="?url=msbApprove&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=msbApprove&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                         <?php $i++;?>
@@ -196,10 +210,18 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=dispaInputAwal&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
-                                <?php if($row['user'] != '') {?>
-                                    <a href="?url=postpone&id=<?= $row["id"];?>"><i class="fa fa-times"></i></a> 
-                                <?php } ?>
+                                <a href="?url=dispaInputAwal&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
+                            <?php if($row['user'] != '') {?>
+                                <a href="?url=postpone&id=<?= $row["id"];?>" class="w3-xlarge w3-text-red">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-times"></i>
+                                    </span>   
+                                </a> 
+                            <?php } ?>
                         <?php $i++;?>
                         <?php endforeach; ?>
                             <!-- untuk percobaan -->
@@ -215,7 +237,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAwal' : 'update_form_emergency_awal' ?>&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAwal' : 'update_form_emergency_awal' ?>&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?>
@@ -233,7 +259,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td> 
-                            <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAkhir' : 'update_form_emergency_akhir' ?>&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAkhir' : 'update_form_emergency_akhir' ?>&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?>
@@ -250,7 +280,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAkhir' : 'update_form_emergency_akhir' ?>&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=<?= ($row["user"] != '') ? 'dispaInputAkhir' : 'update_form_emergency_akhir' ?>&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         <?php $i++;?>
                         <?php endforeach; ?> 
@@ -272,7 +306,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=amnApproveAwal&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=amnApproveAwal&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                         <?php $i++;?>
@@ -291,7 +329,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=amnApproveAwal&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=amnApproveAwal&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                <span class="icon text-white-50">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                                </a>
                             </td>
                         </tr>
                         <?php $i++;?>
@@ -309,7 +351,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=amnApproveAkhir&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=amnApproveAkhir&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                <span class="icon text-white-50">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </span>
+                                </a>
                             </td>
                         </tr>
                         <?php $i++;?>
@@ -327,7 +373,11 @@ require "functions.php";
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"];?></td>
                             <td>
-                                <a href="?url=amnApproveAkhir&id=<?= $row["id"];?>" class=""><i class="fa fa-pencil-square-o"></i></a>
+                                <a href="?url=amnApproveAkhir&id=<?= $row["id"];?>" class="w3-xlarge w3-text-blue">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </span>
+                                </a>
                             </td>
                         </tr>
                         <?php $i++;?>
@@ -336,26 +386,6 @@ require "functions.php";
                     <?php } ?>
 
                 </table>
-
-                <!-- <button id="show-modal">Learn More</button>
-                
-                <div class="overlay overlay--hidden"></div>
-                <div class="modal modal--hidden">
-                <div class="modal__contents">
-                    <div class="modal__close-bar">
-                    <span>X</span>
-                    </div>
-                    <p>Please enter your email address to find out more</p>
-                    <form id="learn-more-form">
-                    
-                        <input type="email" placeholder="Your Best Email">
-                        <button id="submit">Submit</button>
-                    </form>
-                    
-                </div>
-
-                </div> -->
-
 
 
 

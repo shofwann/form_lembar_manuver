@@ -297,7 +297,7 @@ if( isset($_POST["submit"]) ){
                                         <th style="width:9rem;">Real (R/L)</th>
                                         <th style="width:9rem;">ADS</th>
                                     </tr>
-                                    <!-- <?php $i=1; ?>
+                                     <?php $i=1; ?>
                                             <?php 
                                                 foreach (unserialize($data2["manuver_normal"])  ? : []  as $row) :
                                                     for($j = 0; $j < count((is_countable($row["lokasiManuverNormal"])?$row["lokasiManuverNormal"]:[])); $j++){
@@ -316,7 +316,7 @@ if( isset($_POST["submit"]) ){
                                                 $i++;
                                                 }
                                                 endforeach
-                                            ?> -->
+                                            ?> 
                                 </table>
                             </div>
                             <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>

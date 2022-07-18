@@ -210,16 +210,16 @@ if ($sql){
                                 </tr>
                                 <?php $i=1; ?>
                                     <?php 
-                                        foreach (unserialize($data["emergency_normal"])  ? : []  as $row) :
-                                            for($j = 0; $j < count((is_countable($row["lokasiManuverNormal"])?$row["lokasiManuverNormal"]:[])); $j++){
+                                        foreach (unserialize($data["emergency_bebas"])  ? : []  as $row) :
+                                            for($j = 0; $j < count((is_countable($row["lokasiManuverBebas"])?$row["lokasiManuverBebas"]:[])); $j++){
                                     ?>
                                 <tr>
                                     <td><?= $i ?></td>
-                                    <td><?= $row['lokasiManuverNormal'][$j] ?></td>
+                                    <td><?= $row['lokasiManuverBebas'][$j] ?></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td><?= $row['installManuverNormal'][$j] ?></td>
+                                    <td><?= $row['installManuverBebas'][$j] ?></td>
                                     
                                 </tr>
                                     <?php 
@@ -242,7 +242,7 @@ if ($sql){
                             </div>
                             <div class="grid-item-aprove">
                                 <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
-                                <table>
+                                <table id="dynamic_field1">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
@@ -341,7 +341,7 @@ if ($sql){
                                 </div>
                                 <div class="grid-item-aprove">
                                     <h3><?= $row["titelNormal"][$i] ?></h3>
-                                    <table>
+                                    <table id="dynamic_field2">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>

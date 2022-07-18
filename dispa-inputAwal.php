@@ -4,11 +4,11 @@ require 'functions.php';
 $sql=mysqli_query($conn,"SELECT * FROM db_form WHERE id='$_GET[id]'");
 $data=mysqli_fetch_assoc($sql);
 $extractDataBebas =unserialize($data["emergency_bebas"])[0];
-var_dump($extractDataBebas["idBebas"]); echo "<br>";
-var_dump($extractDataBebas["titelBebas"]); echo "<br>";
-var_dump($extractDataBebas["fotoBebas"]); echo "<br>";
-var_dump($extractDataBebas["lokasiManuverBebas"]); echo "<br>";
-var_dump($extractDataBebas["installManuverBebas"]); echo "<br>";
+// var_dump($extractDataBebas["idBebas"]); echo "<br>";
+// var_dump($extractDataBebas["titelBebas"]); echo "<br>";
+// var_dump($extractDataBebas["fotoBebas"]); echo "<br>";
+// var_dump($extractDataBebas["lokasiManuverBebas"]); echo "<br>";
+// var_dump($extractDataBebas["installManuverBebas"]); echo "<br>";
 
 
 if( isset($_POST["submit"]) ){
@@ -17,7 +17,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                //document.location.href = 'home.php?url=inbox';
+                document.location.href = 'home.php?url=inbox';
                 </script>
                 ";  
                 
@@ -25,7 +25,7 @@ if( isset($_POST["submit"]) ){
        // var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data gagal disubmit'); 
-                //document.location.href = 'home.php?url=inbox';
+                document.location.href = 'home.php?url=inbox';
                 </script>
                 "; die;
                 
@@ -99,18 +99,18 @@ if ($sql){
                         <div class="grid__item grid__item_item16 titel">MANUVER PENORMALAN INSTALLASI<span>*</span></div>
                         <div class="grid__item grid__item_item17 titel border_right">kelengkapan dokumen</div>
                         <div class="grid__item grid__item_item18 inputan">
-                            <div class="col-7" style="">
+                            
                                 <br>
                                 
                                     <table class="table table-bordered" > 
                                         <thead>
                                                 <tr id="mirrodHead" ">  
-                                                    <th style="width:158px;">Lokasi</th>
-                                                    <th style="width:158px;">Peng. Pekerjaan</th>
-                                                    <th style="width:158px;">Peng. Manuver</th>
-                                                    <th style="width:158px;">Peng. K3</th>
-                                                    <th style="width:158px;">Spv GITET</th>
-                                                    <th style="width:158px;">Opr GITET</th>
+                                                    <th style="">Lokasi</th>
+                                                    <th style="">Peng. Pekerjaan</th>
+                                                    <th style="">Peng. Manuver</th>
+                                                    <th style="">Peng. K3</th>
+                                                    <th style="">Spv GITET</th>
+                                                    <th style="">Opr GITET</th>
                                                 </tr>
                                         </thead> 
                                         <tbody id="table1">
@@ -126,17 +126,17 @@ if ($sql){
                                                     <td><input type="text" name="spv[]" value="<?= isset($row['spv'][$j]) ? $row['spv'][$j] : '' ?>" placeholder='nama SPV' required></td>
                                                     <td><input type="text" name="opr[]" value="<?= isset($row['opr'][$j]) ? $row['opr'][$j] : '' ?>" placeholder='nama Operator' required></td>
                                                 </tr>
-                                                    <?php  
-                                                        }
-                                                        endforeach
-                                                    ?>
+                                        <?php  
+                                            }
+                                            endforeach
+                                        ?>
                                         </tbody>
                                     </table> 
                                         
                                         
                                 
                                 <br>  
-                            </div>
+                            
                         </div>
                         <div class="grid__item grid__item_item19 inputan">
                             <div class="col-3" >
@@ -253,12 +253,12 @@ if ($sql){
                             ?>
                            <div class="container-aprove">
                             <div class="grid-item-aprove">
-                                <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px">
+                                <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="900px">
                                 
                             </div>
                             <div class="grid-item-aprove">
                                 <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
-                                <table>
+                                <table id="dynamic_field1" >
                                     <thead>
                                         <tr>
                                             <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
@@ -307,7 +307,7 @@ if ($sql){
                     <?php if ($data["jenis_form"] == 1 ) { ?>    
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
-                                <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
+                                <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="900px" style="padding-top:.50rem;padding-right:.50rem"><br>
                             </div>
                         </div>
                         <div class="grid__item grid__item_item50 inputan border_right">
@@ -342,10 +342,6 @@ if ($sql){
                                         }
                                         endforeach
                                     ?>
-
-<input type='time' name='remote_Normal[]' class='disabled-manuver'>
-<input type='time' name='real_Normal[]' class='disabled-manuver'>
-<input type='time' name='ads_Normal[]' class='disabled-manuver'> 
                             </table>
                         </div>
                     <?php } else { ?>
@@ -361,7 +357,7 @@ if ($sql){
                                 </div>
                                 <div class="grid-item-aprove">
                                     <h3><?= $row["titelNormal"][$i] ?></h3>
-                                    <table>
+                                    <table id="dynamic_field2">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>

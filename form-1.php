@@ -82,7 +82,7 @@
             <div class="container">
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="additional">
-                        <div class="default" >
+                        <div class="default" hidden>
                             <label>ID Task:</label>
                             <input type="text" name="idTask" value="<?= $idnext['id']+1; ?>" class="" readonly>
                             <label for="">ID Lokasi :</label>
@@ -138,6 +138,8 @@
                                         <li><b>REACTOR</b>Bandung Selatan</li>
                                         <li><b>BUSBAR</b>Cawang</li>
                                         <li><b>IBT</b>Cawang</li>
+                                        <li><b>PMT</b>Cawang</li>
+                                        <li><b>PMS</b>Cawang</li>
                                     </ul>
                                     untuk pekerjaan Reactor,Busbar, IBT gunakan nama GITET nya
                                    
@@ -156,6 +158,8 @@
                                             <li><b>REACTOR</b>Reactor-1</li>
                                             <li><b>BUSBAR</b>Busbar-A</li>
                                             <li><b>IBT</b>IBT-1</li>
+                                            <li><b>PMT</b>PMT-7A1</li>
+                                            <li><b>PMS</b>PMS-7A1</li>
                                         </ul>
                                         Harap disesuaikan                                   
                                     </div>

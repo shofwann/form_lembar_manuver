@@ -942,7 +942,7 @@ function aprovalAmn($post){
     } elseif  ($aproval == 'disapprove' && $status =='amn') {
         $status = 'initiator' ;
     } elseif ($aproval == 'approve' && $status =='amnUbah') {
-        $status = 'amn' ;
+        $status = 'msb' ;
     } elseif  ($aproval == 'disapprove' && $status =='amnUbah'){
         $status = 'initiator';
     }
@@ -1103,11 +1103,16 @@ function inputDispaAwal($post) {
 function inputDispaAkhir($post) {
     global $conn;
     $idTask = $post["idTask"];
+
+    $data = query("SELECT * FROM db_form WHERE id = $idTask")[0];
+    $extrakArrayNormal = unserialize($data["emergency_normal"])[0];
+
     $fotolama = $post["fotoLama"];
     $dpf_akhir = htmlspecialchars($post["dpf_akhir"]);
     $userDispa = $post["userdispa"]; 
     $timeDispaAproveAkhir = $post["time"];
     $status = $post["status"];
+
     $pengawas =serialize([
         [
             "spv_normal" => $post["spv_normal"],
@@ -1124,15 +1129,30 @@ function inputDispaAkhir($post) {
         $foto = uploadDpf('dpfFile_akhir');
     }
 
-   $manuverNormal = serialize([
-        [
-            "lokasiManuverNormal" => $post["lokasiManuverNormal"],
-            "remote_normal" => $post["remote_normal"],
-            "real_normal" => $post["real_normal"],
-            "ads_normal" => $post["ads_normal"],
-            "installManuverNormal" => $post["installManuverNormal"]
-        ]
-   ]);
+    if ($data["jenis_form"] == 1) {
+        $manuverNormal = serialize([
+                [
+                    "lokasiManuverNormal" => $post["lokasiManuverNormal"],
+                    "remote_normal" => $post["remote_normal"],
+                    "real_normal" => $post["real_normal"],
+                    "ads_normal" => $post["ads_normal"],
+                    "installManuverNormal" => $post["installManuverNormal"]
+                ]
+        ]);
+    } else {
+        $manuverNormal = serialize([
+            [
+                "idNormal" => $extrakArrayNormal["idNormal"],
+                "titelNormal" => $extrakArrayNormal["titelNormal"],
+                "fotoNormal" => $extrakArrayNormal["fotoNormal"],
+                "lokasiManuverNormal" => $extrakArrayNormal["lokasiManuverNormal"],
+                "remote_normal" => $post["remote_normal"],
+                "real_normal" => $post["real_normal"],
+                "ads_normal" => $post["ads_normal"],
+                "installManuverNormal" => $extrakArrayNormal["installManuverNormal"]
+            ]
+        ]);
+    }
 
    
    $catatan = htmlspecialchars($post["catatan_pasca_normal"]);

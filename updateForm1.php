@@ -9,7 +9,7 @@ $dataAjax = mysqli_query($conn,"SELECT * FROM db_ajax_lokasi LEFT JOIN db_ajax_l
 $cekData = mysqli_num_rows($dataAjax);
 
 
-
+error_reporting(E_ALL ^ E_NOTICE);
 
 if( isset($_POST["submit"]) ){
     if( updateForm($_POST) > 0){
@@ -69,7 +69,7 @@ if ($sql){
                 <form action="" method="post" id="form_id" enctype="multipart/form-data">
                     <div class="hiden" >
                         <div class="additional">
-                            <div class="default" >
+                            <div class="default" hidden>
                                 <label for="">Create Date:</label>
                                 <input type="text" name="create_date" value="<?= $data["create_date"];?>">
                                 <label for="">User :</label>
@@ -93,6 +93,13 @@ if ($sql){
                                 <input type="text" value="<?= $_SESSION['level'];?>" id="level">
                                 <input type="text" value="" id="statusJob">
                                 <input type="text" name="jenis_form" value="<?= $data["jenis_form"]?>">
+                            </div>
+                            <div class="grid">
+                                <div class="grid__item_item01">
+                                    <div class="back">
+                                        <input type="button" value="Kembali" onclick="history.back()" style="">
+                                    </div> <br>
+                                </div>
                             </div>
                             <div class="chose">
                                 <label for="" style="">Pilih jenis pekerjaan :</label>
@@ -282,8 +289,8 @@ if ($sql){
                                     <tr>
                                         <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
-                                        <th colspan="3"style="width:9rem;text-align:center">Jam Manuver Buka</th>
-                                        <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                        <th colspan="3" style="width:9rem;text-align:center">Jam Manuver Buka</th>
+                                        <th rowspan="2" style="padding-top:35px;width:12rem;">Installasi</th>
                                         <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahBaris('dynamic1','lokasiManuverBebas[]','installManuverBebas[]')">Add More</button></th>
                                     </tr>
                                     <tr>
@@ -306,7 +313,7 @@ if ($sql){
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td><p><input type="text" name="installManuverBebas[]" value="<?= $row["installManuverBebas"][$j] ?>" style="width:8rem;padding:0rem;" required></p></td>
+                                    <td><p><input type="text" name="installManuverBebas[]" value="<?= $row["installManuverBebas"][$j] ?>" style="width:10rem;padding:0rem;" required></p></td>
                                     <td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>
                                     
                                 </tr>
@@ -324,7 +331,7 @@ if ($sql){
                         </div>
                     <?php } else { ?>
                         <div class="grid__item grid__item_item41new inputan border_right">
-                            <?php var_dump(unserialize($data["emergency_bebas"]));
+                            <?php //var_dump(unserialize($data["emergency_bebas"]));
                                 foreach(unserialize($data["emergency_bebas"]) as $row) : 
                                   echo "<br><br>";  var_dump($row["fotoBebas"]); ?>
                             <?php
@@ -407,7 +414,7 @@ if ($sql){
                                         <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
                                         <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                         <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
-                                        <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                        <th rowspan="2"style="padding-top:35px;width:12rem;">Installasi</th>
                                         <th rowspan="2"><button type="button" name="add4" id="add4" class="btn btn-success green" onclick="tambahBaris('dynamic2','lokasiManuverNormal[]','installManuverNormal[]')">Add More</button></th>
                                     </tr>
                                     <tr>
@@ -428,7 +435,7 @@ if ($sql){
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td><p><input type="text" name="installManuverNormal[]" value="<?= $row["installManuverNormal"][$j] ?>" style="width:8rem;padding:0rem;" required></p></td>
+                                        <td><p><input type="text" name="installManuverNormal[]" value="<?= $row["installManuverNormal"][$j] ?>" style="width:10rem;padding:0rem;" required></p></td>
                                         <td><button type='button' class='btn red' onclick='kurangBaris(this)'>Remove</button></td>
                                         
                                     </tr>
@@ -444,7 +451,7 @@ if ($sql){
                         </div>
                     <?php } else { ?> 
                         <div class="grid__item grid__item_item49new inputan">
-                            <?php var_dump(unserialize($data["emergency_normal"]));
+                            <?php //var_dump(unserialize($data["emergency_normal"]));
                                 foreach(unserialize($data["emergency_normal"]) as $row) : 
                                 $maxIndex = intval(end($row["idNormal"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 
@@ -464,7 +471,7 @@ if ($sql){
                                                 <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
                                                 <th rowspan="2" style="width:7rem;text-align:center;padding-top:35px">Lokasi</th>
                                                 <th colspan="3"style="width:7rem;text-align:center">Jam Manuver Tutup</th>
-                                                <th rowspan="2"style="padding-top:35px;width:9rem;">Installasi</th>
+                                                <th rowspan="2"style="padding-top:35px;width:12rem;">Installasi</th>
                                                 <th rowspan="2"><button type="button" name="add3" id="add3" class="btn green" onclick="tambahRowUpdate(<?= $i ?>,'lokasiManuverNormal[]','installManuverNormal[]','idNormal[]','rowNormal')">Add More</button></th>
                                             </tr>
                                             <tr>

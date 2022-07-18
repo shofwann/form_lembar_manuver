@@ -258,7 +258,7 @@ if ($sql){
                             </div>
                             <div class="grid-item-aprove">
                                 <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
-                                <table>
+                                <table id="dynamic_field1">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
@@ -363,7 +363,7 @@ if ($sql){
                                 </div>
                                 <div class="grid-item-aprove">
                                     <h3><?= $row["titelNormal"][$i] ?></h3>
-                                    <table>
+                                    <table id="dynamic_field2">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>

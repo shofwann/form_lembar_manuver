@@ -242,7 +242,7 @@ if ($sql){
                         <div class="grid__item grid__item_item39 inputan border_right"><textarea name="catatan_pra_bebas" class="textarea" cols="232" rows="3" style="color:red;" disabled><?= $data["catatan_pra_pembebasan"];?></textarea></div>
                         <div class="grid__item grid__item_item40 titel border_right">Tahapan Manuver Pembebasan</div>
 
-                        <?php if ($data["jenis_form"] == 1 ) {  ?>   
+                        <?php if ($data["jenis_form"] == 1 || $data["jenis_form"] == 3 ) {  ?>   
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
                                 <img src="img/<?= $data["foto"];?>" id="output1" height="auto" width="900px" style="padding-top:.50rem;padding-right:.50rem"><br>
@@ -297,7 +297,7 @@ if ($sql){
                             </div>
                             <div class="grid-item-aprove">
                                 <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
-                                <table>
+                                <table id="dynamic_field1">
                                     <thead>
                                         <tr>
                                             <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>
@@ -341,10 +341,10 @@ if ($sql){
                         <div class="grid__item grid__item_item46 titel border_right">Catatan Pra Penormalan :</div>
                         <div class="grid__item grid__item_item47 inputan border_right"><textarea name="catatan_pra_normal" class="textarea" cols="232" rows="3" style="color:red;" disabled><?= $data["catatan_pra_penormalan"];?></textarea></div>
                         <div class="grid__item grid__item_item48 titel border_right">Tahapan Manuver Penormalan :</div>
-                    <?php if ($data["jenis_form"] == 1 ) { ?>   
+                    <?php if ($data["jenis_form"] == 1 || $data["jenis_form"] == 3) { ?>   
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
-                                <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="780px" style="padding-top:.50rem;padding-right:.50rem"><br>
+                                <img src="img/<?= $data["foto2"];?>" id="output2" height="auto" width="900px" style="padding-top:.50rem;padding-right:.50rem"><br>
                             </div>
                         </div>
                         <div class="grid__item grid__item_item50 inputan border_right">
@@ -373,7 +373,7 @@ if ($sql){
                                     <td><p><?= $row['remote_normal'][$j] ?></p></td>
                                     <td><p><?= $row['real_normal'][$j] ?></p></td>
                                     <td><p><?= $row['ads_normal'][$j] ?></p></td>
-                                    <td><p><?= $row['installManuverNormal'][$j] ?></p></td>
+                                    <td><p><?= $row['installManuverNormal'][$j]; ?></p></td>
                                     
                                 </tr>
                                     <?php 
@@ -392,11 +392,11 @@ if ($sql){
                             ?>
                             <div class="container-aprove">
                                 <div class="grid-item-aprove">
-                                    <img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="780px">
+                                    <img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="900px">
                                 </div>
                                 <div class="grid-item-aprove">
                                     <h3><?= $row["titelNormal"][$i] ?></h3>
-                                    <table>
+                                    <table id="dynamic_field2">
                                         <thead>
                                             <tr>
                                                 <th rowspan="2" style="padding-top:35px;width:4rem">No.</th>

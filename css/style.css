@@ -524,32 +524,32 @@
   }
 
   .grid__item_item15 {
-    grid-column: col / span 6;
+    grid-column: col / span 7;
     grid-row: row 5;
   }
 
   .grid__item_item16 {
-    grid-column: col 7 / span 3;
+    grid-column: col 8 / span 3;
     grid-row: row 5;
   }
 
   .grid__item_item17 {
-    grid-column: col 10 / span 3;
+    grid-column: col 11 / span 3;
     grid-row: row 5;
   }
 
   .grid__item_item18 {
-    grid-column: col / span 6;
+    grid-column: col / span 7;
     grid-row: row 6;
   }
 
   .grid__item_item19 {
-    grid-column: col 7 / span 3;
+    grid-column: col 8 / span 3;
     grid-row: row 6;
   }
 
   .grid__item_item20 {
-    grid-column: col 10 / span 3;
+    grid-column: col 11 / span 3;
     grid-row: row 6;
   }
 
@@ -1452,7 +1452,7 @@
 .tool-tip,
 .tool-tip.top{
 	width: 350px;
-	height: 95px;
+	height: 180px;
 	margin-left: -43px;
 }
 

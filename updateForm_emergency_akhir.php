@@ -336,11 +336,11 @@ if( isset($_POST["submit"]) ){
                                 <?php $i=1; ?>
                                 <?php 
                                         foreach (unserialize($data["emergency_normal"]) ? : []  as $row) :
-                                            for($j = 0; $j < count((is_countable($row["lokasi"])?$row["lokasi"]:[])); $j++){
+                                            for($j = 0; $j < count((is_countable($row["lokasiManuverNormal"])?$row["lokasiManuverNormal"]:[])); $j++){
                                     ?>
                                 <tr>
                                     <td><?= $i ?></td>
-                                    <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row['lokasi'][$j] ?>"></td>
+                                    <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row['lokasiManuverNormal'][$j] ?>"></td>
                                     <td><?= $row["remote_normal"][$j] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' name='remote_normal[]'>" : "<input type='time' value='". $row["remote_normal"][$j]."' name='remote_normal[]'>" ?> <input type="text" name="sampel_manuver[]" value="<?= $penormalan["id"]  ?>" hidden> WIB</td>
                                     <td><?= $row["real_normal"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' name='real_normal[]'>" : "<input type='time' value='". $row['real_normal'][$j]."' name='real_normal[]'>" ?> WIB</td>
                                     <td><?= $row["ads_normal"] == "00:00:00" ? "<input type='time' value='<?= time(); ?>' name='ads_normal[]'>" : "<input type='time' value='". $row['ads_normal'][$j]."' name='ads_normal[]'>" ?> WIB</td>

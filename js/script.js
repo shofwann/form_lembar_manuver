@@ -255,7 +255,7 @@ function tambahRow(index,namaLokasi,namaInstallasi,namaId,lokasiAppendRow,namaRe
     let table = document.getElementById(id);
     const newRow = document.createElement('tr');
     const existingRows = table.querySelectorAll('tr');
-    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${namaLokasi}' type='text'></td><td><input type='time' name='${namaRemote}' class='disabled-manuver'></td><td><input type='time' name='${namaReal}' class='disabled-manuver'></td><td><input type='time' name='${namaAds}' class='disabled-manuver'></td><td><input name='${namaInstallasi}' type='text'></td><td><button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button><input type='' name='${namaId}' value='${index}'></td>`;
+    newRow.innerHTML = `<td>${existingRows.length + 1}</td><td><input name='${namaLokasi}' type='text'></td><td><input type='time' name='${namaRemote}' class='disabled-manuver'></td><td><input type='time' name='${namaReal}' class='disabled-manuver'></td><td><input type='time' name='${namaAds}' class='disabled-manuver'></td><td><input name='${namaInstallasi}' type='text'></td><td><button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button><input type='hidden' name='${namaId}' value='${index}'></td>`;
     table.appendChild(newRow);
 
     const disabled = document.querySelectorAll('.disabled-manuver');
