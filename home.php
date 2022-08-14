@@ -35,7 +35,7 @@ $user=$_SESSION["username"];
 
   <div class="sidebar close">
     <div class="logo-details">
-      <!-- <i class=''><img src="https://budaya.pln.co.id/assets/images/logo_pln.jpg" alt=""></i> -->
+      <i class=''><img src="https://budaya.pln.co.id/assets/images/logo_pln.jpg" alt=""></i>
       <span class="logo_name">LM ONLINE</span>
     </div>
     <ul class="nav-links">
@@ -69,7 +69,7 @@ $user=$_SESSION["username"];
                 <li><a class="link_name" href="#">Create Form</a></li>
                 <li><a href="?url=form_emergency&form=3">Form Emergency 1</a></li>
                 <li><a href="?url=form_emergency&form=4">Form Emergency 2</a></li>
-                <li><a href="?url=select-form">Auto Form Emergency</a></li>
+                <li><a href="?url=select-form">Auto Form Emergency<sup><i class="fa fa-lock" aria-hidden="true"  style="color:red;"></i></sup></a></li>
               <?php } ?>
             </ul>
           </li>
@@ -79,7 +79,7 @@ $user=$_SESSION["username"];
         <?php if ($_SESSION["level"] == "initiator" || $_SESSION["level"] == "amn" || $_SESSION["level"] == "msb" || $_SESSION["level"] =="dispa" || $_SESSION["level"] =="amn_dispa" || $_SESSION["level"] =="plh_amn" || $_SESSION["level"] =="plh_msb") { ?>
           <li>
             <a href="?url=inbox">
-            <i class="fa fa-inbox" aria-hidden="true"></i>
+            <i class="fa fa-envelope" aria-hidden="true"></i>
               <span class="link_name">Inbox</span>
             </a>
             <ul class="sub-menu blank">
@@ -189,7 +189,7 @@ $user=$_SESSION["username"];
     
     <div class="home-content">
       <i class='bx bx-menu' ></i>
-      <!-- <span class="text">LEMBAR MANUVER ONLINE</span> -->
+      <span class="text">LEMBAR MANUVER ONLINE</span>
     </div>
   
     <div class="content">

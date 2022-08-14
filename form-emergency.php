@@ -95,7 +95,7 @@
             <div class="container">
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="additional">
-                        <div class="default" >
+                        <div class="default" hidden>
                             <label>ID Task:</label>
                             <input type="text" name="idTask" value="<?= $idnext['id']+1; ?>" class="" readonly>
                             <label for="">ID Lokasi :</label>

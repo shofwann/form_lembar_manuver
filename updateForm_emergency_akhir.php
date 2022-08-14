@@ -9,7 +9,7 @@ if( isset($_POST["submit"]) ){
         //var_dump(tambah($_POST)); die;
         echo "<script>
                 alert('data berhasil disubmit'); 
-                //document.location.href = 'home.php?url=inbox';
+                document.location.href = 'home.php?url=inbox';
                 </script>
                 ";  
                 
@@ -46,7 +46,7 @@ if( isset($_POST["submit"]) ){
         <div class="container-wrap">
             <div class="container">
                 <form action="" method="post" enctype="multipart/form-data">
-                    <dive class="hiden">
+                    <dive class="hiden" hidden>
                         <label for="id" class="control-label">id</label>
                         <input type="text" name="idTask" id="idTask" class="form-control" value="<?= $data["id"]; ?>" readonly>
                         <label>Aproval date</label>
@@ -61,6 +61,7 @@ if( isset($_POST["submit"]) ){
                         <input type="text" name="user" id="user" value="<?= $data["user"] ?>">
                         <input type="text" name="form" id="form" value="<?= $data["jenis_form"] ?>">
                         <input type="text" value="<?= $_SESSION['level'];?>" id="level"> 
+                        <input type="text" name="fotoDpfLama" value="<?= $data["foto_dpf2"] ?>">
                     </dive>
                     <div class="grid">
                         <div class="grid__item_item01">
@@ -78,20 +79,20 @@ if( isset($_POST["submit"]) ){
                         <div class="grid__item grid__item_item1 titel">pekerjaan<span>*</span></div>
                         <div class="grid__item grid__item_item2 titel">tanggal pelaksanaan<span>*</span></div>
                         <div class="grid__item grid__item_item3 titel">mulai<span>*</span></div>
-                        <div class="grid__item grid__item_item4 titel" >selesai<span>*</span></div>
+                        <div class="grid__item grid__item_item4 titel border_right" >selesai<span>*</span></div>
                         <div class="grid__item grid__item_item5 inputan"><p><?= $data["pekerjaan"]; ?></p></div>
                         <div class="grid__item grid__item_item6 inputan"><p><?= $dayList[date("D", strtotime($data["date"]))] ?>, <?= date(" d F Y", strtotime($data["date"])); ?></p></div>
                         <div class="grid__item grid__item_item7 inputan"><p><?= $dayList[date("D", strtotime($data["start"]))] ?>, <?= date("d F Y G:i",strtotime($data["start"])); ?> WIB</p></div>
-                        <div class="grid__item grid__item_item8 inputan"><p><?= $data["end"] != "00:00:00" ? "": $dayList[date("D", strtotime($data["end"]))].",".date("d F Y G:i",strtotime($data["end"]))."WIB" ?></p></div>
+                        <div class="grid__item grid__item_item8 inputan border_right"><input type="datetime-local" name="end" value="<?= date('Y-m-d\TH:i:s', strtotime($data['end'])); ?>" required></div>
                         <div class="grid__item grid__item_item9 titel">lokasi<span>*</span></div>
                         <div class="grid__item grid__item_item10 titel">installasi<span>*</span></div>
-                        <div class="grid__item grid__item_item11 titel">permintaan pembebanan diterima</div>
+                        <div class="grid__item grid__item_item11 titel border_right">permintaan pembebanan diterima</div>
                         <div class="grid__item grid__item_item12 inputan"><p><?= strtoupper($data["lokasi"]); ?></p></div>
                         <div class="grid__item grid__item_item13 inputan"><p><?= strtoupper($data["installasi"]); ?></p></div>
-                        <div class="grid__item grid__item_item14 inputan"><p><?= $dayList[date("D", strtotime($data["report_date"]))] ?>, <?= date("d F Y G:i",strtotime($data["report_date"])); ?> </p></div>
+                        <div class="grid__item grid__item_item14 inputan border_right"><p><?= $dayList[date("D", strtotime($data["report_date"]))] ?>, <?= date("d F Y G:i",strtotime($data["report_date"])); ?> </p></div>
                         <div class="grid__item grid__item_item15 titel">MANUVER PEMBEBASAN INSTALLASI<span>*</span></div>
                         <div class="grid__item grid__item_item16 titel">MANUVER PENORMALAN INSTALLASI<span>*</span></div>
-                        <div class="grid__item grid__item_item17 titel">kelengkapan dokumen</div>
+                        <div class="grid__item grid__item_item17 titel border_right">kelengkapan dokumen</div>
                         <div class="grid__item grid__item_item18 inputan">
                             <div class="col-7" style="">
                                 <br>
@@ -171,7 +172,7 @@ if( isset($_POST["submit"]) ){
                                 </div>
                             </div>
                         </div>
-                        <div class="grid__item grid__item_item20 inputan">
+                        <div class="grid__item grid__item_item20 inputan border_right">
                         <?php $cekbok = explode(",", $data["document"]); ?> 
                         <div class="col">
                             <br>
@@ -189,25 +190,25 @@ if( isset($_POST["submit"]) ){
                             </div>
                         </div>
                         <div class="grid__item grid__item_item21 titel">ALIRAN DAYA PADA INSTALLASI MENJELANG DIBEBASKAN</div>
-                        <div class="grid__item grid__item_item22 titel">ALIRAN DAYA PADA INSTALLASI MENJELANG DINORMALKAN</div>
+                        <div class="grid__item grid__item_item22 titel border_right">ALIRAN DAYA PADA INSTALLASI MENJELANG DINORMALKAN</div>
                         <div class="grid__item grid__item_item23 titel">Pembacaan SCADA</div>
                         <div class="grid__item grid__item_item24 titel">Hasil Studi DPF</div>
                         <div class="grid__item grid__item_item25 titel">Pembacaan SCADA</div>
-                        <div class="grid__item grid__item_item26 titel">Hasil Studi DPF</div>
+                        <div class="grid__item grid__item_item26 titel border_right">Hasil Studi DPF</div>
                         <div class="grid__item grid__item_item27 inputan"><p><?= $data["scada_awal_before"]; ?></p></div>
                         <div class="grid__item grid__item_item28 inputan"><?= $data["dpf_awal"]; ?> <?= ($data['foto_dpf1'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf1'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal1" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></div>
                         <div class="grid__item grid__item_item29 inputan"><input type="text" name="scada_akhir_before" placeholder="Fill in Mw MVar Amper Volt" value="<?= $data["scada_akhir_before"]; ?>"></div>
-                        <div class="grid__item grid__item_item30 inputan"><?= $data["dpf_akhir"]; ?> <?= ($data['foto_dpf2'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf2'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal2" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></div>
+                        <div class="grid__item grid__item_item30 inputan border_right"><input type="text" name="dpf_akhir" style="font-style:italic;" placeholder="Fill in Mw MVar Amper Volt" value="<?= $data["dpf_akhir"]; ?>"><br><input type="file" id="foto1" name="dpfFile_akhir"><p><?= $data["foto_dpf2"] ? '<button type="button" data-modal="modal2" class="modal-open"><i class="fa fa-eye"></i></button>' : '<span style="color:red">Belum upload</span>'; ?></p></div>
                         <div class="grid__item grid__item_item31 titel">ALIRAN DAYA SETELAH DIBEBASKAN</div>
-                        <div class="grid__item grid__item_item32 titel">ALIRAN DAYA SETELAH DINORMALKAN</div>
+                        <div class="grid__item grid__item_item32 titel border_right">ALIRAN DAYA SETELAH DINORMALKAN</div>
                         <div class="grid__item grid__item_item33 titel">Pembacaan SCADA</div>
-                        <div class="grid__item grid__item_item34 titel">Pembacaan SCADA</div>
+                        <div class="grid__item grid__item_item34 titel border_right">Pembacaan SCADA</div>
                         <div class="grid__item grid__item_item35 inputan"><p><?= $data["scada_awal_after"]; ?></p></div>
-                        <div class="grid__item grid__item_item36 inputan"><input type="text" name="scada_akhir_after" placeholder="Fill in Mw MVar Amper Volt" style="" value="<?= $data["scada_akhir_after"]; ?>"></div>
-                        <div class="grid__item grid__item_item37 titel">MANUVER PEMBEBASAN INSTALLASI</div>
-                        <div class="grid__item grid__item_item38 titel">Catatan Pra Pembebasan</div>
-                        <div class="grid__item grid__item_item39 inputan"><textarea name="catatan_pra_bebas" class=textarea cols="232" rows="3" style="" disabled><?= $data["catatan_pra_pembebasan"];?></textarea></div>
-                        <div class="grid__item grid__item_item40 titel">Tahapan Manuver Pembebasan</div>
+                        <div class="grid__item grid__item_item36 inputan border_right"><input type="text" name="scada_akhir_after" placeholder="Fill in Mw MVar Amper Volt" style="" value="<?= $data["scada_akhir_after"]; ?>"></div>
+                        <div class="grid__item grid__item_item37 titel border_right">MANUVER PEMBEBASAN INSTALLASI</div>
+                        <div class="grid__item grid__item_item38 titel border_right">Catatan Pra Pembebasan</div>
+                        <div class="grid__item grid__item_item39 inputan border_right"><textarea name="catatan_pra_bebas" class=textarea cols="232" rows="3" style="" disabled><?= $data["catatan_pra_pembebasan"];?></textarea></div>
+                        <div class="grid__item grid__item_item40 titel border_right">Tahapan Manuver Pembebasan</div>
                     <?php if($data["jenis_form"] == 1 || $data["jenis_form"] == 3) {?>
                         <div class="grid__item grid__item_item41 inputan">
                             <div class="form-group ml-2">
@@ -305,12 +306,12 @@ if( isset($_POST["submit"]) ){
                             <?php } endforeach;?>
                         </div>
                     <?php } ?>
-                        <div class="grid__item grid__item_item43 titel">Catatan Pasca Pembebasan :</div>
-                        <div class="grid__item grid__item_item44 inputan"><textarea name="catatan_pasca_bebas" class=textarea cols="232" rows="3" style="" placeholder="Masukan Catatan..." disabled><?= $data["catatan_pasca_pembebasan"]; ?></textarea></div>
-                        <div class="grid__item grid__item_item45 titel">MANUVER PENORMALAN INSTALLASI</div>
-                        <div class="grid__item grid__item_item46 titel">Catatan Pra Penormalan :</div>
-                        <div class="grid__item grid__item_item47 inputan"><textarea name="catatan_pra_normal" class=textarea cols="232" rows="3" style="" ><?= $data["catatan_pra_penormalan"];?></textarea></div>
-                        <div class="grid__item grid__item_item48 titel">Tahapan Manuver Penormalan :</div>
+                        <div class="grid__item grid__item_item43 titel border_right">Catatan Pasca Pembebasan :</div>
+                        <div class="grid__item grid__item_item44 inputan border_right"><textarea name="catatan_pasca_bebas" class=textarea cols="232" rows="3" style="" placeholder="Masukan Catatan..." disabled><?= $data["catatan_pasca_pembebasan"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item45 titel border_right">MANUVER PENORMALAN INSTALLASI</div>
+                        <div class="grid__item grid__item_item46 titel border_right">Catatan Pra Penormalan :</div>
+                        <div class="grid__item grid__item_item47 inputan border_right"><textarea name="catatan_pra_normal" class=textarea cols="232" rows="3" style="" ><?= $data["catatan_pra_penormalan"];?></textarea></div>
+                        <div class="grid__item grid__item_item48 titel border_right">Tahapan Manuver Penormalan :</div>
                     <?php if($data["jenis_form"] == 1 || $data["jenis_form"] == 3) {?>
                         <div class="grid__item grid__item_item49 inputan">
                             <div class="form-group ml-2">
@@ -357,7 +358,7 @@ if( isset($_POST["submit"]) ){
                             </table>
                         </div>
                     <?php } else { ?>
-                        <div class="grid__item grid__item_item49new inputan">
+                        <div class=" grid__item_item49new inputan border_right">
                             <?php if($data["emergency_normal"] == null) { ?>
                                 <div class="container-fluid">
                                     <div class="grid-item">
@@ -397,7 +398,7 @@ if( isset($_POST["submit"]) ){
                                 </div>
                             <?php } else { ?>
                                 <div class="grid__item grid__item_item49new inputan">
-                            <?php var_dump(unserialize($data["emergency_normal"]));
+                            <?php //var_dump(unserialize($data["emergency_normal"]));
                                 foreach(unserialize($data["emergency_normal"]) as $row) : 
                                 $maxIndex = intval(end($row["idNormal"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 
@@ -434,13 +435,13 @@ if( isset($_POST["submit"]) ){
                                             <tr>
                                                 <td><?= $k;?></td>
                                                 <td><input type="text" name="lokasiManuverNormal[]" value="<?= $row["lokasiManuverNormal"][$j] ?>"></td>
-                                                <td><?= $row["remote_normal"][$j] == null ? "<input type='time' value='<?= time(); ?>' name='remote_normal[]'>" : "<input type='time' value='". $row["remote_normal"][$j]."' name='remote_normal[]'>" ?> <input type="text" name="sampel_manuver[]" value="<?= $penormalan["id"]  ?>" hidden> WIB</td>
-                                                <td><?= $row["real_normal"][$j] == null ? "<input type='time' value='<?= time(); ?>' name='real_normal[]'>" : "<input type='time' value='". $row['real_normal'][$j]."' name='real_normal[]'>" ?> WIB</td>
-                                                <td><?= $row["ads_normal"][$j] == null ? "<input type='time' value='<?= time(); ?>' name='ads_normal[]'>" : "<input type='time' value='". $row['ads_normal'][$j]."' name='ads_normal[]'>" ?> WIB</td>
+                                                <td><?= $row["remote_normal"][$j] == null ? "<input type='time' value='<?= time(); ?>' name='remote_normal[]'>" : "<input type='time' value='". $row["remote_normal"][$j]."' name='remote_normal[]'>" ?> <input type="text" name="sampel_manuver[]" value="<?= $penormalan["id"]  ?>" hidden></td>
+                                                <td><?= $row["real_normal"][$j] == null ? "<input type='time' value='<?= time(); ?>' name='real_normal[]'>" : "<input type='time' value='". $row['real_normal'][$j]."' name='real_normal[]'>" ?></td>
+                                                <td><?= $row["ads_normal"][$j] == null ? "<input type='time' value='<?= time(); ?>' name='ads_normal[]'>" : "<input type='time' value='". $row['ads_normal'][$j]."' name='ads_normal[]'>" ?></td>
                                                 <td><input type="text" name="installManuverNormal[]" value="<?= $row["installManuverNormal"][$j] ?>"></td> 
                                                 <td>
                                                     <button type='button' class='btn red' onclick='kurangRow(this)'>Remove</button>
-                                                    <input type="text" name="idNormal[]" value="<?= $row["idNormal"][$j] ?>">
+                                                    <input type="hidden" name="idNormal[]" value="<?= $row["idNormal"][$j] ?>">
                                                 </td>
                                             </tr>
                                             <?php 
@@ -459,12 +460,12 @@ if( isset($_POST["submit"]) ){
                             <?php } ?>
                         </div>
                     <?php } ?>
-                        <div class="grid__item grid__item_item51 titel">Catatan Pasca Penormalan :</div>
-                        <div class="grid__item grid__item_item52 inputan"><textarea name="catatan_pasca_normal" class=textarea cols="232" rows="3" ><?= $data["catatan_pasca_penormalan"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item51 titel border_right">Catatan Pasca Penormalan :</div>
+                        <div class="grid__item grid__item_item52 inputan border_right"><textarea name="catatan_pasca_normal" class=textarea cols="232" rows="3" ><?= $data["catatan_pasca_penormalan"]; ?></textarea></div>
                         <div class="grid__item grid__item_item53 titel catatan" >Catatan AMN Dispa Awal</div>
-                        <div class="grid__item grid__item_item54 titel catatan" >Catatan AMN Dispa Akhir</div>
-                        <div class="grid__item grid__item_item55 inputan catatan" ><textarea name="catatan_amndis_awal" class=textarea cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_awal"]; ?></textarea></div>
-                        <div class="grid__item grid__item_item56 inputan catatan" ><textarea name="catatan_amndis_akhir" class=textarea cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_akhir"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item54 titel catatan border_right" >Catatan AMN Dispa Akhir</div>
+                        <div class="grid__item grid__item_item55 inputan catatan border_bottom" ><textarea name="catatan_amndis_awal" class=textarea cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_awal"]; ?></textarea></div>
+                        <div class="grid__item grid__item_item56 inputan catatan border_right border_bottom" ><textarea name="catatan_amndis_akhir" class=textarea cols="113" rows="5" style="" disabled><?= $data["catatan_amnDispa_akhir"]; ?></textarea></div>
                     </div><br>
                         <button type="submit" name="submit" >Simpan Form</button>
                     </div>

@@ -95,8 +95,8 @@ if ($sql){
                         <div class="grid__item grid__item_item4 titel border_right" >selesai</div>
                         <div class="grid__item grid__item_item5 inputan"><p><?= $data["pekerjaan"]; ?></p></div>
                         <div class="grid__item grid__item_item6 inputan"><p><?= date("d F Y", strtotime($tanggal)); ?></p></div>
-                        <div class="grid__item grid__item_item7 inputan"><p><?= $data["start"]; ?> WIB</p></div>
-                        <div class="grid__item grid__item_item8 inputan border_right"><p><?= $data["end"] == "00:00:00" ? "": $dayList[date("D", strtotime($data["end"]))].",".date("d F Y G:i",strtotime($data["end"]))."WIB" ?></p></div>
+                        <div class="grid__item grid__item_item7 inputan"><p><?= $dayList[date("D", strtotime($data["start"]))] ?>, <?= date("d F Y G:i",strtotime($data["start"])); ?> WIB</p></div>
+                        <div class="grid__item grid__item_item8 inputan border_right"><p><?= $data["end"] == "0000-00-00 00:00:00" ? "not set": $dayList[date("D", strtotime($data["end"]))].",".date("d F Y G:i",strtotime($data["end"]))."WIB" ?></p></div>
                         <div class="grid__item grid__item_item9 titel">lokasi</div>
                         <div class="grid__item grid__item_item10 titel">installasi</div>
                         <div class="grid__item grid__item_item11 titel border_right">permintaan pembebanan diterima</div>
@@ -204,7 +204,7 @@ if ($sql){
                         <div class="grid__item grid__item_item25 titel">Pembacaan SCADA</div>
                         <div class="grid__item grid__item_item26 titel border_right">Hasil Studi DPF</div>
                         <div class="grid__item grid__item_item27 inputan"><p><?= $data["scada_awal_before"]; ?></p></div>
-                        <div class="grid__item grid__item_item28 inputan"><p><?= $data["dpf_awal"]; ?> <?= ($data['foto_dpf1'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf1'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal1" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
+                        <div class="grid__item grid__item_item28 inputan"><p><?= $data["dpf_awal"]; ?><?= ($data['foto_dpf1'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf1'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal1" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
                             <div class="modal" id="modal1">
                                 <div class="modal-content" >
                                     <div class="modal-header">
@@ -218,7 +218,7 @@ if ($sql){
                             </div>
                         </div>
                         <div class="grid__item grid__item_item29 inputan"><p><?= $data["scada_akhir_before"]; ?></p></div>
-                        <div class="grid__item grid__item_item30 inputan border_right"><p><?= $data["dpf_akhir"]; ?> <?= ($data['foto_dpf2'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf2'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal2" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
+                        <div class="grid__item grid__item_item30 inputan border_right"><p><?= $data["dpf_akhir"]; ?> <br> <?= ($data['foto_dpf2'] == null) ? '<span id="emergency">belum upload foto DPF</span>' : '<a href="dpf/' . $data['foto_dpf2'] . '" class="modal-open" download><i style=""class="fa fa-download"></i></a> <button type="button" data-modal="modal2" class="modal-open"><i class="fa fa-eye"></i></button>'; ?></p>
                             <div class="modal" id="modal2">
                                 <div class="modal-content" >
                                     <div class="modal-header">
@@ -296,7 +296,7 @@ if ($sql){
                                 <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px">
                             </div>
                             <div class="grid-item-aprove">
-                                <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
+                                <h3 class='titel_table'><?= strtoupper($row["titelBebas"][$i]) ?></h3>
                                 <table id="dynamic_field1">
                                     <thead>
                                         <tr>
@@ -395,7 +395,7 @@ if ($sql){
                                     <img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="900px">
                                 </div>
                                 <div class="grid-item-aprove">
-                                    <h3><?= $row["titelNormal"][$i] ?></h3>
+                                    <h3 class='titel_table'><?= $row["titelNormal"][$i] ?></h3>
                                     <table id="dynamic_field2">
                                         <thead>
                                             <tr>

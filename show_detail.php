@@ -52,7 +52,7 @@ if ($sql){
                         <div class="grid__item grid__item_item5 inputan"><p><?= $data["pekerjaan"]; ?></p></div>
                         <div class="grid__item grid__item_item6 inputan"><p><?= $dayList[date("D", strtotime($data["date"]))] ?>, <?= date(" d F Y", strtotime($data["date"])); ?></p></div>
                         <div class="grid__item grid__item_item7 inputan"><p><?= $dayList[date("D", strtotime($data["start"]))] ?>, <?= date("d F Y G:i",strtotime($data["start"])); ?> WIB</p></div>
-                        <div class="grid__item grid__item_item8 inputan border_right"><p><?= $dayList[date("D", strtotime($data["end"]))] ?>, <?= date("d F Y G:i",strtotime($data["end"])); ?> WIB</p></div>
+                        <div class="grid__item grid__item_item8 inputan border_right"><p><?= $data["end"] == "0000-00-00 00:00:00" ? "not set": $dayList[date("D", strtotime($data["end"]))].",".date("d F Y G:i",strtotime($data["end"]))."WIB" ?></p></div>
                         <div class="grid__item grid__item_item9 titel">lokasi</div>
                         <div class="grid__item grid__item_item10 titel">installasi</div>
                         <div class="grid__item grid__item_item11 titel border_right">permintaan pembebanan diterima</div>
@@ -257,10 +257,10 @@ if ($sql){
                             ?>
                            <div class="container-aprove">
                             <div class="grid-item-aprove">
-                                <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="780px">
+                                <img src="img/<?= $row["fotoBebas"][$i] ?>" height="auto" width="900px">
                             </div>
                             <div class="grid-item-aprove">
-                                <h3 style='valign = center;'><?= $row["titelBebas"][$i] ?></h3>
+                                <h3 class="titel_table"><?= $row["titelBebas"][$i] ?></h3>
                                 <table>
                                     <thead>
                                         <tr>
@@ -367,7 +367,7 @@ if ($sql){
                                     <img src="img/<?= $row["fotoNormal"][$i] ?>" height="auto" width="780px">
                                 </div>
                                 <div class="grid-item-aprove">
-                                    <h3><?= $row["titelNormal"][$i] ?></h3>
+                                    <h3 class="titel_table"><?= $row["titelNormal"][$i] ?></h3>
                                     <table>
                                         <thead>
                                             <tr>
@@ -390,9 +390,9 @@ if ($sql){
                                             <tr>
                                                 <td><?= $k;?></td>
                                                 <td><?= $row["lokasiManuverNormal"][$j] ?></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td><p><?= isset($row['remote_normal'][$j]) ? $row['remote_normal'][$j] :'' ?></p></td>
+                                                <td><p><?= isset($row['real_normal'][$j]) ? $row['real_normal'][$j] : '' ?></p></td>
+                                                <td><p><?= isset($row['ads_normal'][$j]) ? $row['ads_normal'][$j] : '' ?></p></td>
                                                 <td><?= $row["installManuverNormal"][$j] ?></td>
 
                                             </tr>

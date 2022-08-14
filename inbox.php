@@ -84,7 +84,7 @@ require "functions.php";
                             <td><?= $row["installasi"];?></td>
                             <td><?= $row["lokasi"];?></td>
                             <td><?= $row["status"] ?></td>
-                            <td>
+                            <td class="lebar-tabel">
                                 <a href="?url=updateForm-1&id=<?= $row["id"];?>" id="updateForm-2" class=""><i class="fa fa-pencil-square-o"></i></a>
                                 <a href="?url=hapus&id=<?= $row['id'];?>" onclick="return confirm('anda yakin menghapus <?= $data['pekerjaan']?>?')" >
                                     <span class="icon text-white-50">

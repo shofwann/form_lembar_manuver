@@ -31,7 +31,7 @@ include 'functions.php';
                         <div class="grid__item grid__item_item004 border_right">Pilih detail Lokasi</div>
                         <div class="grid__item grid__item_item005 border_bottom">
                             <select name="form" id="form">
-                                <option value="">-SELECT-</option>
+                                <option value="">-SELECT-</option>                                    
                                 <option value="1">form-1</option>
                                 <option value="2">form-2</option>
                             </select>

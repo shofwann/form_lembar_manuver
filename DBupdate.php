@@ -141,7 +141,7 @@ $(document).ready(function(){
 
             $('#lokasi').on('change',function(){
                 var form = $(this).find('option:selected').val()
-                // console.log(form)
+                console.log(form)
                 $.ajax({
                     url: 'get_data_jenis.php',
                     type: "POST",
@@ -161,11 +161,12 @@ $(document).ready(function(){
         });
 
         // $('#lokasi').select2({dropdownAutoWidth: 'true'});
-               
+
+        
         function pilihanDetailLokasi() {
             var y = document.getElementById('detail_lokasi').value;
             var x = document.getElementById('form').value;
-            // console.log(x);
+            //console.log(y);
             $.ajax({
                 url: 'get_data_db.php',
                 method:'POST',

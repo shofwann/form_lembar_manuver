@@ -75,7 +75,7 @@
                                     </td>
                                     <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
-                                                echo "<a href='createPDF.php?id=". $data['id']."&jumlah=' id='pdf' class='pdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+                                                // echo "<a href='createPDF.php?id=". $data['id']."&jumlah=' id='pdf' class='pdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
                                             }elseif ($data['msb'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                             }else{
@@ -88,6 +88,7 @@
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                         </span>
                                     </a> 
+                                    
                                     <?php if ($data["postpone"] != '') { ?>
                                         <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
                                             <span class="icon text-white-50">
@@ -242,12 +243,14 @@
                                             <i class="fa fa-info-circle" aria-hidden="true"></i>
                                             </span>
                                         </a>
+                                        
                                         <?php if ($data["postpone"] != '') { ?>
                                         <a href="?url=postpone&id=<?= $data['id']; ?>" class="w3-xlarge w3-text-red">
                                             <span class="icon text-white-50">
                                                 <i class="fa fa-pause-circle" aria-hidden="true"></i>
                                             </span>
                                         </a>
+                                        
                                     <?php }?>
                                     </td>
                                     </tr>

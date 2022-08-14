@@ -13,13 +13,13 @@ if(  $level == 'dispa' ) {
         echo
         "<script>
         alert('anda memilih form1');
-        document.location.href = 'home.php?url=form_emergency_auto&idx=$ida&idy=$idb&idz=$idc';
+        document.location.href = 'home.php?url=form_emergency_auto&idx=$ida&idy=$idb&idz=$idc&form=3';
         </script>";
         //header("Location:initiator-dashboard.php?url=autoForm1&idz=$id");
     }elseif ($form == 2){
         echo "<script>
         alert('form 2 belum ada');
-        document.location.href = 'home.php';
+        document.location.href = 'home.php?url=form_emergency_auto&idx=$ida&idy=$idb&idz=$idc&form=4';
         </script>";
     }
 
