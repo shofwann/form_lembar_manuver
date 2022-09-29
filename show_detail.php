@@ -4,6 +4,24 @@ require 'functions.php';
 $sql=mysqli_query($conn,"SELECT * FROM db_form WHERE id='$_GET[id]'");
 $data=mysqli_fetch_assoc($sql);
 
+$sql2=mysqli_query($conn2,"SELECT * FROM db_table_2 WHERE id_form=2");
+$data2=mysqli_fetch_assoc($sql2);
+
+var_dump(unserialize($data["emergency_bebas"])); 
+echo "<br><br>";
+var_dump($data2);
+
+
+// $sampel = query("SELECT emergency_bebas FROM db_form WHERE id='$_GET[id]'");
+
+//unserialize($sampel) ;
+
+
+// $sampel=mysqli_query($conn,"SELECT emergency_bebas FROM db_form WHERE id='$_GET[id]'");
+// $data2=mysqli_fetch_assoc($sampel);
+
+
+
 
 
 
@@ -228,6 +246,7 @@ if ($sql){
 
                                         <?php $i=1; ?>
                                         <?php 
+                                            // var_dump(unserialize($data["emergency_bebas"]) );
                                             foreach (unserialize($data["emergency_bebas"])  ? : []  as $row) :
                                                 for($j = 0; $j < count($row["lokasiManuverBebas"]); $j++){
                                         ?>
@@ -250,7 +269,7 @@ if ($sql){
                         </div>
                     <?php } else { ?>
                         <div class="grid__item grid__item_item41new inputan border_right">
-                            <?php //var_dump(unserialize($data["emergency_bebas"]));
+                            <?php 
                                 foreach(unserialize($data["emergency_bebas"]) as $row) : 
                                 $maxIndex = intval(end($row["idBebas"])); 
                                 for($i = 0; $i<=$maxIndex; $i++) { 

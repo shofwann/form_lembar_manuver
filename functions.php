@@ -1,5 +1,6 @@
 <?php
 $conn=mysqli_connect("localhost","root","","db_lm");
+$conn2=mysqli_connect("localhost","root","","db_lembar_manuver");
 date_default_timezone_set('Asia/Jakarta');
 
 $jumlahDataPerHalaman = 10;
@@ -1984,53 +1985,10 @@ function tambahEmergency($post){  // untuk yg auto form
 
     }
 
-    $catatanPraNormal =htmlspecialchars($post["catatan_pra_normal"]);
     
-    if ($_GET["form"] == 3 ) {
-        
-        if( !$foto2 ){
-            $foto2 = "";
-        } else {
-            $foto2 = upload("foto2"); 
-        }
 
-        $manuverNormal = serialize([
-            [
-                "lokasiManuverNormal" => $post["lokasiManuverNormal"],
-                "remote_normal" => $post["remote_normal"],
-                "real_normal" => $post["real_normal"],
-                "ads_normal" => $post["ads_normal"],
-                "installManuverNormal" => $post["installManuverNormal"]
-            ]
-        ]);
-    } else {
-        $foto2 = "";
-        $array_foto_normal = [];
-        for ($i=0; $i<count($_FILES["fotoNormal"]["name"]); $i++){
-            $namaFile = uploadIndexNew($i,"fotoNormal");
-            array_push($array_foto_normal,$namaFile);
-        }
-    
-        if (isset($post["idNormal"])){ 
-            $manuverNormal = serialize([
-                [
-                    "idNormal" => $post["idNormal"],
-                    "titelNormal" => $post["titelNormal"],
-                    "fotoNormal" => $array_foto_normal,
-                    "lokasiManuverNormal" => $post["lokasiManuverNormal"],
-                    "remote_normal" => $post["remote_normal"],
-                    "real_normal" => $post["real_normal"],
-                    "ads_normal" => $post["ads_normal"],
-                    "installManuverNormal" => $post["installManuverNormal"]
-                ]
-            ]);
-    
-        } 
-
-    }
-
-    $query = "INSERT INTO db_form (id,create_date,create_user,user_dispa_awal,pekerjaan,`date`,`start`,`end`,lokasi,installasi,foto,foto2,catatan_pra_pembebasan,catatan_pra_penormalan,`status`,jenis_pekerjaan,emergency_pengawas_bebas,emergency_bebas,emergency_normal,id_lokasi_detail,jenis_form,report_date,surat,scada_awal_before,scada_awal_after,catatan_pasca_pembebasan)
-                VALUE ($idTask,'$create_date','$user','$user','$pekerjaan','$date','$start','$end','$lokasi','$instal','$foto','$foto2','$catatanPraBebas','$catatanPraNormal','amnDispaAwal',$jenis,'$pengawas','$manuverBebas','$manuverNormal',$id_lokasi_detail,$form,'$report','$surat','$scada_awal_before','$scada_awal_after','$catatanPascaBebas')
+    $query = "INSERT INTO db_form (id,create_date,create_user,user_dispa_awal,pekerjaan,`date`,`start`,`end`,lokasi,installasi,foto,foto2,catatan_pra_pembebasan,`status`,jenis_pekerjaan,emergency_pengawas_bebas,emergency_bebas,id_lokasi_detail,jenis_form,report_date,surat,scada_awal_before,scada_awal_after,catatan_pasca_pembebasan)
+                VALUE ($idTask,'$create_date','$user','$user','$pekerjaan','$date','$start','$end','$lokasi','$instal','$foto','$foto2','$catatanPraBebas','amnDispaAwal',$jenis,'$pengawas','$manuverBebas',$id_lokasi_detail,$form,'$report','$surat','$scada_awal_before','$scada_awal_after','$catatanPascaBebas')
                 ";
     mysqli_query($conn,$query);
     return mysqli_affected_rows($conn);

@@ -1054,6 +1054,10 @@
     
   }
 
+  .btn.insert {
+    background-color: yellowgreen;
+  }
+
   /* .manuver {
     margin-left: auto;
     margin-right: auto;
@@ -1853,6 +1857,10 @@ input[type="time"]::-ms-clear {
 .select-box {
   position: relative;
 }
+
+
+/* ==========================untuk pdf======================= */
+
 
 
 

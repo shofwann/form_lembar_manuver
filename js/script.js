@@ -85,13 +85,7 @@ window.onclick = function(e) {
     cell5.innerHTML = "";
     cell6.innerHTML = "";
 
-    // let table1 = document.getElementById('table2');
-    // var row1 = table1.insertRow(-1);
-    // var cell7 = row1.insertCell(0);
-    // var cell8 = row1.insertCell(1);
-
-    // cell7.innerHTML = "<input type='text' name=spvPenormalan[] id='' style='width:140px;border:1px solid #fff;'>";
-    // cell8.innerHTML = "<input type='text' name=oprPenormalan[] id='' style='width:140px;border:1px solid #fff;'>";
+   
 }
 
 
@@ -601,10 +595,6 @@ if (id){
     id.style.display = 'none'
 }
 
-
-      
-
-
 function showHide1() {
     var x = document.getElementById("curPass");
         if (x.type === "password") {
@@ -630,4 +620,14 @@ function showHide3() {
         } else {
             x.type = "password";
         }
+}
+
+
+function insert() {
+    
+    const para = document.createElement("p");
+    const node = document.createTextNode("This is a paragraph.");
+  
+    para.appendChild(node);
+    document.body.appendChild(para);
 }

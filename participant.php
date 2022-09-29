@@ -75,7 +75,8 @@
                                     </td>
                                     <td class="manuver lebar-tabel"><?php if($data['status'] == "dispaAwal" || $data['status'] == "dispaAwalUbah" || $data['status'] == "amnDispaAwal" || $data['status'] == "amnDispaAwalUbah" || $data['status'] == "dispaAkhir" || $data['status'] == "dispaAkhirUbah" || $data['status'] == "amnDispaAkhir" || $data['status'] == "amnDispaAkhirUbah" || $data['status'] == "done" || $data['status'] == "postpone") {
                                                 echo "<a href='#' class='approve' title='approve'><i class='fa fa-thumbs-up' aria-hidden='true'></i></a>";
-                                                // echo "<a href='createPDF.php?id=". $data['id']."&jumlah=' id='pdf' class='pdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+                                                echo "<a href='createPDF.php?id=". $data['id']."&jumlah=' id='pdf' class='pdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
+                                                echo "<a href='cetakPDF.php?id=". $data['id']."' target='_blank' id='pdf' class='pdf'><i class='fa fa-file-pdf-o' aria-hidden='true'></i></a>";
                                             }elseif ($data['msb'] == "disapprove") {
                                                 echo "<a href='#' class='disapprove' title='disapprove'><i class='fa fa-thumbs-down' aria-hidden='true'></i></a>";
                                             }else{
